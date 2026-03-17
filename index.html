@@ -18,19 +18,19 @@
         radial-gradient(circle at top, rgba(0,255,174,0.12), transparent 30%),
         linear-gradient(180deg, #03110d 0%, #000000 55%, #02070a 100%);
       min-height: 100vh;
-      padding-bottom: 110px;
+      padding-bottom: 120px;
     }
 
     .container {
       width: 100%;
       max-width: 430px;
       margin: 0 auto;
-      padding: 22px 16px 24px;
+      padding: 22px 16px 30px;
     }
 
     .title {
       text-align: center;
-      font-size: 42px;
+      font-size: 40px;
       font-weight: 800;
       color: #00ffae;
       text-shadow: 0 0 18px rgba(0,255,174,0.5);
@@ -111,6 +111,12 @@
       background: #111722;
       color: white;
       border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #00ffae;
+      border: 1px solid rgba(0,255,174,0.28);
     }
 
     .btn + .btn {
@@ -231,6 +237,23 @@
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
       margin-top: 14px;
+      position: relative;
+    }
+
+    .plan.popular {
+      border: 1px solid rgba(0,255,174,0.35);
+      box-shadow: 0 0 24px rgba(0,255,174,0.12);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(0,255,174,0.12);
+      color: #aef8e2;
+      margin-bottom: 10px;
     }
 
     .plan h3 {
@@ -242,6 +265,12 @@
       font-size: 34px;
       font-weight: 800;
       margin: 8px 0;
+    }
+
+    .price-sub {
+      color: #98a0aa;
+      font-size: 13px;
+      margin-bottom: 10px;
     }
 
     .progress {
@@ -277,6 +306,19 @@
 
     .screen.active {
       display: block;
+    }
+
+    .footer {
+      text-align: center;
+      color: #8e96a0;
+      font-size: 13px;
+      margin: 26px 0 10px;
+      line-height: 1.7;
+    }
+
+    .founder {
+      color: #d7ffe7;
+      font-weight: 700;
     }
 
     .bottom-nav {
@@ -318,8 +360,9 @@
     }
 
     @media (max-width: 380px) {
-      .title { font-size: 36px; }
+      .title { font-size: 34px; }
       .pair { font-size: 30px; }
+      .price { font-size: 30px; }
     }
   </style>
 </head>
@@ -341,12 +384,18 @@
       </div>
 
       <div class="card">
-        <div class="section-title">How it works</div>
+        <div class="section-title">Why traders join</div>
         <div class="list">
-          1. Upload chart screenshot<br>
-          2. Analyze structure and bias<br>
-          3. Unlock the full sniper setup
+          • Fast chart breakdowns<br>
+          • Locked premium setups<br>
+          • Trial before paying<br>
+          • Earn tokens by referrals
         </div>
+      </div>
+
+      <div class="footer">
+        Founder: <span class="founder">GT FX GOAT</span><br>
+        GOAT Sniper AI © 2026
       </div>
     </div>
 
@@ -410,35 +459,62 @@
           </div>
 
           <div class="lock-note">🔒 Unlock full sniper setup</div>
-          <div class="small-note">Premium setup available for GOAT members</div>
-          <button class="btn btn-primary" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
-            Subscribe for R199/month
+          <div class="small-note">Start your 7-day free trial. Billing begins after trial ends.</div>
+          <button class="btn btn-primary" onclick="startTrial()">
+            Start 7-Day Free Trial
           </button>
-          <button class="btn btn-dark" onclick="showScreen('referScreen'); setActiveNav('refer')">
-            Use tokens / Refer friends
+          <button class="btn btn-dark" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
+            View all plans
           </button>
         </div>
+      </div>
+
+      <div class="footer">
+        Founder: <span class="founder">GT FX GOAT</span>
       </div>
     </div>
 
     <div id="pricingScreen" class="screen">
       <div class="card">
-        <div class="section-title">GOAT Premium</div>
-        <div class="muted">Unlock premium sniper setups, more scans, and priority access.</div>
+        <div class="section-title">Choose your plan</div>
+        <div class="muted">
+          Secure billing should be handled by your payment provider. Users can start with a free trial, then continue monthly or yearly.
+        </div>
 
-        <div class="plan">
-          <h3 class="green">Monthly Plan</h3>
+        <div class="plan popular">
+          <div class="tag">MOST POPULAR</div>
+          <h3 class="green">Monthly Premium</h3>
           <div class="price">R199<span style="font-size:16px; color:#98a0aa;">/month</span></div>
+          <div class="price-sub">7-day free trial, then monthly billing starts automatically</div>
           <div class="list">
-            • Unlimited premium unlocks<br>
-            • Sniper setup access<br>
-            • Priority signals feel<br>
-            • Premium member badge
+            • Full premium setup unlocks<br>
+            • Unlimited premium access feel<br>
+            • Fast chart scans<br>
+            • Sniper setup insights
           </div>
-          <button class="btn btn-primary" onclick="alert('Payment integration is next step')">
-            Subscribe Now
+          <button class="btn btn-primary" onclick="startTrial()">
+            Start 7-Day Trial
           </button>
         </div>
+
+        <div class="plan">
+          <h3 class="blue">Yearly Premium</h3>
+          <div class="price">R1,999<span style="font-size:16px; color:#98a0aa;">/year</span></div>
+          <div class="price-sub">Best value for serious traders</div>
+          <div class="list">
+            • Everything in monthly<br>
+            • Save more over the year<br>
+            • Premium member access<br>
+            • Long-term trader plan
+          </div>
+          <button class="btn btn-outline" onclick="alert('Yearly payment integration is next step')">
+            Choose Yearly
+          </button>
+        </div>
+      </div>
+
+      <div class="footer">
+        Founder: <span class="founder">GT FX GOAT</span>
       </div>
     </div>
 
@@ -464,6 +540,10 @@
         </div>
 
         <div class="activity">You referred 3 traders</div>
+      </div>
+
+      <div class="footer">
+        Founder: <span class="founder">GT FX GOAT</span>
       </div>
     </div>
   </div>
@@ -518,6 +598,10 @@
       });
     }
 
+    function startTrial() {
+      alert('7-day free trial flow added. Next step is connecting a real payment provider checkout for automatic billing.');
+    }
+
     const activities = [
       'Someone in Johannesburg unlocked US30 analysis',
       'Someone in Cape Town scanned XAUUSD',
@@ -529,7 +613,8 @@
     let activityIndex = 0;
     setInterval(() => {
       activityIndex = (activityIndex + 1) % activities.length;
-      document.getElementById('activityText').textContent = activities[activityIndex];
+      const el = document.getElementById('activityText');
+      if (el) el.textContent = activities[activityIndex];
     }, 3000);
   </script>
 </body>
