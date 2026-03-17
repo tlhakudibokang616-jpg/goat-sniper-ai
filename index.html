@@ -1,113 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>GOAT Sniper AI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GOAT Sniper AI</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0b0f14;
-      color: white;
-      text-align: center;
-    }
+<style>
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: radial-gradient(circle at top, #001a14, #000);
+    color: white;
+}
 
-    h1 {
-      color: #00ff9d;
-    }
+.container {
+    padding: 20px;
+    text-align: center;
+}
 
-    .card {
-      background: rgba(255,255,255,0.05);
-      margin: 20px;
-      padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,255,150,0.1);
-    }
+h1 {
+    color: #00ffae;
+    font-size: 32px;
+    text-shadow: 0 0 20px #00ffae;
+}
 
-    button {
-      background: #00ff9d;
-      border: none;
-      padding: 15px;
-      border-radius: 10px;
-      font-weight: bold;
-      margin-top: 10px;
-    }
+.card {
+    background: rgba(255,255,255,0.05);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(0,255,174,0.2);
+}
 
-    .locked {
-      filter: blur(6px);
-    }
+button {
+    background: #00ffae;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 12px;
+    color: black;
+    font-weight: bold;
+    margin-top: 15px;
+    cursor: pointer;
+}
 
-    .nav {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: #111;
-      display: flex;
-      justify-content: space-around;
-      padding: 10px;
-    }
-  </style>
+.result {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+.lock {
+    opacity: 0.4;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #000;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-top: 1px solid #222;
+}
+</style>
 </head>
 
 <body>
 
-<h1>GOAT Sniper AI 🐐</h1>
-<p>Upload your chart. Unlock the setup.</p>
+<div class="container">
+    <h1>GOAT Sniper AI 🐐</h1>
+    <p>Upload your chart. Unlock sniper setups.</p>
 
-<div class="card">
-  <input type="file" id="upload"><br>
-  <button onclick="scan()">Analyze Chart</button>
+    <div class="card">
+        <input type="file" id="file">
+        <br>
+        <button onclick="analyze()">Analyze Chart</button>
+    </div>
+
+    <div class="card result" id="result" style="display:none;">
+        <h2>US30 • M1</h2>
+        <p>Bias: <span id="bias"></span></p>
+        <p>Confidence: <span id="confidence"></span></p>
+
+        <div class="lock">
+            <p>Entry: 🔒</p>
+            <p>Stop Loss: 🔒</p>
+            <p>Take Profit: 🔒</p>
+        </div>
+
+        <button onclick="alert('Upgrade to unlock')">Unlock Full Setup 🔓</button>
+    </div>
 </div>
 
-<div id="loading" class="card" style="display:none;">
-  <p>Analyzing...</p>
-  <p>✔ Reading structure</p>
-  <p>✔ Detecting liquidity</p>
-  <p>✔ Generating setup</p>
-</div>
-
-<div id="result" class="card" style="display:none;">
-  <h3>US30 • M1</h3>
-  <p>Bias: Bullish</p>
-  <p>Confidence: 72%</p>
-
-  <div id="lockedData" class="locked">
-    <p>Entry: 46918.50</p>
-    <p>TP: 46944.35</p>
-    <p>SL: 46892.65</p>
-    <p>RR: 1:2.2</p>
-  </div>
-
-  <p>🔒 Unlock full setup</p>
-  <button onclick="unlock()">Subscribe R199/month</button>
-</div>
-
-<div class="card">
-  <h3>Referral</h3>
-  <p>Earn 10 tokens per friend</p>
-  <p>100 tokens = 3 free scans</p>
-</div>
-
-<div class="nav">
-  <span>Home</span>
-  <span>Scan</span>
-  <span>Pricing</span>
-  <span>Refer</span>
+<div class="bottom-nav">
+    <span>Home</span>
+    <span>Scan</span>
+    <span>Pricing</span>
+    <span>Refer</span>
 </div>
 
 <script>
-function scan() {
-  document.getElementById("loading").style.display = "block";
-
-  setTimeout(() => {
-    document.getElementById("loading").style.display = "none";
+function analyze(){
     document.getElementById("result").style.display = "block";
-  }, 2000);
-}
 
-function unlock() {
-  alert("Payment system next step");
+    let bias = Math.random() > 0.5 ? "Bullish 📈" : "Bearish 📉";
+    let confidence = Math.floor(Math.random()*30)+70 + "%";
+
+    document.getElementById("bias").innerText = bias;
+    document.getElementById("confidence").innerText = confidence;
 }
 </script>
 
