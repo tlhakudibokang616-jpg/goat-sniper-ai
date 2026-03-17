@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Payment Successful</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .box {
+      text-align: center;
+      background: #111;
+      padding: 30px;
+      border-radius: 20px;
+    }
+    h1 {
+      color: #00f5a0;
+    }
+    a {
+      display: block;
+      margin-top: 20px;
+      padding: 15px;
+      background: #00f5a0;
+      color: black;
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h1>Payment Successful 🎉</h1>
+    <p>You now have premium access</p>
+
+    <a href="index.html">Continue to App</a>
+  </div>
+
+  <script>
+    localStorage.setItem('goatPremium', 'true');
+    sessionStorage.setItem('goatPremium', 'true');
+  </script>
+</body>
+</html>
