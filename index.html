@@ -1,141 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>GOAT Sniper AI 🐐</title>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: white;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    header {
-      background: black;
-      padding: 15px;
-      font-weight: bold;
-      font-size: 20px;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .card {
-      background: #161b22;
-      margin: 15px auto;
-      padding: 20px;
-      border-radius: 12px;
-      max-width: 400px;
-    }
-
-    .vip {
-      border: 2px solid gold;
-    }
-
-    .locked {
-      filter: blur(6px);
-      opacity: 0.6;
-    }
-
-    button {
-      padding: 15px;
-      background: gold;
-      border: none;
-      border-radius: 10px;
-      font-weight: bold;
-      margin-top: 15px;
-      cursor: pointer;
-    }
-
-    .badge {
-      background: gold;
-      color: black;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      display: inline-block;
-      margin-bottom: 10px;
-    }
-
-    .testimonials {
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
-</head>
-
-<body>
-
-<header>
-🐐 GOAT Sniper AI VIP 💎
-</header>
-
-<div class="container">
-
-  <!-- FREE PREVIEW -->
-  <div class="card">
-    <h3>Free Signal Preview</h3>
-    <p>BUY XAUUSD 🔼</p>
-    <p>Entry: 2325</p>
-    <p>SL: 2310</p>
-    <p>TP: 2340</p>
-  </div>
-
-  <!-- VIP SIGNALS -->
-  <div id="vipSignals" class="card vip locked">
-    <div class="badge">VIP</div>
-
-    <h3>Premium Signals 💎</h3>
-
-    <p>SELL US30 🔽</p>
-    <p>Entry: 38300</p>
-    <p>SL: 38500</p>
-    <p>TP: 37900</p>
-
-    <hr>
-
-    <p>BUY GBPJPY 🔼</p>
-    <p>Entry: 189.200</p>
-    <p>SL: 188.700</p>
-    <p>TP: 190.100</p>
-
-  </div>
-
-  <!-- CTA -->
-  <div class="card">
-    <h3>Unlock VIP Access</h3>
-    <p>✔ Daily Sniper Signals</p>
-    <p>✔ 90% Accuracy</p>
-    <p>✔ Private Strategy</p>
-
-    <button onclick="pay()">Get VIP (R499)</button>
-  </div>
-
-  <!-- TESTIMONIALS -->
-  <div class="card testimonials">
-    <h3>Student Results 💰</h3>
-    <p>"Turned R500 → R7,200 in 3 days 🔥"</p>
-    <p>"Best signals I’ve ever used 💎"</p>
-    <p>"100% legit, withdrawals daily"</p>
-  </div>
-
-</div>
-
 <script>
   function pay() {
     window.location.href = "https://paystack.shop/pay/7a1-oxg9e0";
   }
 
-  // Unlock after payment redirect
+  // Create account (simple)
+  function createAccount() {
+    let email = prompt("Enter your email:");
+    if (email) {
+      localStorage.setItem("user", email);
+      alert("Account created ✅");
+    }
+  }
+
+  // Unlock after payment
   if (window.location.href.includes("success")) {
+    localStorage.setItem("vip", "true");
+  }
+
+  // Check VIP status
+  if (localStorage.getItem("vip") === "true") {
     document.getElementById("vipSignals").classList.remove("locked");
-    alert("VIP Access Activated 🔓");
   }
 </script>
-
-</body>
-</html>
+<button onclick="createAccount()">Create Account</button>
