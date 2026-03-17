@@ -11,15 +11,15 @@
     }
 
     :root {
-      --bg-1: #020705;
-      --bg-2: #071711;
-      --card: rgba(16, 20, 28, 0.9);
-      --card-2: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.06);
+      --bg1: #020705;
+      --bg2: #071711;
+      --card: rgba(16, 20, 28, 0.92);
+      --card2: rgba(255, 255, 255, 0.03);
+      --border: rgba(255,255,255,0.06);
       --text: #ffffff;
       --muted: #9ca5b0;
       --green: #00f5a0;
-      --green-soft: rgba(0, 245, 160, 0.12);
+      --green-soft: rgba(0,245,160,0.12);
       --red: #ff5f73;
       --blue: #67a8ff;
       --gold: #ffca62;
@@ -33,7 +33,7 @@
       background:
         radial-gradient(circle at top, rgba(0,245,160,0.14), transparent 28%),
         radial-gradient(circle at bottom, rgba(0,120,255,0.08), transparent 22%),
-        linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 55%, #000000 100%);
+        linear-gradient(180deg, var(--bg2) 0%, var(--bg1) 55%, #000 100%);
       min-height: 100vh;
     }
 
@@ -62,7 +62,7 @@
 
     .logo {
       text-align: center;
-      font-size: 42px;
+      font-size: 40px;
       font-weight: 900;
       color: var(--green);
       text-shadow: 0 0 20px rgba(0,245,160,0.45);
@@ -97,7 +97,7 @@
     }
 
     .section-title {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 800;
       margin: 0 0 10px;
     }
@@ -141,10 +141,19 @@
       box-shadow: inset 0 0 18px rgba(0,245,160,0.03);
     }
 
-    input[type="file"] {
+    input[type="file"],
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
       color: #d8dee5;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 15px 14px;
+      font-size: 15px;
+      outline: none;
     }
 
     .chips {
@@ -175,17 +184,12 @@
       text-decoration: none;
       text-align: center;
       cursor: pointer;
-      transition: 0.2s ease;
     }
 
     .btn-primary {
       background: var(--green);
       color: #03110b;
       box-shadow: 0 0 22px rgba(0,245,160,0.32);
-    }
-
-    .btn-primary:active {
-      transform: scale(0.99);
     }
 
     .btn-dark {
@@ -241,7 +245,7 @@
       margin-top: 16px;
       padding: 18px;
       border-radius: 20px;
-      background: var(--card-2);
+      background: var(--card2);
       border: 1px solid rgba(255,255,255,0.06);
       overflow: hidden;
     }
@@ -357,6 +361,19 @@
       box-shadow: 0 0 14px rgba(0,245,160,0.35);
     }
 
+    .testimonial {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-top: 10px;
+    }
+
+    .testimonial-name {
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
     .footer {
       text-align: center;
       color: #8e97a1;
@@ -368,6 +385,38 @@
     .founder {
       color: #d8ffea;
       font-weight: 800;
+    }
+
+    .top-user {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .user-name {
+      font-size: 14px;
+      color: #dfe7ee;
+      font-weight: 700;
+    }
+
+    .user-badge {
+      font-size: 12px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: #b8c1cb;
+    }
+
+    .premium-badge {
+      background: rgba(0,245,160,0.12);
+      color: #c6ffea;
+      border: 1px solid rgba(0,245,160,0.2);
     }
 
     .bottom-nav {
@@ -404,6 +453,29 @@
       font-weight: 800;
     }
 
+    .auth-switch {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .auth-switch button {
+      flex: 1;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.03);
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .auth-switch button.active {
+      background: rgba(0,245,160,0.12);
+      color: var(--green);
+      border-color: rgba(0,245,160,0.2);
+    }
+
     @media (max-width: 380px) {
       .logo { font-size: 35px; }
       .pair { font-size: 29px; }
@@ -415,13 +487,59 @@
   <div class="container">
     <div class="top-badge">Used by 500+ traders</div>
     <div class="logo">GOAT Sniper AI 🐐</div>
-    <div class="subtitle">Upload your chart. Unlock the setup.</div>
+    <div class="subtitle">Create account free. Preview first. Subscribe later.</div>
 
-    <div id="homeScreen" class="screen active">
+    <div id="authScreen" class="screen active">
+      <div class="card">
+        <div class="section-title">Welcome to GOAT Sniper AI</div>
+        <div class="muted">
+          Create your free account to access chart upload, preview signals, and locked sniper setups before subscribing.
+        </div>
+
+        <div class="auth-switch">
+          <button id="signupTab" class="active" onclick="showAuthTab('signup')">Create Account</button>
+          <button id="loginTab" onclick="showAuthTab('login')">Login</button>
+        </div>
+
+        <div id="signupForm">
+          <input type="text" id="signupName" placeholder="Full name" />
+          <input type="email" id="signupEmail" placeholder="Email address" />
+          <input type="password" id="signupPassword" placeholder="Password" />
+          <button class="btn btn-primary" onclick="createAccount()">Create Free Account</button>
+          <button class="btn btn-dark" onclick="fillDemoAccount()">Use Demo Account</button>
+        </div>
+
+        <div id="loginForm" class="hidden">
+          <input type="email" id="loginEmail" placeholder="Email address" />
+          <input type="password" id="loginPassword" placeholder="Password" />
+          <button class="btn btn-primary" onclick="loginAccount()">Login</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="section-title">What you get for free</div>
+        <div class="features">
+          • Create account without subscribing<br>
+          • Upload chart screenshot<br>
+          • See market bias preview<br>
+          • Unlock premium only when ready
+        </div>
+      </div>
+    </div>
+
+    <div id="homeScreen" class="screen">
+      <div class="top-user">
+        <div>
+          <div class="user-name" id="displayUserName">Trader</div>
+          <div class="muted" style="font-size:12px;" id="displayUserEmail">Free account</div>
+        </div>
+        <div id="memberBadge" class="user-badge">Free Preview</div>
+      </div>
+
       <div class="card">
         <div class="section-title">Premium sniper-level chart scans</div>
         <div class="muted">
-          GOAT Sniper AI gives traders quick bias detection, premium setup previews, locked sniper entries, and subscription-based access to premium analysis.
+          Upload your chart, preview the bias, then unlock the full sniper setup when you’re ready.
         </div>
         <div class="activity" id="activityText">
           Someone in Johannesburg unlocked US30 analysis
@@ -429,12 +547,18 @@
       </div>
 
       <div class="card">
-        <div class="section-title">Why traders join</div>
-        <div class="features">
-          • Smart, fast chart scans<br>
-          • Premium locked setups<br>
-          • Monthly and yearly plans<br>
-          • Referral rewards for growth
+        <div class="section-title">Testimonials</div>
+        <div class="testimonial">
+          <div class="testimonial-name">Sibusiso M.</div>
+          <div class="muted">“The preview alone helped me avoid bad entries. Premium setups look clean.”</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-name">Lerato P.</div>
+          <div class="muted">“Very easy to use on phone. The app feels premium and fast.”</div>
+        </div>
+        <div class="testimonial">
+          <div class="testimonial-name">Neo K.</div>
+          <div class="muted">“I like that I can create an account first and preview before subscribing.”</div>
         </div>
       </div>
 
@@ -445,6 +569,14 @@
     </div>
 
     <div id="scanScreen" class="screen">
+      <div class="top-user">
+        <div>
+          <div class="user-name" id="scanUserName">Trader</div>
+          <div class="muted" style="font-size:12px;">Preview mode active</div>
+        </div>
+        <div id="scanBadge" class="user-badge">Free Preview</div>
+      </div>
+
       <div class="card upload-card">
         <div class="section-title">Upload your chart</div>
         <div class="muted">PNG or JPG • MT5 • TradingView • cTrader</div>
@@ -478,7 +610,7 @@
           <div class="pair">US30 • M1</div>
           <div>Bias: <span id="biasText" class="bias-up">Bullish</span></div>
           <div class="confidence" id="confidenceText">72%</div>
-          <div class="muted">Confidence score</div>
+          <div class="muted">Free preview confidence score</div>
         </div>
 
         <div class="lock-box">
@@ -503,31 +635,35 @@
             </div>
           </div>
 
-          <div class="lock-note">🔒 Unlock full sniper setup</div>
+          <div class="lock-note">🔒 Premium setup locked</div>
           <div class="small-note">
-            Premium billing is now live. Tap below to subscribe through secure checkout.
+            Your account is active. Subscribe only when you want full sniper entries, stop loss, take profit, and premium setup access.
           </div>
 
           <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
-            Subscribe Now
+            Unlock Premium Now
           </a>
 
           <button class="btn btn-dark" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
-            View all plans
+            View plans
           </button>
         </div>
-      </div>
-
-      <div class="footer">
-        Founder: <span class="founder">GT FX GOAT</span>
       </div>
     </div>
 
     <div id="pricingScreen" class="screen">
+      <div class="top-user">
+        <div>
+          <div class="user-name" id="pricingUserName">Trader</div>
+          <div class="muted" style="font-size:12px;">Upgrade when ready</div>
+        </div>
+        <div class="user-badge premium-badge">Premium Available</div>
+      </div>
+
       <div class="card">
         <div class="section-title">Choose your plan</div>
         <div class="muted">
-          Premium access is available through secure subscription checkout.
+          Free accounts can preview. Premium members unlock the full setup.
         </div>
 
         <div class="plan popular">
@@ -538,10 +674,10 @@
             Premium sniper setups, fast chart scans, and locked analysis access.
           </div>
           <div class="features">
-            • Premium setup unlocks<br>
-            • Sniper entry access<br>
-            • High-conversion checkout<br>
-            • GOAT member access
+            • Full premium setup unlocks<br>
+            • Sniper entries and targets<br>
+            • Premium member access<br>
+            • Faster decision support
           </div>
           <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
             Start Premium
@@ -549,20 +685,20 @@
         </div>
 
         <div class="plan">
-          <h3 class="blue">Yearly Premium</h3>
-          <div class="price">R1,999<span style="font-size:16px;color:#98a1aa;">/year</span></div>
+          <h3 class="blue">VIP Premium</h3>
+          <div class="price">R499<span style="font-size:16px;color:#98a1aa;">/month</span></div>
           <div class="price-sub">
-            For serious traders. Best long-term value.
+            VIP plan design added. Connect a second payment link later for this tier.
           </div>
           <div class="features">
-            • Everything in monthly<br>
-            • Lower yearly cost<br>
-            • Premium trader status<br>
-            • Long-term access
+            • VIP badge<br>
+            • Priority support feel<br>
+            • Premium signal experience<br>
+            • Higher-value positioning
           </div>
-          <a class="btn btn-outline" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
-            Join Now
-          </a>
+          <button class="btn btn-outline" onclick="alert('Add a second Paystack VIP link later for this plan')">
+            VIP Coming Soon
+          </button>
         </div>
       </div>
 
@@ -572,6 +708,14 @@
     </div>
 
     <div id="referScreen" class="screen">
+      <div class="top-user">
+        <div>
+          <div class="user-name" id="referUserName">Trader</div>
+          <div class="muted" style="font-size:12px;">Referral rewards</div>
+        </div>
+        <div class="user-badge">10 tokens/invite</div>
+      </div>
+
       <div class="card">
         <div class="section-title">Refer & Earn</div>
         <div class="muted">Earn 10 tokens for every friend who signs up.</div>
@@ -602,10 +746,10 @@
   </div>
 
   <div class="bottom-nav">
-    <button id="nav-home" class="nav-btn active" onclick="showScreen('homeScreen'); setActiveNav('home')">Home</button>
-    <button id="nav-scan" class="nav-btn" onclick="showScreen('scanScreen'); setActiveNav('scan')">Scan</button>
-    <button id="nav-pricing" class="nav-btn" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">Pricing</button>
-    <button id="nav-refer" class="nav-btn" onclick="showScreen('referScreen'); setActiveNav('refer')">Refer</button>
+    <button id="nav-home" class="nav-btn" onclick="guardAccess('homeScreen','home')">Home</button>
+    <button id="nav-scan" class="nav-btn" onclick="guardAccess('scanScreen','scan')">Scan</button>
+    <button id="nav-pricing" class="nav-btn" onclick="guardAccess('pricingScreen','pricing')">Pricing</button>
+    <button id="nav-refer" class="nav-btn" onclick="guardAccess('referScreen','refer')">Refer</button>
   </div>
 
   <script>
@@ -618,11 +762,139 @@
 
     function setActiveNav(tab) {
       const tabs = ['home', 'scan', 'pricing', 'refer'];
-      tabs.forEach(t => document.getElementById('nav-' + t).classList.remove('active'));
-      document.getElementById('nav-' + tab).classList.add('active');
+      tabs.forEach(t => {
+        const el = document.getElementById('nav-' + t);
+        if (el) el.classList.remove('active');
+      });
+      const active = document.getElementById('nav-' + tab);
+      if (active) active.classList.add('active');
+    }
+
+    function showAuthTab(type) {
+      const signupTab = document.getElementById('signupTab');
+      const loginTab = document.getElementById('loginTab');
+      const signupForm = document.getElementById('signupForm');
+      const loginForm = document.getElementById('loginForm');
+
+      if (type === 'signup') {
+        signupTab.classList.add('active');
+        loginTab.classList.remove('active');
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      } else {
+        loginTab.classList.add('active');
+        signupTab.classList.remove('active');
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+      }
+    }
+
+    function createAccount() {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value.trim();
+
+      if (!name || !email || !password) {
+        alert('Please fill all fields');
+        return;
+      }
+
+      const user = {
+        name,
+        email,
+        password,
+        premium: false
+      };
+
+      localStorage.setItem('goatUser', JSON.stringify(user));
+      loginUser(user);
+    }
+
+    function loginAccount() {
+      const email = document.getElementById('loginEmail').value.trim();
+      const password = document.getElementById('loginPassword').value.trim();
+      const saved = JSON.parse(localStorage.getItem('goatUser') || 'null');
+
+      if (!saved) {
+        alert('No account found. Create account first.');
+        return;
+      }
+
+      if (saved.email === email && saved.password === password) {
+        loginUser(saved);
+      } else {
+        alert('Wrong email or password');
+      }
+    }
+
+    function fillDemoAccount() {
+      const demo = {
+        name: 'GT Demo User',
+        email: 'demo@goatsniper.ai',
+        password: '123456',
+        premium: false
+      };
+      localStorage.setItem('goatUser', JSON.stringify(demo));
+      loginUser(demo);
+    }
+
+    function loginUser(user) {
+      sessionStorage.setItem('goatLoggedIn', 'true');
+      sessionStorage.setItem('goatName', user.name);
+      sessionStorage.setItem('goatEmail', user.email);
+      sessionStorage.setItem('goatPremium', user.premium ? 'true' : 'false');
+
+      updateUserUI();
+      showScreen('homeScreen');
+      setActiveNav('home');
+    }
+
+    function updateUserUI() {
+      const name = sessionStorage.getItem('goatName') || 'Trader';
+      const email = sessionStorage.getItem('goatEmail') || 'Free account';
+      const premium = sessionStorage.getItem('goatPremium') === 'true';
+
+      const nameIds = ['displayUserName', 'scanUserName', 'pricingUserName', 'referUserName'];
+      nameIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = name;
+      });
+
+      const emailEl = document.getElementById('displayUserEmail');
+      if (emailEl) emailEl.textContent = email;
+
+      const badgeText = premium ? 'Premium Member' : 'Free Preview';
+      const badgeIds = ['memberBadge', 'scanBadge'];
+
+      badgeIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.textContent = badgeText;
+          el.className = premium ? 'user-badge premium-badge' : 'user-badge';
+        }
+      });
+    }
+
+    function guardAccess(screenId, tab) {
+      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
+      if (!loggedIn) {
+        showScreen('authScreen');
+        setActiveNav('');
+        alert('Create account or login first');
+        return;
+      }
+      showScreen(screenId);
+      setActiveNav(tab);
     }
 
     function analyzeChart() {
+      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
+      if (!loggedIn) {
+        alert('Create account first');
+        showScreen('authScreen');
+        return;
+      }
+
       const loading = document.getElementById('loadingCard');
       const result = document.getElementById('resultCard');
       const bias = document.getElementById('biasText');
@@ -665,6 +937,17 @@
       const el = document.getElementById('activityText');
       if (el) el.textContent = activities[activityIndex];
     }, 3000);
+
+    window.onload = function () {
+      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
+      if (loggedIn) {
+        updateUserUI();
+        showScreen('homeScreen');
+        setActiveNav('home');
+      } else {
+        showScreen('authScreen');
+      }
+    };
   </script>
 </body>
 </html>
