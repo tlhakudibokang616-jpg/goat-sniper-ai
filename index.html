@@ -12,7 +12,6 @@
 
     :root {
       --bg: #05080d;
-      --bg2: #0b1118;
       --card: rgba(18, 22, 30, 0.94);
       --border: rgba(255,255,255,0.06);
       --text: #ffffff;
@@ -108,29 +107,6 @@
       line-height: 1.5;
     }
 
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin: 14px 0;
-    }
-
-    .tab-btn {
-      flex: 1;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background: rgba(0,245,160,0.12);
-      color: var(--green);
-      border-color: rgba(0,245,160,0.24);
-    }
-
     input, select {
       width: 100%;
       padding: 15px 14px;
@@ -200,6 +176,26 @@
       border: 1px solid rgba(255,204,88,0.22);
     }
 
+    .signal-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 18px;
+      padding: 14px;
+      margin-top: 10px;
+      text-align: left;
+    }
+
+    .signal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .buy { color: var(--green); }
+    .sell { color: var(--red); }
+
     .market-card {
       background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
@@ -225,13 +221,8 @@
       font-weight: 900;
     }
 
-    .up {
-      color: var(--green);
-    }
-
-    .down {
-      color: var(--red);
-    }
+    .up { color: var(--green); }
+    .down { color: var(--red); }
 
     .mini-grid {
       display: grid;
@@ -257,26 +248,6 @@
       font-size: 16px;
       font-weight: 800;
     }
-
-    .signal-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 18px;
-      padding: 14px;
-      margin-top: 10px;
-      text-align: left;
-    }
-
-    .signal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .buy { color: var(--green); }
-    .sell { color: var(--red); }
 
     .locked {
       filter: blur(6px);
@@ -344,14 +315,6 @@
       border: 1px solid rgba(0,245,160,0.18);
     }
 
-    .testimonial {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-top: 10px;
-    }
-
     .footer {
       text-align: center;
       color: #8c96a0;
@@ -401,6 +364,20 @@
     .hidden {
       display: none;
     }
+
+    .step-line {
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.04);
+      margin-top: 8px;
+      font-size: 14px;
+    }
+
+    .confirmed {
+      color: var(--green);
+      font-weight: 800;
+    }
   </style>
 </head>
 <body>
@@ -411,35 +388,17 @@
 
     <div id="authScreen" class="screen active">
       <div class="card">
-        <div class="title">Login or create account</div>
+        <div class="title">Login</div>
         <div class="muted">
-          Your premium test account is already ready. Use your login details below or create another free account.
+          Only your premium login works in this version.
         </div>
 
-        <div class="tabs">
-          <button id="signupTab" class="tab-btn active" onclick="switchTab('signup')">Create Account</button>
-          <button id="loginTab" class="tab-btn" onclick="switchTab('login')">Login</button>
-        </div>
+        <input id="loginEmail" type="email" placeholder="Email address" />
+        <input id="loginPassword" type="password" placeholder="Password" />
+        <button class="btn btn-primary" onclick="loginAccount()">Login</button>
 
-        <div id="signupForm">
-          <input id="signupName" type="text" placeholder="Full name" />
-          <input id="signupEmail" type="email" placeholder="Email address" />
-          <input id="signupPassword" type="password" placeholder="Password" />
-          <button class="btn btn-primary" onclick="createAccount()">Create Free Account</button>
-        </div>
-
-        <div id="loginForm" class="hidden">
-          <input id="loginEmail" type="email" placeholder="Email address" value="tlhakudibokang616@gmail.com" />
-          <input id="loginPassword" type="password" placeholder="Password" value="Tlhakudi122@" />
-          <button class="btn btn-primary" onclick="loginAccount()">Login</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="title">Your premium test login</div>
-        <div class="small">
-          Email: <b>tlhakudibokang616@gmail.com</b><br>
-          Password: <b>Tlhakudi122@</b>
+        <div class="small" style="margin-top:12px;">
+          Your fields are now empty by default for cleaner login.
         </div>
       </div>
     </div>
@@ -448,45 +407,36 @@
       <div class="user-bar">
         <div>
           <div class="user-name" id="homeUserName">Trader</div>
-          <div class="small" id="homeUserEmail">Free account</div>
+          <div class="small" id="homeUserEmail">Premium account</div>
         </div>
-        <div id="homeStatus" class="user-status">Preview</div>
+        <div id="homeStatus" class="user-status vip">Premium</div>
       </div>
 
       <div class="card">
-        <div class="title">What the app does</div>
+        <div class="title">App overview</div>
         <div class="muted">
-          Upload a screenshot of your chart and get:
+          Upload a screenshot and the app will simulate:
         </div>
         <div class="small" style="margin-top:10px;">
-          • SMC analysis type<br>
-          • Buy or Sell direction<br>
-          • Long Position / Short Position view<br>
-          • Premium setup preview
+          • Checking pair<br>
+          • Checking FVG<br>
+          • Checking order block<br>
+          • Checking liquidity sweep<br>
+          • Checking buy or sell<br>
+          • Direction confirmed ✅<br>
+          • Entry, TP, and SL
         </div>
         <div class="activity" id="activityText">Someone in Johannesburg uploaded XAUUSD for SMC analysis</div>
-      </div>
-
-      <div class="card">
-        <div class="title">Testimonials</div>
-        <div class="testimonial">
-          <b>Sibusiso M.</b><br>
-          <span class="small">“The upload analysis makes it look like a real trading assistant.”</span>
-        </div>
-        <div class="testimonial">
-          <b>Lerato P.</b><br>
-          <span class="small">“The buy/sell and long/short output is clean for quick decisions.”</span>
-        </div>
       </div>
     </div>
 
     <div id="marketsScreen" class="screen">
       <div class="user-bar">
         <div>
-          <div class="user-name" id="marketsUserName">Trader</div>
+          <div class="user-name" id="marketsUserName">GT FX GOAT</div>
           <div class="small">Live-style market board</div>
         </div>
-        <div id="marketsStatus" class="user-status">Preview</div>
+        <div class="user-status vip">Premium</div>
       </div>
 
       <div class="card">
@@ -499,84 +449,54 @@
     <div id="signalsScreen" class="screen">
       <div class="user-bar">
         <div>
-          <div class="user-name" id="signalsUserName">Trader</div>
+          <div class="user-name" id="signalsUserName">GT FX GOAT</div>
           <div class="small">Chart upload + SMC analysis</div>
         </div>
-        <div id="signalsStatus" class="user-status">Preview</div>
+        <div class="user-status vip">Premium</div>
       </div>
 
       <div class="card">
-        <div class="pill pill-free">CHART ANALYSIS</div>
+        <div class="pill pill-vip">CHART ANALYSIS</div>
         <div class="title">Upload chart screenshot</div>
         <div class="muted">Upload a TradingView or MT5 chart and generate SMC-style output.</div>
         <input id="chartUploadInput" type="file" accept="image/*" />
         <button class="btn btn-primary" onclick="analyzeUploadedChart()">Analyze Uploaded Chart</button>
 
-        <div id="chartAnalysisBox" class="signal-card" style="margin-top:12px;">
+        <div id="analysisLoadingBox" class="signal-card hidden" style="margin-top:12px;">
           <div class="signal-head">
-            <span>Waiting for upload</span>
-            <span class="buy">READY</span>
+            <span>Analyzing chart</span>
+            <span class="buy">LOADING</span>
           </div>
-          <div>SMC Type: -</div>
-          <div>Direction: -</div>
-          <div>Position Tool: -</div>
-          <div>Bias: -</div>
-          <div>Entry Idea: -</div>
-          <div>Stop Loss: -</div>
-          <div>Take Profit: -</div>
-          <div class="small" style="margin-top:8px;">Upload a screenshot to generate chart analysis.</div>
+          <div id="analysisSteps"></div>
         </div>
+
+        <div id="chartAnalysisBox" class="signal-card hidden" style="margin-top:12px;"></div>
       </div>
 
       <div class="card">
-        <div class="pill pill-free">FREE PREVIEW</div>
-        <div class="title">Today's sweep bias preview</div>
-        <div id="previewSignal" class="signal-card"></div>
-      </div>
-
-      <div class="card">
-        <div class="pill pill-vip">VIP</div>
-        <div class="title">Premium signal details</div>
-
-        <div id="vipLockedSignals">
-          <div class="locked">
-            <div id="lockedSignalBox" class="signal-card"></div>
-          </div>
-
-          <div class="unlock-box">
-            <div style="font-weight:800; font-size:18px;">🔒 Premium locked</div>
-            <div class="small" style="margin:8px 0 12px;">
-              Free users see the bias preview. Premium users unlock entry, stop loss, take profit, and full premium view.
-            </div>
-            <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">Unlock Premium</a>
-          </div>
-        </div>
-
-        <div id="vipUnlockedSignals" class="hidden">
-          <div id="premiumSignalBox" class="signal-card"></div>
-          <div class="activity">✅ Premium active on this device</div>
-        </div>
+        <div class="pill pill-vip">PREMIUM SIGNAL</div>
+        <div class="title">Daily sweep strategy setup</div>
+        <div id="premiumSignalBox" class="signal-card"></div>
+        <div class="activity">✅ Premium active on this device</div>
       </div>
     </div>
 
     <div id="pricingScreen" class="screen">
       <div class="user-bar">
         <div>
-          <div class="user-name" id="pricingUserName">Trader</div>
-          <div class="small">Upgrade when ready</div>
+          <div class="user-name" id="pricingUserName">GT FX GOAT</div>
+          <div class="small">Premium active</div>
         </div>
-        <div class="user-status vip">Premium Available</div>
+        <div class="user-status vip">Premium</div>
       </div>
 
       <div class="card">
-        <div class="title">Choose your plan</div>
-
+        <div class="title">Premium already active</div>
         <div class="plan popular">
-          <div class="pill pill-vip">BEST SELLER</div>
+          <div class="pill pill-vip">ACTIVE</div>
           <div style="font-size:24px; font-weight:800;">Monthly Premium</div>
           <div class="price">R199<span style="font-size:16px; color:#9aa3ad;">/month</span></div>
-          <div class="small">Unlock full strategy details, entries, stop loss, and take profit.</div>
-          <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">Start Premium</a>
+          <div class="small">Your premium test account is already unlocked in this version.</div>
         </div>
       </div>
     </div>
@@ -584,10 +504,10 @@
     <div id="referScreen" class="screen">
       <div class="user-bar">
         <div>
-          <div class="user-name" id="referUserName">Trader</div>
+          <div class="user-name" id="referUserName">GT FX GOAT</div>
           <div class="small">Referral rewards</div>
         </div>
-        <div class="user-status">10 tokens/invite</div>
+        <div class="user-status vip">Premium</div>
       </div>
 
       <div class="card">
@@ -622,87 +542,19 @@
       { symbol: "GER30", price: 18420.8, pdh: 18490.5, pdl: 18340.6, digits: 1 }
     ];
 
-    function seedSpecialUser() {
-      const existing = JSON.parse(localStorage.getItem('goatSpecialUser') || 'null');
-      if (!existing) {
-        localStorage.setItem('goatSpecialUser', JSON.stringify({
-          name: 'GT FX GOAT',
-          email: SPECIAL_EMAIL,
-          password: SPECIAL_PASSWORD,
-          premium: true
-        }));
-      }
-    }
-
-    function switchTab(type) {
-      document.getElementById('signupTab').classList.toggle('active', type === 'signup');
-      document.getElementById('loginTab').classList.toggle('active', type === 'login');
-      document.getElementById('signupForm').classList.toggle('hidden', type !== 'signup');
-      document.getElementById('loginForm').classList.toggle('hidden', type !== 'login');
-    }
-
-    function applyPremiumForSpecialUser(email) {
-      if (email && email.toLowerCase() === SPECIAL_EMAIL.toLowerCase()) {
-        localStorage.setItem('goatPremium', 'true');
-      }
-    }
-
-    function createAccount() {
-      const name = document.getElementById('signupName').value.trim();
-      const email = document.getElementById('signupEmail').value.trim();
-      const password = document.getElementById('signupPassword').value.trim();
-
-      if (!name || !email || !password) {
-        alert('Please fill all fields');
-        return;
-      }
-
-      const user = { name, email, password, premium: false };
-      localStorage.setItem('goatUser', JSON.stringify(user));
-      sessionStorage.setItem('goatLoggedIn', 'true');
-      sessionStorage.setItem('goatUserName', name);
-      sessionStorage.setItem('goatUserEmail', email);
-      applyPremiumForSpecialUser(email);
-
-      updateUserUI();
-      updatePremiumState();
-      renderMarkets();
-      renderSignals();
-      showScreen('homeScreen');
-      setActiveNav('home');
-      alert('Free account created ✅');
-    }
-
     function loginAccount() {
       const email = document.getElementById('loginEmail').value.trim();
       const password = document.getElementById('loginPassword').value.trim();
-      const special = JSON.parse(localStorage.getItem('goatSpecialUser') || 'null');
-      const normal = JSON.parse(localStorage.getItem('goatUser') || 'null');
 
-      if (special && email === special.email && password === special.password) {
+      if (email === SPECIAL_EMAIL && password === SPECIAL_PASSWORD) {
         sessionStorage.setItem('goatLoggedIn', 'true');
-        sessionStorage.setItem('goatUserName', special.name);
-        sessionStorage.setItem('goatUserEmail', special.email);
-        applyPremiumForSpecialUser(special.email);
-        updateUserUI();
-        updatePremiumState();
-        renderMarkets();
-        renderSignals();
-        showScreen('homeScreen');
-        setActiveNav('home');
-        alert('Premium account login successful ✅');
-        return;
-      }
+        sessionStorage.setItem('goatUserName', 'GT FX GOAT');
+        sessionStorage.setItem('goatUserEmail', SPECIAL_EMAIL);
+        localStorage.setItem('goatPremium', 'true');
 
-      if (normal && email === normal.email && password === normal.password) {
-        sessionStorage.setItem('goatLoggedIn', 'true');
-        sessionStorage.setItem('goatUserName', normal.name);
-        sessionStorage.setItem('goatUserEmail', normal.email);
-        applyPremiumForSpecialUser(normal.email);
         updateUserUI();
-        updatePremiumState();
         renderMarkets();
-        renderSignals();
+        renderPremiumSignal();
         showScreen('homeScreen');
         setActiveNav('home');
         return;
@@ -730,19 +582,18 @@
       const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
       if (!loggedIn) {
         showScreen('authScreen');
-        alert('Create account or login first');
+        alert('Login first');
         return;
       }
-      updatePremiumState();
       renderMarkets();
-      renderSignals();
+      renderPremiumSignal();
       showScreen(screen);
       setActiveNav(tab);
     }
 
     function updateUserUI() {
-      const name = sessionStorage.getItem('goatUserName') || 'Trader';
-      const email = sessionStorage.getItem('goatUserEmail') || 'Free account';
+      const name = sessionStorage.getItem('goatUserName') || 'GT FX GOAT';
+      const email = sessionStorage.getItem('goatUserEmail') || SPECIAL_EMAIL;
 
       ['homeUserName','marketsUserName','signalsUserName','pricingUserName','referUserName'].forEach(id => {
         const el = document.getElementById(id);
@@ -751,26 +602,6 @@
 
       const homeEmail = document.getElementById('homeUserEmail');
       if (homeEmail) homeEmail.textContent = email;
-    }
-
-    function updatePremiumState() {
-      const isPremium = localStorage.getItem('goatPremium') === 'true';
-
-      const statusIds = ['homeStatus','marketsStatus','signalsStatus'];
-      statusIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        if (isPremium) {
-          el.textContent = 'Premium';
-          el.className = 'user-status vip';
-        } else {
-          el.textContent = 'Preview';
-          el.className = 'user-status';
-        }
-      });
-
-      document.getElementById('vipLockedSignals').classList.toggle('hidden', isPremium);
-      document.getElementById('vipUnlockedSignals').classList.toggle('hidden', !isPremium);
     }
 
     function getBiasForMarket(market) {
@@ -874,116 +705,129 @@
       });
     }
 
-    function renderSignals() {
-      const previewMarket = markets[0];
-      const premiumMarket = markets[1];
-
-      const previewSignal = getSignalForMarket(previewMarket);
-      const premiumSignal = getSignalForMarket(premiumMarket);
-
-      const previewBox = document.getElementById('previewSignal');
-      const lockedBox = document.getElementById('lockedSignalBox');
+    function renderPremiumSignal() {
+      const market = markets[1];
+      const signal = getSignalForMarket(market);
       const premiumBox = document.getElementById('premiumSignalBox');
 
-      if (previewBox) {
-        previewBox.innerHTML = `
+      if (premiumBox) {
+        premiumBox.innerHTML = `
           <div class="signal-head">
-            <span>${previewMarket.symbol}</span>
-            <span class="${previewSignal.biasClass}">${previewSignal.bias}</span>
+            <span>${market.symbol}</span>
+            <span class="${signal.biasClass}">${signal.bias}</span>
           </div>
-          <div>Previous Day High: ${previewMarket.pdh.toFixed(previewMarket.digits)}</div>
-          <div>Previous Day Low: ${previewMarket.pdl.toFixed(previewMarket.digits)}</div>
-          <div>Status: ${previewSignal.status}</div>
-          <div class="small" style="margin-top:8px;">${previewSignal.explanation}</div>
+          <div>Entry: ${signal.entry}</div>
+          <div>Stop Loss: ${signal.sl}</div>
+          <div>Take Profit: ${signal.tp}</div>
+          <div>Previous Day High: ${market.pdh.toFixed(market.digits)}</div>
+          <div>Previous Day Low: ${market.pdl.toFixed(market.digits)}</div>
+          <div class="small" style="margin-top:8px;">${signal.explanation}</div>
         `;
       }
-
-      const premiumHtml = `
-        <div class="signal-head">
-          <span>${premiumMarket.symbol}</span>
-          <span class="${premiumSignal.biasClass}">${premiumSignal.bias}</span>
-        </div>
-        <div>Entry: ${premiumSignal.entry}</div>
-        <div>Stop Loss: ${premiumSignal.sl}</div>
-        <div>Take Profit: ${premiumSignal.tp}</div>
-        <div>Previous Day High: ${premiumMarket.pdh.toFixed(premiumMarket.digits)}</div>
-        <div>Previous Day Low: ${premiumMarket.pdl.toFixed(premiumMarket.digits)}</div>
-        <div class="small" style="margin-top:8px;">${premiumSignal.explanation}</div>
-      `;
-
-      if (lockedBox) lockedBox.innerHTML = premiumHtml;
-      if (premiumBox) premiumBox.innerHTML = premiumHtml;
     }
 
     function analyzeUploadedChart() {
       const uploaded = document.getElementById('chartUploadInput');
-      const box = document.getElementById('chartAnalysisBox');
+      const loadingBox = document.getElementById('analysisLoadingBox');
+      const stepsBox = document.getElementById('analysisSteps');
+      const resultBox = document.getElementById('chartAnalysisBox');
 
       if (!uploaded.files || uploaded.files.length === 0) {
         alert('Upload a chart screenshot first');
         return;
       }
 
+      loadingBox.classList.remove('hidden');
+      resultBox.classList.add('hidden');
+      stepsBox.innerHTML = '';
+
+      const steps = [
+        'Checking pair...',
+        'Checking FVG...',
+        'Checking order block...',
+        'Checking liquidity sweep...',
+        'Checking buy or sell...',
+        'Direction confirmed ✅'
+      ];
+
+      let stepIndex = 0;
+
       const analyses = [
         {
+          pair: 'XAUUSD',
           type: 'Liquidity sweep + Bearish CHoCH',
           direction: 'SELL',
           tool: 'Short Position',
           bias: 'Bearish',
-          entryIdea: 'Wait for bearish confirmation after liquidity grab.',
-          sl: 'Above sweep high / invalidation point',
-          tp: 'Target lower liquidity or demand',
-          reason: 'Previous high got swept, structure shifted bearish, downside continuation expected.'
+          entry: '2324.80',
+          sl: '2330.20',
+          tp: '2314.40',
+          reason: 'Buy-side liquidity was taken, bearish structure shift confirmed, short continuation expected.'
         },
         {
-          type: 'Liquidity sweep + Bullish CHoCH',
+          pair: 'US30',
+          type: 'Bullish CHoCH + demand reaction',
           direction: 'BUY',
           tool: 'Long Position',
           bias: 'Bullish',
-          entryIdea: 'Wait for bullish confirmation after sell-side sweep.',
-          sl: 'Below sweep low / invalidation point',
-          tp: 'Target upper liquidity or supply',
-          reason: 'Previous low got swept, structure shifted bullish, upside continuation expected.'
+          entry: '38295',
+          sl: '38220',
+          tp: '38440',
+          reason: 'Sell-side liquidity got taken, market shifted bullish, long continuation expected.'
         },
         {
-          type: 'Bullish Order Block + FVG continuation',
-          direction: 'BUY',
-          tool: 'Long Position',
-          bias: 'Bullish',
-          entryIdea: 'Enter from bullish OB / FVG reaction zone.',
-          sl: 'Below bullish order block',
-          tp: 'Target next buy-side liquidity',
-          reason: 'Price respected a bullish order block and left imbalance, supporting long continuation.'
-        },
-        {
+          pair: 'NAS100',
           type: 'Bearish Order Block rejection',
           direction: 'SELL',
           tool: 'Short Position',
           bias: 'Bearish',
-          entryIdea: 'Enter from bearish order block rejection.',
-          sl: 'Above bearish order block',
-          tp: 'Target next sell-side liquidity',
-          reason: 'Price tapped bearish order block and rejected lower, suggesting short opportunity.'
+          entry: '17970.5',
+          sl: '18025.8',
+          tp: '17890.4',
+          reason: 'Price rejected a bearish order block and confirmed downside intent.'
+        },
+        {
+          pair: 'GER30',
+          type: 'Bullish Order Block + FVG continuation',
+          direction: 'BUY',
+          tool: 'Long Position',
+          bias: 'Bullish',
+          entry: '18418.6',
+          sl: '18386.2',
+          tp: '18478.9',
+          reason: 'Price respected bullish order block and imbalance, suggesting upside continuation.'
         }
       ];
 
       const picked = analyses[Math.floor(Math.random() * analyses.length)];
-      const directionClass = picked.direction === 'BUY' ? 'buy' : 'sell';
 
-      box.innerHTML = `
-        <div class="signal-head">
-          <span>SMC Analysis Detected</span>
-          <span class="${directionClass}">${picked.direction}</span>
-        </div>
-        <div>SMC Type: ${picked.type}</div>
-        <div>Direction: ${picked.direction}</div>
-        <div>Position Tool: ${picked.tool}</div>
-        <div>Bias: ${picked.bias}</div>
-        <div>Entry Idea: ${picked.entryIdea}</div>
-        <div>Stop Loss: ${picked.sl}</div>
-        <div>Take Profit: ${picked.tp}</div>
-        <div class="small" style="margin-top:8px;">${picked.reason}</div>
-      `;
+      const interval = setInterval(() => {
+        if (stepIndex < steps.length) {
+          stepsBox.innerHTML += `<div class="step-line">${steps[stepIndex]}</div>`;
+          stepIndex++;
+        } else {
+          clearInterval(interval);
+          loadingBox.classList.add('hidden');
+          resultBox.classList.remove('hidden');
+
+          const directionClass = picked.direction === 'BUY' ? 'buy' : 'sell';
+
+          resultBox.innerHTML = `
+            <div class="signal-head">
+              <span>${picked.pair} SMC Analysis</span>
+              <span class="${directionClass}">${picked.direction}</span>
+            </div>
+            <div>SMC Type: ${picked.type}</div>
+            <div>Direction: ${picked.direction}</div>
+            <div>Position Tool: ${picked.tool}</div>
+            <div>Bias: ${picked.bias}</div>
+            <div>Entry Price: ${picked.entry}</div>
+            <div>Take Profit: ${picked.tp}</div>
+            <div>Stop Loss: ${picked.sl}</div>
+            <div class="small" style="margin-top:8px;">${picked.reason}</div>
+          `;
+        }
+      }, 900);
     }
 
     function simulateMarketMove() {
@@ -1004,15 +848,15 @@
       });
 
       renderMarkets();
-      renderSignals();
+      renderPremiumSignal();
     }
 
     const activities = [
       'Someone in Johannesburg uploaded XAUUSD for SMC analysis',
       'Someone in Cape Town got SELL bias on US30',
       'Someone in Durban uploaded NAS100 screenshot',
-      'Someone in Bloemfontein unlocked premium view',
-      'Someone in Pretoria checked GER30 direction'
+      'Someone in Bloemfontein checked GER30 direction',
+      'Someone in Pretoria confirmed BUY setup on XAUUSD'
     ];
 
     let activityIndex = 0;
@@ -1025,16 +869,10 @@
     setInterval(simulateMarketMove, 2500);
 
     window.onload = function () {
-      seedSpecialUser();
-
-      if (window.location.href.includes('success')) {
-        localStorage.setItem('goatPremium', 'true');
-      }
-
       const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-      updatePremiumState();
+
       renderMarkets();
-      renderSignals();
+      renderPremiumSignal();
 
       if (loggedIn) {
         updateUserUI();
