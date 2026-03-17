@@ -1,25 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GOAT Sniper AI 🐐</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: black;
+      padding: 16px;
+      font-weight: bold;
+      font-size: 22px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .topbar {
+      max-width: 420px;
+      margin: 14px auto 0;
+      padding: 0 16px;
+    }
+
+    .top-btn {
+      width: 100%;
+      padding: 14px;
+      background: #00f5a0;
+      color: black;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(0,245,160,0.35);
+    }
+
+    .container {
+      padding: 18px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #161b22;
+      margin: 15px auto;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 0 18px rgba(0,0,0,0.25);
+    }
+
+    .vip {
+      border: 2px solid gold;
+      box-shadow: 0 0 18px rgba(255,215,0,0.18);
+    }
+
+    .locked {
+      filter: blur(6px);
+      opacity: 0.55;
+    }
+
+    .badge {
+      background: gold;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 7px;
+      font-size: 12px;
+      display: inline-block;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    .green-badge {
+      background: #00f5a0;
+      color: black;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      display: inline-block;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .cta-btn {
+      padding: 15px 18px;
+      background: gold;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+      color: black;
+      width: 100%;
+      max-width: 220px;
+    }
+
+    .secondary-btn {
+      padding: 14px 18px;
+      background: transparent;
+      border: 1px solid #2d3748;
+      color: white;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 220px;
+    }
+
+    .testimonials {
+      font-size: 14px;
+      opacity: 0.9;
+      line-height: 1.7;
+    }
+
+    .feed-box {
+      text-align: left;
+    }
+
+    .feed-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+
+    .signal-item {
+      background: #0f141a;
+      border: 1px solid #202833;
+      padding: 14px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .signal-head {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .buy {
+      color: #00f5a0;
+    }
+
+    .sell {
+      color: #ff6b81;
+    }
+
+    .ticker {
+      background: #11161d;
+      color: #00f5a0;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 13px;
+      margin: 15px auto;
+      max-width: 400px;
+      box-shadow: 0 0 14px rgba(0,245,160,0.08);
+    }
+
+    .small {
+      font-size: 13px;
+      opacity: 0.75;
+    }
+
+    .divider {
+      height: 1px;
+      background: #232b35;
+      margin: 18px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+🐐 GOAT Sniper AI VIP 💎
+</header>
+
+<div class="topbar">
+  <button class="top-btn" onclick="createAccount()">Create Free Account</button>
+</div>
+
+<div class="container">
+
+  <div class="ticker" id="tickerText">
+    Someone in Johannesburg just unlocked VIP access 🔓
+  </div>
+
+  <div class="card">
+    <div class="green-badge">FREE PREVIEW</div>
+    <h3>Free Signal Preview</h3>
+    <p><strong>BUY XAUUSD 🔼</strong></p>
+    <p>Entry: 2325</p>
+    <p>SL: 2310</p>
+    <p>TP: 2340</p>
+    <p class="small">Create account free. Subscribe only when ready.</p>
+  </div>
+
+  <div id="vipSignals" class="card vip locked">
+    <div class="badge">VIP</div>
+
+    <h3>Premium Signals 💎</h3>
+
+    <p><strong>SELL US30 🔽</strong></p>
+    <p>Entry: 38300</p>
+    <p>SL: 38500</p>
+    <p>TP: 37900</p>
+
+    <div class="divider"></div>
+
+    <p><strong>BUY GBPJPY 🔼</strong></p>
+    <p>Entry: 189.200</p>
+    <p>SL: 188.700</p>
+    <p>TP: 190.100</p>
+  </div>
+
+  <div class="card">
+    <h3>Unlock VIP Access</h3>
+    <p>✔ Daily Sniper Signals</p>
+    <p>✔ 90% Accuracy Feel</p>
+    <p>✔ Private Strategy Access</p>
+
+    <button class="cta-btn" onclick="pay()">Get VIP (R499)</button>
+    <br />
+    <button class="secondary-btn" onclick="createAccount()">Create Account First</button>
+  </div>
+
+  <div class="card feed-box">
+    <div class="feed-title">Live Signals Feed 📊</div>
+
+    <div class="signal-item">
+      <div class="signal-head">
+        <span>US30</span>
+        <span class="sell">SELL</span>
+      </div>
+      <div>Entry: 38300</div>
+      <div>SL: 38500</div>
+      <div>TP: 37900</div>
+    </div>
+
+    <div class="signal-item">
+      <div class="signal-head">
+        <span>XAUUSD</span>
+        <span class="buy">BUY</span>
+      </div>
+      <div>Entry: 2325</div>
+      <div>SL: 2310</div>
+      <div>TP: 2340</div>
+    </div>
+
+    <div class="signal-item">
+      <div class="signal-head">
+        <span>GBPJPY</span>
+        <span class="buy">BUY</span>
+      </div>
+      <div>Entry: 189.200</div>
+      <div>SL: 188.700</div>
+      <div>TP: 190.100</div>
+    </div>
+  </div>
+
+  <div class="card testimonials">
+    <h3>Student Results 💰</h3>
+    <p>"Turned R500 → R7,200 in 3 days 🔥"</p>
+    <p>"Best signals I’ve ever used 💎"</p>
+    <p>"100% legit, withdrawals daily"</p>
+  </div>
+
+</div>
+
 <script>
   function pay() {
     window.location.href = "https://paystack.shop/pay/7a1-oxg9e0";
   }
 
-  // Create account (simple)
   function createAccount() {
     let email = prompt("Enter your email:");
     if (email) {
-      localStorage.setItem("user", email);
-      alert("Account created ✅");
+      localStorage.setItem("goat_user_email", email);
+      alert("Account created successfully ✅");
     }
   }
 
-  // Unlock after payment
   if (window.location.href.includes("success")) {
     localStorage.setItem("vip", "true");
   }
 
-  // Check VIP status
   if (localStorage.getItem("vip") === "true") {
     document.getElementById("vipSignals").classList.remove("locked");
   }
+
+  const tickerMessages = [
+    "Someone in Johannesburg just unlocked VIP access 🔓",
+    "Someone in Cape Town subscribed to GOAT Sniper AI 💎",
+    "Someone in Durban viewed the XAUUSD sniper setup 📈",
+    "Someone in Bloemfontein joined free preview 🐐",
+    "Someone in Pretoria upgraded to VIP access 🔥"
+  ];
+
+  let tickerIndex = 0;
+  setInterval(() => {
+    tickerIndex = (tickerIndex + 1) % tickerMessages.length;
+    document.getElementById("tickerText").innerText = tickerMessages[tickerIndex];
+  }, 2500);
 </script>
-<button onclick="createAccount()">Create Account</button>
+
+</body>
+</html>
