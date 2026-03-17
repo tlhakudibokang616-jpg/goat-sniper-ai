@@ -1,116 +1,536 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GOAT Sniper AI</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GOAT Sniper AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top, #001a14, #000);
-    color: white;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: white;
+      background:
+        radial-gradient(circle at top, rgba(0,255,174,0.12), transparent 30%),
+        linear-gradient(180deg, #03110d 0%, #000000 55%, #02070a 100%);
+      min-height: 100vh;
+      padding-bottom: 110px;
+    }
 
-.container {
-    padding: 20px;
-    text-align: center;
-}
+    .container {
+      width: 100%;
+      max-width: 430px;
+      margin: 0 auto;
+      padding: 22px 16px 24px;
+    }
 
-h1 {
-    color: #00ffae;
-    font-size: 32px;
-    text-shadow: 0 0 20px #00ffae;
-}
+    .title {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      color: #00ffae;
+      text-shadow: 0 0 18px rgba(0,255,174,0.5);
+      margin: 10px 0 8px;
+    }
 
-.card {
-    background: rgba(255,255,255,0.05);
-    border-radius: 20px;
-    padding: 20px;
-    margin-top: 20px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 0 20px rgba(0,255,174,0.2);
-}
+    .subtitle {
+      text-align: center;
+      color: #d8d8d8;
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
 
-button {
-    background: #00ffae;
-    border: none;
-    padding: 15px 25px;
-    border-radius: 12px;
-    color: black;
-    font-weight: bold;
-    margin-top: 15px;
-    cursor: pointer;
-}
+    .badge {
+      width: fit-content;
+      margin: 0 auto 18px;
+      border: 1px solid rgba(0,255,174,0.2);
+      color: #bafbe5;
+      background: rgba(255,255,255,0.04);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      box-shadow: 0 0 14px rgba(0,255,174,0.08);
+    }
 
-.result {
-    margin-top: 20px;
-    font-size: 18px;
-}
+    .card {
+      background: rgba(18, 20, 28, 0.88);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 24px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.02),
+        0 0 22px rgba(0,255,174,0.09);
+      backdrop-filter: blur(10px);
+    }
 
-.lock {
-    opacity: 0.4;
-}
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 0 8px;
+    }
 
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #000;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    border-top: 1px solid #222;
-}
-</style>
+    .muted {
+      color: #a7adb7;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .upload-wrap {
+      text-align: center;
+      padding: 12px 0 4px;
+    }
+
+    input[type="file"] {
+      width: 100%;
+      color: #c9d0d8;
+      margin-bottom: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 16px;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: #00ffae;
+      color: #04110c;
+      box-shadow: 0 0 18px rgba(0,255,174,0.35);
+    }
+
+    .btn-dark {
+      background: #111722;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .btn + .btn {
+      margin-top: 10px;
+    }
+
+    .chips {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .chip {
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #bfc6cf;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .summary {
+      text-align: center;
+    }
+
+    .pair {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 0 0 6px;
+    }
+
+    .bias-up {
+      color: #00ffae;
+      font-weight: 700;
+    }
+
+    .confidence {
+      font-size: 30px;
+      font-weight: 800;
+      margin: 10px 0 4px;
+    }
+
+    .lock-box {
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .blurred {
+      filter: blur(7px);
+      opacity: 0.45;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .lock-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .small-note {
+      text-align: center;
+      color: #aab2bc;
+      font-size: 13px;
+      margin-top: 6px;
+      margin-bottom: 14px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .mini {
+      background: rgba(255,255,255,0.03);
+      border-radius: 18px;
+      padding: 14px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .mini-label {
+      color: #8f97a1;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .mini-value {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .green { color: #00ffae; }
+    .red { color: #ff5d73; }
+    .blue { color: #65a9ff; }
+    .gold { color: #ffcb5b; }
+
+    .list {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      color: #d7dde4;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+
+    .plan {
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-top: 14px;
+    }
+
+    .plan h3 {
+      margin: 0 0 6px;
+      font-size: 24px;
+    }
+
+    .price {
+      font-size: 34px;
+      font-weight: 800;
+      margin: 8px 0;
+    }
+
+    .progress {
+      width: 100%;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      overflow: hidden;
+      margin: 12px 0 8px;
+    }
+
+    .progress-fill {
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffae, #53ffd2);
+      box-shadow: 0 0 14px rgba(0,255,174,0.35);
+    }
+
+    .activity {
+      font-size: 13px;
+      color: #cbfdea;
+      text-align: center;
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,255,174,0.07);
+      border: 1px solid rgba(0,255,174,0.14);
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 12px;
+      width: calc(100% - 16px);
+      max-width: 430px;
+      background: rgba(5,8,12,0.96);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 0 25px rgba(0,0,0,0.45);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+      z-index: 999;
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: #b5bcc4;
+      font-size: 13px;
+      padding: 10px 4px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: #00ffae;
+      background: rgba(0,255,174,0.08);
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 380px) {
+      .title { font-size: 36px; }
+      .pair { font-size: 30px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="badge">Used by 500+ traders</div>
+    <div class="title">GOAT Sniper AI 🐐</div>
+    <div class="subtitle">Upload your chart. Unlock the setup.</div>
 
-<div class="container">
-    <h1>GOAT Sniper AI 🐐</h1>
-    <p>Upload your chart. Unlock sniper setups.</p>
+    <div id="homeScreen" class="screen active">
+      <div class="card">
+        <div class="section-title">Sniper-level chart scans</div>
+        <div class="muted">
+          AI-style forex analysis for quick market bias, entry ideas, stop loss, take profit, and premium locked setups.
+        </div>
+        <div class="activity" id="activityText">
+          Someone in Johannesburg unlocked US30 analysis
+        </div>
+      </div>
 
-    <div class="card">
-        <input type="file" id="file">
-        <br>
-        <button onclick="analyze()">Analyze Chart</button>
+      <div class="card">
+        <div class="section-title">How it works</div>
+        <div class="list">
+          1. Upload chart screenshot<br>
+          2. Analyze structure and bias<br>
+          3. Unlock the full sniper setup
+        </div>
+      </div>
     </div>
 
-    <div class="card result" id="result" style="display:none;">
-        <h2>US30 • M1</h2>
-        <p>Bias: <span id="bias"></span></p>
-        <p>Confidence: <span id="confidence"></span></p>
+    <div id="scanScreen" class="screen">
+      <div class="card">
+        <div class="section-title">Upload your chart</div>
+        <div class="muted">PNG or JPG • MT5 • TradingView • cTrader</div>
 
-        <div class="lock">
-            <p>Entry: 🔒</p>
-            <p>Stop Loss: 🔒</p>
-            <p>Take Profit: 🔒</p>
+        <div class="upload-wrap">
+          <input type="file" id="fileInput" />
+          <button class="btn btn-primary" onclick="analyzeChart()">Analyze Chart</button>
+          <div class="chips">
+            <div class="chip">MT5</div>
+            <div class="chip">TradingView</div>
+            <div class="chip">cTrader</div>
+            <div class="chip">M1</div>
+            <div class="chip">M5</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hidden" id="loadingCard">
+        <div class="section-title">Analyzing...</div>
+        <div class="list">
+          • Reading price action<br>
+          • Mapping market structure<br>
+          • Detecting order blocks<br>
+          • Scanning liquidity<br>
+          • Generating setup
+        </div>
+      </div>
+
+      <div class="card hidden" id="resultCard">
+        <div class="summary">
+          <div class="pair" id="pairText">US30 • M1</div>
+          <div>Bias: <span class="bias-up" id="biasText">Bullish</span></div>
+          <div class="confidence" id="confidenceText">72%</div>
+          <div class="muted">Confidence score</div>
         </div>
 
-        <button onclick="alert('Upgrade to unlock')">Unlock Full Setup 🔓</button>
+        <div class="lock-box">
+          <div class="blurred">
+            <div class="grid">
+              <div class="mini">
+                <div class="mini-label">ENTRY</div>
+                <div class="mini-value green">46918.50</div>
+              </div>
+              <div class="mini">
+                <div class="mini-label">TP1</div>
+                <div class="mini-value blue">46944.35</div>
+              </div>
+              <div class="mini">
+                <div class="mini-label">STOP LOSS</div>
+                <div class="mini-value red">46892.65</div>
+              </div>
+              <div class="mini">
+                <div class="mini-label">R:R</div>
+                <div class="mini-value gold">1:2.2</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lock-note">🔒 Unlock full sniper setup</div>
+          <div class="small-note">Premium setup available for GOAT members</div>
+          <button class="btn btn-primary" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
+            Subscribe for R199/month
+          </button>
+          <button class="btn btn-dark" onclick="showScreen('referScreen'); setActiveNav('refer')">
+            Use tokens / Refer friends
+          </button>
+        </div>
+      </div>
     </div>
-</div>
 
-<div class="bottom-nav">
-    <span>Home</span>
-    <span>Scan</span>
-    <span>Pricing</span>
-    <span>Refer</span>
-</div>
+    <div id="pricingScreen" class="screen">
+      <div class="card">
+        <div class="section-title">GOAT Premium</div>
+        <div class="muted">Unlock premium sniper setups, more scans, and priority access.</div>
 
-<script>
-function analyze(){
-    document.getElementById("result").style.display = "block";
+        <div class="plan">
+          <h3 class="green">Monthly Plan</h3>
+          <div class="price">R199<span style="font-size:16px; color:#98a0aa;">/month</span></div>
+          <div class="list">
+            • Unlimited premium unlocks<br>
+            • Sniper setup access<br>
+            • Priority signals feel<br>
+            • Premium member badge
+          </div>
+          <button class="btn btn-primary" onclick="alert('Payment integration is next step')">
+            Subscribe Now
+          </button>
+        </div>
+      </div>
+    </div>
 
-    let bias = Math.random() > 0.5 ? "Bullish 📈" : "Bearish 📉";
-    let confidence = Math.floor(Math.random()*30)+70 + "%";
+    <div id="referScreen" class="screen">
+      <div class="card">
+        <div class="section-title">Refer & Earn</div>
+        <div class="muted">Earn 10 tokens for every friend who signs up.</div>
 
-    document.getElementById("bias").innerText = bias;
-    document.getElementById("confidence").innerText = confidence;
-}
-</script>
+        <div class="mini" style="margin-top:14px;">
+          <div class="mini-label">YOUR TOKENS</div>
+          <div class="mini-value green">40</div>
+        </div>
 
+        <div class="progress">
+          <div class="progress-fill"></div>
+        </div>
+        <div class="muted">100 tokens = 3 free scans</div>
+
+        <div class="plan">
+          <h3>Your referral code</h3>
+          <div class="mini-value" style="font-size:20px;">GOAT-TSHEPANG-10</div>
+          <button class="btn btn-primary" onclick="copyReferral()">Copy referral code</button>
+        </div>
+
+        <div class="activity">You referred 3 traders</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button id="nav-home" class="nav-btn active" onclick="showScreen('homeScreen'); setActiveNav('home')">Home</button>
+    <button id="nav-scan" class="nav-btn" onclick="showScreen('scanScreen'); setActiveNav('scan')">Scan</button>
+    <button id="nav-pricing" class="nav-btn" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">Pricing</button>
+    <button id="nav-refer" class="nav-btn" onclick="showScreen('referScreen'); setActiveNav('refer')">Refer</button>
+  </div>
+
+  <script>
+    function showScreen(screenId) {
+      const screens = document.querySelectorAll('.screen');
+      screens.forEach(screen => screen.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setActiveNav(tab) {
+      const tabs = ['home', 'scan', 'pricing', 'refer'];
+      tabs.forEach(t => document.getElementById('nav-' + t).classList.remove('active'));
+      document.getElementById('nav-' + tab).classList.add('active');
+    }
+
+    function analyzeChart() {
+      const loading = document.getElementById('loadingCard');
+      const result = document.getElementById('resultCard');
+      const bias = document.getElementById('biasText');
+      const confidence = document.getElementById('confidenceText');
+
+      result.classList.add('hidden');
+      loading.classList.remove('hidden');
+
+      setTimeout(() => {
+        const bullish = Math.random() > 0.5;
+        bias.textContent = bullish ? 'Bullish' : 'Bearish';
+        bias.className = bullish ? 'bias-up' : 'red';
+        confidence.textContent = (70 + Math.floor(Math.random() * 21)) + '%';
+
+        loading.classList.add('hidden');
+        result.classList.remove('hidden');
+      }, 1800);
+    }
+
+    function copyReferral() {
+      const text = 'GOAT-TSHEPANG-10';
+      navigator.clipboard.writeText(text).then(() => {
+        alert('Referral code copied');
+      }).catch(() => {
+        alert('Copied: ' + text);
+      });
+    }
+
+    const activities = [
+      'Someone in Johannesburg unlocked US30 analysis',
+      'Someone in Cape Town scanned XAUUSD',
+      'Someone in Durban got 78% bearish on NAS100',
+      'Someone in Bloemfontein unlocked sniper setup',
+      'Someone in Pretoria scanned GBPJPY'
+    ];
+
+    let activityIndex = 0;
+    setInterval(() => {
+      activityIndex = (activityIndex + 1) % activities.length;
+      document.getElementById('activityText').textContent = activities[activityIndex];
+    }, 3000);
+  </script>
 </body>
 </html>
