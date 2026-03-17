@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GOAT Sniper AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b0f14;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      color: #00ff9d;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.05);
+      margin: 20px;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,255,150,0.1);
+    }
+
+    button {
+      background: #00ff9d;
+      border: none;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .locked {
+      filter: blur(6px);
+    }
+
+    .nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #111;
+      display: flex;
+      justify-content: space-around;
+      padding: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>GOAT Sniper AI 🐐</h1>
+<p>Upload your chart. Unlock the setup.</p>
+
+<div class="card">
+  <input type="file" id="upload"><br>
+  <button onclick="scan()">Analyze Chart</button>
+</div>
+
+<div id="loading" class="card" style="display:none;">
+  <p>Analyzing...</p>
+  <p>✔ Reading structure</p>
+  <p>✔ Detecting liquidity</p>
+  <p>✔ Generating setup</p>
+</div>
+
+<div id="result" class="card" style="display:none;">
+  <h3>US30 • M1</h3>
+  <p>Bias: Bullish</p>
+  <p>Confidence: 72%</p>
+
+  <div id="lockedData" class="locked">
+    <p>Entry: 46918.50</p>
+    <p>TP: 46944.35</p>
+    <p>SL: 46892.65</p>
+    <p>RR: 1:2.2</p>
+  </div>
+
+  <p>🔒 Unlock full setup</p>
+  <button onclick="unlock()">Subscribe R199/month</button>
+</div>
+
+<div class="card">
+  <h3>Referral</h3>
+  <p>Earn 10 tokens per friend</p>
+  <p>100 tokens = 3 free scans</p>
+</div>
+
+<div class="nav">
+  <span>Home</span>
+  <span>Scan</span>
+  <span>Pricing</span>
+  <span>Refer</span>
+</div>
+
+<script>
+function scan() {
+  document.getElementById("loading").style.display = "block";
+
+  setTimeout(() => {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("result").style.display = "block";
+  }, 2000);
+}
+
+function unlock() {
+  alert("Payment system next step");
+}
+</script>
+
+</body>
+</html>
