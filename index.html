@@ -10,117 +10,141 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    :root {
+      --bg-1: #020705;
+      --bg-2: #071711;
+      --card: rgba(16, 20, 28, 0.9);
+      --card-2: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.06);
+      --text: #ffffff;
+      --muted: #9ca5b0;
+      --green: #00f5a0;
+      --green-soft: rgba(0, 245, 160, 0.12);
+      --red: #ff5f73;
+      --blue: #67a8ff;
+      --gold: #ffca62;
+    }
+
+    html, body {
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      color: white;
+      color: var(--text);
       background:
-        radial-gradient(circle at top, rgba(0,255,174,0.12), transparent 30%),
-        linear-gradient(180deg, #03110d 0%, #000000 55%, #02070a 100%);
+        radial-gradient(circle at top, rgba(0,245,160,0.14), transparent 28%),
+        radial-gradient(circle at bottom, rgba(0,120,255,0.08), transparent 22%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 55%, #000000 100%);
       min-height: 100vh;
+    }
+
+    body {
       padding-bottom: 120px;
     }
 
     .container {
       width: 100%;
-      max-width: 430px;
+      max-width: 440px;
       margin: 0 auto;
-      padding: 22px 16px 30px;
+      padding: 18px 16px 28px;
     }
 
-    .title {
+    .top-badge {
+      width: fit-content;
+      margin: 6px auto 14px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,245,160,0.24);
+      background: rgba(255,255,255,0.03);
+      color: #c8ffeb;
+      font-size: 13px;
+      box-shadow: 0 0 18px rgba(0,245,160,0.08);
+    }
+
+    .logo {
       text-align: center;
-      font-size: 40px;
-      font-weight: 800;
-      color: #00ffae;
-      text-shadow: 0 0 18px rgba(0,255,174,0.5);
-      margin: 10px 0 8px;
+      font-size: 42px;
+      font-weight: 900;
+      color: var(--green);
+      text-shadow: 0 0 20px rgba(0,245,160,0.45);
+      margin: 4px 0 10px;
     }
 
     .subtitle {
       text-align: center;
-      color: #d8d8d8;
-      font-size: 16px;
-      margin-bottom: 20px;
+      font-size: 17px;
+      color: #d7dde4;
+      margin: 0 0 20px;
     }
 
-    .badge {
-      width: fit-content;
-      margin: 0 auto 18px;
-      border: 1px solid rgba(0,255,174,0.2);
-      color: #bafbe5;
-      background: rgba(255,255,255,0.04);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      box-shadow: 0 0 14px rgba(0,255,174,0.08);
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
     }
 
     .card {
-      background: rgba(18, 20, 28, 0.88);
-      border: 1px solid rgba(255,255,255,0.05);
+      background: var(--card);
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 18px;
       margin-bottom: 16px;
       box-shadow:
         0 0 0 1px rgba(255,255,255,0.02),
-        0 0 22px rgba(0,255,174,0.09);
+        0 0 24px rgba(0,245,160,0.08);
       backdrop-filter: blur(10px);
     }
 
     .section-title {
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 800;
-      margin: 0 0 8px;
+      margin: 0 0 10px;
     }
 
     .muted {
-      color: #a7adb7;
+      color: var(--muted);
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    .upload-wrap {
+    .activity {
+      margin-top: 14px;
+      padding: 11px 14px;
+      border-radius: 999px;
+      background: var(--green-soft);
+      border: 1px solid rgba(0,245,160,0.14);
+      color: #cbffeb;
       text-align: center;
-      padding: 12px 0 4px;
+      font-size: 13px;
+    }
+
+    .features {
+      margin: 10px 0 0;
+      padding-left: 18px;
+      color: #d7dde4;
+      font-size: 14px;
+      line-height: 1.8;
+    }
+
+    .upload-card {
+      text-align: center;
+      padding-top: 8px;
+    }
+
+    .upload-box {
+      padding: 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.025);
+      border: 1px dashed rgba(0,245,160,0.2);
+      margin-top: 14px;
+      box-shadow: inset 0 0 18px rgba(0,245,160,0.03);
     }
 
     input[type="file"] {
       width: 100%;
-      color: #c9d0d8;
+      color: #d8dee5;
       margin-bottom: 14px;
-    }
-
-    .btn {
-      width: 100%;
-      border: none;
-      border-radius: 16px;
-      padding: 16px;
-      font-size: 17px;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .btn-primary {
-      background: #00ffae;
-      color: #04110c;
-      box-shadow: 0 0 18px rgba(0,255,174,0.35);
-    }
-
-    .btn-dark {
-      background: #111722;
-      color: white;
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: #00ffae;
-      border: 1px solid rgba(0,255,174,0.28);
-    }
-
-    .btn + .btn {
-      margin-top: 10px;
     }
 
     .chips {
@@ -132,12 +156,59 @@
     }
 
     .chip {
+      font-size: 12px;
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: 12px;
-      color: #bfc6cf;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.035);
+      border: 1px solid rgba(255,255,255,0.05);
+      color: #b8c1cb;
+    }
+
+    .btn {
+      width: 100%;
+      display: inline-block;
+      border: none;
+      border-radius: 18px;
+      padding: 16px;
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--green);
+      color: #03110b;
+      box-shadow: 0 0 22px rgba(0,245,160,0.32);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.99);
+    }
+
+    .btn-dark {
+      background: #111823;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--green);
+      border: 1px solid rgba(0,245,160,0.24);
+    }
+
+    .btn + .btn,
+    .btn + a,
+    a + .btn,
+    a + a {
+      margin-top: 10px;
+    }
+
+    .hidden {
+      display: none;
     }
 
     .summary {
@@ -146,51 +217,40 @@
 
     .pair {
       font-size: 34px;
-      font-weight: 800;
+      font-weight: 900;
       margin: 0 0 6px;
     }
 
     .bias-up {
-      color: #00ffae;
-      font-weight: 700;
+      color: var(--green);
+      font-weight: 800;
+    }
+
+    .bias-down {
+      color: var(--red);
+      font-weight: 800;
     }
 
     .confidence {
-      font-size: 30px;
-      font-weight: 800;
+      font-size: 31px;
+      font-weight: 900;
       margin: 10px 0 4px;
     }
 
     .lock-box {
-      margin-top: 18px;
+      margin-top: 16px;
       padding: 18px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
+      border-radius: 20px;
+      background: var(--card-2);
       border: 1px solid rgba(255,255,255,0.06);
-      position: relative;
       overflow: hidden;
     }
 
     .blurred {
       filter: blur(7px);
       opacity: 0.45;
-      user-select: none;
       pointer-events: none;
-    }
-
-    .lock-note {
-      margin-top: 14px;
-      text-align: center;
-      font-size: 17px;
-      font-weight: 700;
-    }
-
-    .small-note {
-      text-align: center;
-      color: #aab2bc;
-      font-size: 13px;
-      margin-top: 6px;
-      margin-bottom: 14px;
+      user-select: none;
     }
 
     .grid {
@@ -201,34 +261,41 @@
     }
 
     .mini {
-      background: rgba(255,255,255,0.03);
-      border-radius: 18px;
       padding: 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
       border: 1px solid rgba(255,255,255,0.05);
     }
 
     .mini-label {
-      color: #8f97a1;
       font-size: 12px;
+      color: #8f98a2;
       margin-bottom: 6px;
     }
 
     .mini-value {
       font-size: 22px;
+      font-weight: 900;
+    }
+
+    .green { color: var(--green); }
+    .red { color: var(--red); }
+    .blue { color: var(--blue); }
+    .gold { color: var(--gold); }
+
+    .lock-note {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 18px;
       font-weight: 800;
     }
 
-    .green { color: #00ffae; }
-    .red { color: #ff5d73; }
-    .blue { color: #65a9ff; }
-    .gold { color: #ffcb5b; }
-
-    .list {
-      margin: 12px 0 0;
-      padding-left: 18px;
-      color: #d7dde4;
-      line-height: 1.7;
-      font-size: 14px;
+    .small-note {
+      text-align: center;
+      color: #abb3bc;
+      font-size: 13px;
+      line-height: 1.6;
+      margin: 8px 0 14px;
     }
 
     .plan {
@@ -241,36 +308,37 @@
     }
 
     .plan.popular {
-      border: 1px solid rgba(0,255,174,0.35);
-      box-shadow: 0 0 24px rgba(0,255,174,0.12);
+      border-color: rgba(0,245,160,0.35);
+      box-shadow: 0 0 24px rgba(0,245,160,0.10);
     }
 
     .tag {
       display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 7px 10px;
+      padding: 7px 11px;
       border-radius: 999px;
-      background: rgba(0,255,174,0.12);
-      color: #aef8e2;
+      background: rgba(0,245,160,0.12);
+      color: #bafbe7;
+      font-size: 11px;
+      font-weight: 800;
       margin-bottom: 10px;
     }
 
     .plan h3 {
       margin: 0 0 6px;
-      font-size: 24px;
+      font-size: 25px;
     }
 
     .price {
       font-size: 34px;
-      font-weight: 800;
-      margin: 8px 0;
+      font-weight: 900;
+      margin: 8px 0 4px;
     }
 
     .price-sub {
-      color: #98a0aa;
       font-size: 13px;
+      color: #98a1aa;
       margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     .progress {
@@ -285,40 +353,21 @@
     .progress-fill {
       width: 40%;
       height: 100%;
-      background: linear-gradient(90deg, #00ffae, #53ffd2);
-      box-shadow: 0 0 14px rgba(0,255,174,0.35);
-    }
-
-    .activity {
-      font-size: 13px;
-      color: #cbfdea;
-      text-align: center;
-      margin-top: 8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: rgba(0,255,174,0.07);
-      border: 1px solid rgba(0,255,174,0.14);
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
+      background: linear-gradient(90deg, var(--green), #4dffd0);
+      box-shadow: 0 0 14px rgba(0,245,160,0.35);
     }
 
     .footer {
       text-align: center;
-      color: #8e96a0;
+      color: #8e97a1;
       font-size: 13px;
-      margin: 26px 0 10px;
       line-height: 1.7;
+      margin: 24px 0 8px;
     }
 
     .founder {
-      color: #d7ffe7;
-      font-weight: 700;
+      color: #d8ffea;
+      font-weight: 800;
     }
 
     .bottom-nav {
@@ -327,14 +376,14 @@
       transform: translateX(-50%);
       bottom: 12px;
       width: calc(100% - 16px);
-      max-width: 430px;
+      max-width: 440px;
       background: rgba(5,8,12,0.96);
       border: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 0 25px rgba(0,0,0,0.45);
       border-radius: 22px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+      box-shadow: 0 0 25px rgba(0,0,0,0.45);
       z-index: 999;
       backdrop-filter: blur(12px);
     }
@@ -342,7 +391,7 @@
     .nav-btn {
       background: transparent;
       border: none;
-      color: #b5bcc4;
+      color: #b7c0c9;
       font-size: 13px;
       padding: 10px 4px;
       border-radius: 14px;
@@ -350,33 +399,29 @@
     }
 
     .nav-btn.active {
-      color: #00ffae;
-      background: rgba(0,255,174,0.08);
-      font-weight: 700;
-    }
-
-    .hidden {
-      display: none;
+      color: var(--green);
+      background: rgba(0,245,160,0.08);
+      font-weight: 800;
     }
 
     @media (max-width: 380px) {
-      .title { font-size: 34px; }
-      .pair { font-size: 30px; }
+      .logo { font-size: 35px; }
+      .pair { font-size: 29px; }
       .price { font-size: 30px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="badge">Used by 500+ traders</div>
-    <div class="title">GOAT Sniper AI 🐐</div>
+    <div class="top-badge">Used by 500+ traders</div>
+    <div class="logo">GOAT Sniper AI 🐐</div>
     <div class="subtitle">Upload your chart. Unlock the setup.</div>
 
     <div id="homeScreen" class="screen active">
       <div class="card">
-        <div class="section-title">Sniper-level chart scans</div>
+        <div class="section-title">Premium sniper-level chart scans</div>
         <div class="muted">
-          AI-style forex analysis for quick market bias, entry ideas, stop loss, take profit, and premium locked setups.
+          GOAT Sniper AI gives traders quick bias detection, premium setup previews, locked sniper entries, and subscription-based access to premium analysis.
         </div>
         <div class="activity" id="activityText">
           Someone in Johannesburg unlocked US30 analysis
@@ -385,11 +430,11 @@
 
       <div class="card">
         <div class="section-title">Why traders join</div>
-        <div class="list">
-          • Fast chart breakdowns<br>
-          • Locked premium setups<br>
-          • Trial before paying<br>
-          • Earn tokens by referrals
+        <div class="features">
+          • Smart, fast chart scans<br>
+          • Premium locked setups<br>
+          • Monthly and yearly plans<br>
+          • Referral rewards for growth
         </div>
       </div>
 
@@ -400,11 +445,11 @@
     </div>
 
     <div id="scanScreen" class="screen">
-      <div class="card">
+      <div class="card upload-card">
         <div class="section-title">Upload your chart</div>
         <div class="muted">PNG or JPG • MT5 • TradingView • cTrader</div>
 
-        <div class="upload-wrap">
+        <div class="upload-box">
           <input type="file" id="fileInput" />
           <button class="btn btn-primary" onclick="analyzeChart()">Analyze Chart</button>
           <div class="chips">
@@ -419,7 +464,7 @@
 
       <div class="card hidden" id="loadingCard">
         <div class="section-title">Analyzing...</div>
-        <div class="list">
+        <div class="features">
           • Reading price action<br>
           • Mapping market structure<br>
           • Detecting order blocks<br>
@@ -430,8 +475,8 @@
 
       <div class="card hidden" id="resultCard">
         <div class="summary">
-          <div class="pair" id="pairText">US30 • M1</div>
-          <div>Bias: <span class="bias-up" id="biasText">Bullish</span></div>
+          <div class="pair">US30 • M1</div>
+          <div>Bias: <span id="biasText" class="bias-up">Bullish</span></div>
           <div class="confidence" id="confidenceText">72%</div>
           <div class="muted">Confidence score</div>
         </div>
@@ -459,10 +504,14 @@
           </div>
 
           <div class="lock-note">🔒 Unlock full sniper setup</div>
-          <div class="small-note">Start your 7-day free trial. Billing begins after trial ends.</div>
-          <button class="btn btn-primary" onclick="startTrial()">
-            Start 7-Day Free Trial
-          </button>
+          <div class="small-note">
+            Premium billing is now live. Tap below to subscribe through secure checkout.
+          </div>
+
+          <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
+            Subscribe Now
+          </a>
+
           <button class="btn btn-dark" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
             View all plans
           </button>
@@ -478,38 +527,42 @@
       <div class="card">
         <div class="section-title">Choose your plan</div>
         <div class="muted">
-          Secure billing should be handled by your payment provider. Users can start with a free trial, then continue monthly or yearly.
+          Premium access is available through secure subscription checkout.
         </div>
 
         <div class="plan popular">
           <div class="tag">MOST POPULAR</div>
           <h3 class="green">Monthly Premium</h3>
-          <div class="price">R199<span style="font-size:16px; color:#98a0aa;">/month</span></div>
-          <div class="price-sub">7-day free trial, then monthly billing starts automatically</div>
-          <div class="list">
-            • Full premium setup unlocks<br>
-            • Unlimited premium access feel<br>
-            • Fast chart scans<br>
-            • Sniper setup insights
+          <div class="price">R199<span style="font-size:16px;color:#98a1aa;">/month</span></div>
+          <div class="price-sub">
+            Premium sniper setups, fast chart scans, and locked analysis access.
           </div>
-          <button class="btn btn-primary" onclick="startTrial()">
-            Start 7-Day Trial
-          </button>
+          <div class="features">
+            • Premium setup unlocks<br>
+            • Sniper entry access<br>
+            • High-conversion checkout<br>
+            • GOAT member access
+          </div>
+          <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
+            Start Premium
+          </a>
         </div>
 
         <div class="plan">
           <h3 class="blue">Yearly Premium</h3>
-          <div class="price">R1,999<span style="font-size:16px; color:#98a0aa;">/year</span></div>
-          <div class="price-sub">Best value for serious traders</div>
-          <div class="list">
-            • Everything in monthly<br>
-            • Save more over the year<br>
-            • Premium member access<br>
-            • Long-term trader plan
+          <div class="price">R1,999<span style="font-size:16px;color:#98a1aa;">/year</span></div>
+          <div class="price-sub">
+            For serious traders. Best long-term value.
           </div>
-          <button class="btn btn-outline" onclick="alert('Yearly payment integration is next step')">
-            Choose Yearly
-          </button>
+          <div class="features">
+            • Everything in monthly<br>
+            • Lower yearly cost<br>
+            • Premium trader status<br>
+            • Long-term access
+          </div>
+          <a class="btn btn-outline" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
+            Join Now
+          </a>
         </div>
       </div>
 
@@ -581,7 +634,7 @@
       setTimeout(() => {
         const bullish = Math.random() > 0.5;
         bias.textContent = bullish ? 'Bullish' : 'Bearish';
-        bias.className = bullish ? 'bias-up' : 'red';
+        bias.className = bullish ? 'bias-up' : 'bias-down';
         confidence.textContent = (70 + Math.floor(Math.random() * 21)) + '%';
 
         loading.classList.add('hidden');
@@ -596,10 +649,6 @@
       }).catch(() => {
         alert('Copied: ' + text);
       });
-    }
-
-    function startTrial() {
-      alert('7-day free trial flow added. Next step is connecting a real payment provider checkout for automatic billing.');
     }
 
     const activities = [
