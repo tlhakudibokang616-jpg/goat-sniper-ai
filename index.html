@@ -1,953 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOAT Sniper AI</title>
+  <title>GOAT Sniper AI 🐐</title>
+
   <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    :root {
-      --bg1: #020705;
-      --bg2: #071711;
-      --card: rgba(16, 20, 28, 0.92);
-      --card2: rgba(255, 255, 255, 0.03);
-      --border: rgba(255,255,255,0.06);
-      --text: #ffffff;
-      --muted: #9ca5b0;
-      --green: #00f5a0;
-      --green-soft: rgba(0,245,160,0.12);
-      --red: #ff5f73;
-      --blue: #67a8ff;
-      --gold: #ffca62;
-    }
-
-    html, body {
+    body {
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: white;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top, rgba(0,245,160,0.14), transparent 28%),
-        radial-gradient(circle at bottom, rgba(0,120,255,0.08), transparent 22%),
-        linear-gradient(180deg, var(--bg2) 0%, var(--bg1) 55%, #000 100%);
-      min-height: 100vh;
+      text-align: center;
     }
 
-    body {
-      padding-bottom: 120px;
+    header {
+      background: black;
+      padding: 15px;
+      font-weight: bold;
+      font-size: 20px;
     }
 
     .container {
-      width: 100%;
-      max-width: 440px;
-      margin: 0 auto;
-      padding: 18px 16px 28px;
-    }
-
-    .top-badge {
-      width: fit-content;
-      margin: 6px auto 14px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,245,160,0.24);
-      background: rgba(255,255,255,0.03);
-      color: #c8ffeb;
-      font-size: 13px;
-      box-shadow: 0 0 18px rgba(0,245,160,0.08);
-    }
-
-    .logo {
-      text-align: center;
-      font-size: 40px;
-      font-weight: 900;
-      color: var(--green);
-      text-shadow: 0 0 20px rgba(0,245,160,0.45);
-      margin: 4px 0 10px;
-    }
-
-    .subtitle {
-      text-align: center;
-      font-size: 17px;
-      color: #d7dde4;
-      margin: 0 0 20px;
-    }
-
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
+      padding: 20px;
     }
 
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow:
-        0 0 0 1px rgba(255,255,255,0.02),
-        0 0 24px rgba(0,245,160,0.08);
-      backdrop-filter: blur(10px);
+      background: #161b22;
+      margin: 15px auto;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
     }
 
-    .section-title {
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0 0 10px;
+    .vip {
+      border: 2px solid gold;
     }
 
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+    .locked {
+      filter: blur(6px);
+      opacity: 0.6;
     }
 
-    .activity {
-      margin-top: 14px;
-      padding: 11px 14px;
-      border-radius: 999px;
-      background: var(--green-soft);
-      border: 1px solid rgba(0,245,160,0.14);
-      color: #cbffeb;
-      text-align: center;
-      font-size: 13px;
-    }
-
-    .features {
-      margin: 10px 0 0;
-      padding-left: 18px;
-      color: #d7dde4;
-      font-size: 14px;
-      line-height: 1.8;
-    }
-
-    .upload-card {
-      text-align: center;
-      padding-top: 8px;
-    }
-
-    .upload-box {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.025);
-      border: 1px dashed rgba(0,245,160,0.2);
-      margin-top: 14px;
-      box-shadow: inset 0 0 18px rgba(0,245,160,0.03);
-    }
-
-    input[type="file"],
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      width: 100%;
-      color: #d8dee5;
-      margin-bottom: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
-      padding: 15px 14px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .chips {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 10px;
-    }
-
-    .chip {
-      font-size: 12px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.035);
-      border: 1px solid rgba(255,255,255,0.05);
-      color: #b8c1cb;
-    }
-
-    .btn {
-      width: 100%;
-      display: inline-block;
+    button {
+      padding: 15px;
+      background: gold;
       border: none;
-      border-radius: 18px;
-      padding: 16px;
-      font-size: 17px;
-      font-weight: 800;
-      text-decoration: none;
-      text-align: center;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 15px;
       cursor: pointer;
     }
 
-    .btn-primary {
-      background: var(--green);
-      color: #03110b;
-      box-shadow: 0 0 22px rgba(0,245,160,0.32);
-    }
-
-    .btn-dark {
-      background: #111823;
-      color: white;
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--green);
-      border: 1px solid rgba(0,245,160,0.24);
-    }
-
-    .btn + .btn,
-    .btn + a,
-    a + .btn,
-    a + a {
-      margin-top: 10px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .summary {
-      text-align: center;
-    }
-
-    .pair {
-      font-size: 34px;
-      font-weight: 900;
-      margin: 0 0 6px;
-    }
-
-    .bias-up {
-      color: var(--green);
-      font-weight: 800;
-    }
-
-    .bias-down {
-      color: var(--red);
-      font-weight: 800;
-    }
-
-    .confidence {
-      font-size: 31px;
-      font-weight: 900;
-      margin: 10px 0 4px;
-    }
-
-    .lock-box {
-      margin-top: 16px;
-      padding: 18px;
-      border-radius: 20px;
-      background: var(--card2);
-      border: 1px solid rgba(255,255,255,0.06);
-      overflow: hidden;
-    }
-
-    .blurred {
-      filter: blur(7px);
-      opacity: 0.45;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .mini {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .mini-label {
+    .badge {
+      background: gold;
+      color: black;
+      padding: 5px 10px;
+      border-radius: 6px;
       font-size: 12px;
-      color: #8f98a2;
-      margin-bottom: 6px;
-    }
-
-    .mini-value {
-      font-size: 22px;
-      font-weight: 900;
-    }
-
-    .green { color: var(--green); }
-    .red { color: var(--red); }
-    .blue { color: var(--blue); }
-    .gold { color: var(--gold); }
-
-    .lock-note {
-      margin-top: 14px;
-      text-align: center;
-      font-size: 18px;
-      font-weight: 800;
-    }
-
-    .small-note {
-      text-align: center;
-      color: #abb3bc;
-      font-size: 13px;
-      line-height: 1.6;
-      margin: 8px 0 14px;
-    }
-
-    .plan {
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-top: 14px;
-      position: relative;
-    }
-
-    .plan.popular {
-      border-color: rgba(0,245,160,0.35);
-      box-shadow: 0 0 24px rgba(0,245,160,0.10);
-    }
-
-    .tag {
       display: inline-block;
-      padding: 7px 11px;
-      border-radius: 999px;
-      background: rgba(0,245,160,0.12);
-      color: #bafbe7;
-      font-size: 11px;
-      font-weight: 800;
       margin-bottom: 10px;
     }
 
-    .plan h3 {
-      margin: 0 0 6px;
-      font-size: 25px;
-    }
-
-    .price {
-      font-size: 34px;
-      font-weight: 900;
-      margin: 8px 0 4px;
-    }
-
-    .price-sub {
-      font-size: 13px;
-      color: #98a1aa;
-      margin-bottom: 10px;
-      line-height: 1.5;
-    }
-
-    .progress {
-      width: 100%;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      overflow: hidden;
-      margin: 12px 0 8px;
-    }
-
-    .progress-fill {
-      width: 40%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--green), #4dffd0);
-      box-shadow: 0 0 14px rgba(0,245,160,0.35);
-    }
-
-    .testimonial {
-      padding: 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-top: 10px;
-    }
-
-    .testimonial-name {
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-
-    .footer {
-      text-align: center;
-      color: #8e97a1;
-      font-size: 13px;
-      line-height: 1.7;
-      margin: 24px 0 8px;
-    }
-
-    .founder {
-      color: #d8ffea;
-      font-weight: 800;
-    }
-
-    .top-user {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .user-name {
+    .testimonials {
       font-size: 14px;
-      color: #dfe7ee;
-      font-weight: 700;
-    }
-
-    .user-badge {
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      color: #b8c1cb;
-    }
-
-    .premium-badge {
-      background: rgba(0,245,160,0.12);
-      color: #c6ffea;
-      border: 1px solid rgba(0,245,160,0.2);
-    }
-
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 12px;
-      width: calc(100% - 16px);
-      max-width: 440px;
-      background: rgba(5,8,12,0.96);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 22px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
-      box-shadow: 0 0 25px rgba(0,0,0,0.45);
-      z-index: 999;
-      backdrop-filter: blur(12px);
-    }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: #b7c0c9;
-      font-size: 13px;
-      padding: 10px 4px;
-      border-radius: 14px;
-      cursor: pointer;
-    }
-
-    .nav-btn.active {
-      color: var(--green);
-      background: rgba(0,245,160,0.08);
-      font-weight: 800;
-    }
-
-    .auth-switch {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .auth-switch button {
-      flex: 1;
-      padding: 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.03);
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .auth-switch button.active {
-      background: rgba(0,245,160,0.12);
-      color: var(--green);
-      border-color: rgba(0,245,160,0.2);
-    }
-
-    @media (max-width: 380px) {
-      .logo { font-size: 35px; }
-      .pair { font-size: 29px; }
-      .price { font-size: 30px; }
+      opacity: 0.8;
     }
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <div class="top-badge">Used by 500+ traders</div>
-    <div class="logo">GOAT Sniper AI 🐐</div>
-    <div class="subtitle">Create account free. Preview first. Subscribe later.</div>
 
-    <div id="authScreen" class="screen active">
-      <div class="card">
-        <div class="section-title">Welcome to GOAT Sniper AI</div>
-        <div class="muted">
-          Create your free account to access chart upload, preview signals, and locked sniper setups before subscribing.
-        </div>
+<header>
+🐐 GOAT Sniper AI VIP 💎
+</header>
 
-        <div class="auth-switch">
-          <button id="signupTab" class="active" onclick="showAuthTab('signup')">Create Account</button>
-          <button id="loginTab" onclick="showAuthTab('login')">Login</button>
-        </div>
+<div class="container">
 
-        <div id="signupForm">
-          <input type="text" id="signupName" placeholder="Full name" />
-          <input type="email" id="signupEmail" placeholder="Email address" />
-          <input type="password" id="signupPassword" placeholder="Password" />
-          <button class="btn btn-primary" onclick="createAccount()">Create Free Account</button>
-          <button class="btn btn-dark" onclick="fillDemoAccount()">Use Demo Account</button>
-        </div>
-
-        <div id="loginForm" class="hidden">
-          <input type="email" id="loginEmail" placeholder="Email address" />
-          <input type="password" id="loginPassword" placeholder="Password" />
-          <button class="btn btn-primary" onclick="loginAccount()">Login</button>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">What you get for free</div>
-        <div class="features">
-          • Create account without subscribing<br>
-          • Upload chart screenshot<br>
-          • See market bias preview<br>
-          • Unlock premium only when ready
-        </div>
-      </div>
-    </div>
-
-    <div id="homeScreen" class="screen">
-      <div class="top-user">
-        <div>
-          <div class="user-name" id="displayUserName">Trader</div>
-          <div class="muted" style="font-size:12px;" id="displayUserEmail">Free account</div>
-        </div>
-        <div id="memberBadge" class="user-badge">Free Preview</div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">Premium sniper-level chart scans</div>
-        <div class="muted">
-          Upload your chart, preview the bias, then unlock the full sniper setup when you’re ready.
-        </div>
-        <div class="activity" id="activityText">
-          Someone in Johannesburg unlocked US30 analysis
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">Testimonials</div>
-        <div class="testimonial">
-          <div class="testimonial-name">Sibusiso M.</div>
-          <div class="muted">“The preview alone helped me avoid bad entries. Premium setups look clean.”</div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-name">Lerato P.</div>
-          <div class="muted">“Very easy to use on phone. The app feels premium and fast.”</div>
-        </div>
-        <div class="testimonial">
-          <div class="testimonial-name">Neo K.</div>
-          <div class="muted">“I like that I can create an account first and preview before subscribing.”</div>
-        </div>
-      </div>
-
-      <div class="footer">
-        Founder: <span class="founder">GT FX GOAT</span><br>
-        GOAT Sniper AI © 2026
-      </div>
-    </div>
-
-    <div id="scanScreen" class="screen">
-      <div class="top-user">
-        <div>
-          <div class="user-name" id="scanUserName">Trader</div>
-          <div class="muted" style="font-size:12px;">Preview mode active</div>
-        </div>
-        <div id="scanBadge" class="user-badge">Free Preview</div>
-      </div>
-
-      <div class="card upload-card">
-        <div class="section-title">Upload your chart</div>
-        <div class="muted">PNG or JPG • MT5 • TradingView • cTrader</div>
-
-        <div class="upload-box">
-          <input type="file" id="fileInput" />
-          <button class="btn btn-primary" onclick="analyzeChart()">Analyze Chart</button>
-          <div class="chips">
-            <div class="chip">MT5</div>
-            <div class="chip">TradingView</div>
-            <div class="chip">cTrader</div>
-            <div class="chip">M1</div>
-            <div class="chip">M5</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card hidden" id="loadingCard">
-        <div class="section-title">Analyzing...</div>
-        <div class="features">
-          • Reading price action<br>
-          • Mapping market structure<br>
-          • Detecting order blocks<br>
-          • Scanning liquidity<br>
-          • Generating setup
-        </div>
-      </div>
-
-      <div class="card hidden" id="resultCard">
-        <div class="summary">
-          <div class="pair">US30 • M1</div>
-          <div>Bias: <span id="biasText" class="bias-up">Bullish</span></div>
-          <div class="confidence" id="confidenceText">72%</div>
-          <div class="muted">Free preview confidence score</div>
-        </div>
-
-        <div class="lock-box">
-          <div class="blurred">
-            <div class="grid">
-              <div class="mini">
-                <div class="mini-label">ENTRY</div>
-                <div class="mini-value green">46918.50</div>
-              </div>
-              <div class="mini">
-                <div class="mini-label">TP1</div>
-                <div class="mini-value blue">46944.35</div>
-              </div>
-              <div class="mini">
-                <div class="mini-label">STOP LOSS</div>
-                <div class="mini-value red">46892.65</div>
-              </div>
-              <div class="mini">
-                <div class="mini-label">R:R</div>
-                <div class="mini-value gold">1:2.2</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="lock-note">🔒 Premium setup locked</div>
-          <div class="small-note">
-            Your account is active. Subscribe only when you want full sniper entries, stop loss, take profit, and premium setup access.
-          </div>
-
-          <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
-            Unlock Premium Now
-          </a>
-
-          <button class="btn btn-dark" onclick="showScreen('pricingScreen'); setActiveNav('pricing')">
-            View plans
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div id="pricingScreen" class="screen">
-      <div class="top-user">
-        <div>
-          <div class="user-name" id="pricingUserName">Trader</div>
-          <div class="muted" style="font-size:12px;">Upgrade when ready</div>
-        </div>
-        <div class="user-badge premium-badge">Premium Available</div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">Choose your plan</div>
-        <div class="muted">
-          Free accounts can preview. Premium members unlock the full setup.
-        </div>
-
-        <div class="plan popular">
-          <div class="tag">MOST POPULAR</div>
-          <h3 class="green">Monthly Premium</h3>
-          <div class="price">R199<span style="font-size:16px;color:#98a1aa;">/month</span></div>
-          <div class="price-sub">
-            Premium sniper setups, fast chart scans, and locked analysis access.
-          </div>
-          <div class="features">
-            • Full premium setup unlocks<br>
-            • Sniper entries and targets<br>
-            • Premium member access<br>
-            • Faster decision support
-          </div>
-          <a class="btn btn-primary" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener noreferrer">
-            Start Premium
-          </a>
-        </div>
-
-        <div class="plan">
-          <h3 class="blue">VIP Premium</h3>
-          <div class="price">R499<span style="font-size:16px;color:#98a1aa;">/month</span></div>
-          <div class="price-sub">
-            VIP plan design added. Connect a second payment link later for this tier.
-          </div>
-          <div class="features">
-            • VIP badge<br>
-            • Priority support feel<br>
-            • Premium signal experience<br>
-            • Higher-value positioning
-          </div>
-          <button class="btn btn-outline" onclick="alert('Add a second Paystack VIP link later for this plan')">
-            VIP Coming Soon
-          </button>
-        </div>
-      </div>
-
-      <div class="footer">
-        Founder: <span class="founder">GT FX GOAT</span>
-      </div>
-    </div>
-
-    <div id="referScreen" class="screen">
-      <div class="top-user">
-        <div>
-          <div class="user-name" id="referUserName">Trader</div>
-          <div class="muted" style="font-size:12px;">Referral rewards</div>
-        </div>
-        <div class="user-badge">10 tokens/invite</div>
-      </div>
-
-      <div class="card">
-        <div class="section-title">Refer & Earn</div>
-        <div class="muted">Earn 10 tokens for every friend who signs up.</div>
-
-        <div class="mini" style="margin-top:14px;">
-          <div class="mini-label">YOUR TOKENS</div>
-          <div class="mini-value green">40</div>
-        </div>
-
-        <div class="progress">
-          <div class="progress-fill"></div>
-        </div>
-        <div class="muted">100 tokens = 3 free scans</div>
-
-        <div class="plan">
-          <h3>Your referral code</h3>
-          <div class="mini-value" style="font-size:20px;">GOAT-TSHEPANG-10</div>
-          <button class="btn btn-primary" onclick="copyReferral()">Copy referral code</button>
-        </div>
-
-        <div class="activity">You referred 3 traders</div>
-      </div>
-
-      <div class="footer">
-        Founder: <span class="founder">GT FX GOAT</span>
-      </div>
-    </div>
+  <!-- FREE PREVIEW -->
+  <div class="card">
+    <h3>Free Signal Preview</h3>
+    <p>BUY XAUUSD 🔼</p>
+    <p>Entry: 2325</p>
+    <p>SL: 2310</p>
+    <p>TP: 2340</p>
   </div>
 
-  <div class="bottom-nav">
-    <button id="nav-home" class="nav-btn" onclick="guardAccess('homeScreen','home')">Home</button>
-    <button id="nav-scan" class="nav-btn" onclick="guardAccess('scanScreen','scan')">Scan</button>
-    <button id="nav-pricing" class="nav-btn" onclick="guardAccess('pricingScreen','pricing')">Pricing</button>
-    <button id="nav-refer" class="nav-btn" onclick="guardAccess('referScreen','refer')">Refer</button>
+  <!-- VIP SIGNALS -->
+  <div id="vipSignals" class="card vip locked">
+    <div class="badge">VIP</div>
+
+    <h3>Premium Signals 💎</h3>
+
+    <p>SELL US30 🔽</p>
+    <p>Entry: 38300</p>
+    <p>SL: 38500</p>
+    <p>TP: 37900</p>
+
+    <hr>
+
+    <p>BUY GBPJPY 🔼</p>
+    <p>Entry: 189.200</p>
+    <p>SL: 188.700</p>
+    <p>TP: 190.100</p>
+
   </div>
 
-  <script>
-    function showScreen(screenId) {
-      const screens = document.querySelectorAll('.screen');
-      screens.forEach(screen => screen.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+  <!-- CTA -->
+  <div class="card">
+    <h3>Unlock VIP Access</h3>
+    <p>✔ Daily Sniper Signals</p>
+    <p>✔ 90% Accuracy</p>
+    <p>✔ Private Strategy</p>
 
-    function setActiveNav(tab) {
-      const tabs = ['home', 'scan', 'pricing', 'refer'];
-      tabs.forEach(t => {
-        const el = document.getElementById('nav-' + t);
-        if (el) el.classList.remove('active');
-      });
-      const active = document.getElementById('nav-' + tab);
-      if (active) active.classList.add('active');
-    }
+    <button onclick="pay()">Get VIP (R499)</button>
+  </div>
 
-    function showAuthTab(type) {
-      const signupTab = document.getElementById('signupTab');
-      const loginTab = document.getElementById('loginTab');
-      const signupForm = document.getElementById('signupForm');
-      const loginForm = document.getElementById('loginForm');
+  <!-- TESTIMONIALS -->
+  <div class="card testimonials">
+    <h3>Student Results 💰</h3>
+    <p>"Turned R500 → R7,200 in 3 days 🔥"</p>
+    <p>"Best signals I’ve ever used 💎"</p>
+    <p>"100% legit, withdrawals daily"</p>
+  </div>
 
-      if (type === 'signup') {
-        signupTab.classList.add('active');
-        loginTab.classList.remove('active');
-        signupForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-      } else {
-        loginTab.classList.add('active');
-        signupTab.classList.remove('active');
-        loginForm.classList.remove('hidden');
-        signupForm.classList.add('hidden');
-      }
-    }
+</div>
 
-    function createAccount() {
-      const name = document.getElementById('signupName').value.trim();
-      const email = document.getElementById('signupEmail').value.trim();
-      const password = document.getElementById('signupPassword').value.trim();
+<script>
+  function pay() {
+    window.location.href = "https://paystack.shop/pay/7a1-oxg9e0";
+  }
 
-      if (!name || !email || !password) {
-        alert('Please fill all fields');
-        return;
-      }
+  // Unlock after payment redirect
+  if (window.location.href.includes("success")) {
+    document.getElementById("vipSignals").classList.remove("locked");
+    alert("VIP Access Activated 🔓");
+  }
+</script>
 
-      const user = {
-        name,
-        email,
-        password,
-        premium: false
-      };
-
-      localStorage.setItem('goatUser', JSON.stringify(user));
-      loginUser(user);
-    }
-
-    function loginAccount() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
-      const saved = JSON.parse(localStorage.getItem('goatUser') || 'null');
-
-      if (!saved) {
-        alert('No account found. Create account first.');
-        return;
-      }
-
-      if (saved.email === email && saved.password === password) {
-        loginUser(saved);
-      } else {
-        alert('Wrong email or password');
-      }
-    }
-
-    function fillDemoAccount() {
-      const demo = {
-        name: 'GT Demo User',
-        email: 'demo@goatsniper.ai',
-        password: '123456',
-        premium: false
-      };
-      localStorage.setItem('goatUser', JSON.stringify(demo));
-      loginUser(demo);
-    }
-
-    function loginUser(user) {
-      sessionStorage.setItem('goatLoggedIn', 'true');
-      sessionStorage.setItem('goatName', user.name);
-      sessionStorage.setItem('goatEmail', user.email);
-      sessionStorage.setItem('goatPremium', user.premium ? 'true' : 'false');
-
-      updateUserUI();
-      showScreen('homeScreen');
-      setActiveNav('home');
-    }
-
-    function updateUserUI() {
-      const name = sessionStorage.getItem('goatName') || 'Trader';
-      const email = sessionStorage.getItem('goatEmail') || 'Free account';
-      const premium = sessionStorage.getItem('goatPremium') === 'true';
-
-      const nameIds = ['displayUserName', 'scanUserName', 'pricingUserName', 'referUserName'];
-      nameIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = name;
-      });
-
-      const emailEl = document.getElementById('displayUserEmail');
-      if (emailEl) emailEl.textContent = email;
-
-      const badgeText = premium ? 'Premium Member' : 'Free Preview';
-      const badgeIds = ['memberBadge', 'scanBadge'];
-
-      badgeIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-          el.textContent = badgeText;
-          el.className = premium ? 'user-badge premium-badge' : 'user-badge';
-        }
-      });
-    }
-
-    function guardAccess(screenId, tab) {
-      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-      if (!loggedIn) {
-        showScreen('authScreen');
-        setActiveNav('');
-        alert('Create account or login first');
-        return;
-      }
-      showScreen(screenId);
-      setActiveNav(tab);
-    }
-
-    function analyzeChart() {
-      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-      if (!loggedIn) {
-        alert('Create account first');
-        showScreen('authScreen');
-        return;
-      }
-
-      const loading = document.getElementById('loadingCard');
-      const result = document.getElementById('resultCard');
-      const bias = document.getElementById('biasText');
-      const confidence = document.getElementById('confidenceText');
-
-      result.classList.add('hidden');
-      loading.classList.remove('hidden');
-
-      setTimeout(() => {
-        const bullish = Math.random() > 0.5;
-        bias.textContent = bullish ? 'Bullish' : 'Bearish';
-        bias.className = bullish ? 'bias-up' : 'bias-down';
-        confidence.textContent = (70 + Math.floor(Math.random() * 21)) + '%';
-
-        loading.classList.add('hidden');
-        result.classList.remove('hidden');
-      }, 1800);
-    }
-
-    function copyReferral() {
-      const text = 'GOAT-TSHEPANG-10';
-      navigator.clipboard.writeText(text).then(() => {
-        alert('Referral code copied');
-      }).catch(() => {
-        alert('Copied: ' + text);
-      });
-    }
-
-    const activities = [
-      'Someone in Johannesburg unlocked US30 analysis',
-      'Someone in Cape Town scanned XAUUSD',
-      'Someone in Durban got 78% bearish on NAS100',
-      'Someone in Bloemfontein unlocked sniper setup',
-      'Someone in Pretoria scanned GBPJPY'
-    ];
-
-    let activityIndex = 0;
-    setInterval(() => {
-      activityIndex = (activityIndex + 1) % activities.length;
-      const el = document.getElementById('activityText');
-      if (el) el.textContent = activities[activityIndex];
-    }, 3000);
-
-    window.onload = function () {
-      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-      if (loggedIn) {
-        updateUserUI();
-        showScreen('homeScreen');
-        setActiveNav('home');
-      } else {
-        showScreen('authScreen');
-      }
-    };
-  </script>
 </body>
 </html>
