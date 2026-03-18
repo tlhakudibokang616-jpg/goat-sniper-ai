@@ -7,18 +7,19 @@
   <style>
     :root{
       --bg:#050b14;
-      --card:#0a1220;
-      --card-2:#0c1525;
-      --line:rgba(0,255,200,.12);
-      --text:#e9f2ff;
-      --muted:#7f8ca8;
-      --accent:#00f5c3;
-      --accent-2:#00c2ff;
-      --danger:#ff5d73;
-      --warn:#ffcf5a;
-      --success:#00f5c3;
-      --shadow:0 0 30px rgba(0,245,195,.12);
+      --panel:#07111d;
+      --panel-2:#0a1626;
+      --line:rgba(255,255,255,.08);
+      --text:#eaf2ff;
+      --muted:#8c9ab4;
+      --accent:#14f1c9;
+      --accent-2:#58e6d3;
+      --purple:#8b5cf6;
+      --danger:#ff6b81;
+      --warning:#ffcf5a;
+      --success:#14f1c9;
       --radius:24px;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
     }
 
     *{
@@ -30,10 +31,14 @@
 
     body{
       background:
-        radial-gradient(circle at top, rgba(0,245,195,.08), transparent 25%),
-        radial-gradient(circle at right, rgba(0,194,255,.06), transparent 20%),
-        var(--bg);
+        radial-gradient(circle at top left, rgba(20,241,201,.09), transparent 25%),
+        radial-gradient(circle at top right, rgba(139,92,246,.08), transparent 18%),
+        linear-gradient(180deg,#04101b,#050b14 45%,#030812);
       color:var(--text);
+      min-height:100vh;
+    }
+
+    .page{
       min-height:100vh;
       display:flex;
       align-items:center;
@@ -41,196 +46,284 @@
       padding:20px;
     }
 
-    .app-shell{
+    .shell{
       width:100%;
-      max-width:460px;
-      min-height:90vh;
+      max-width:470px;
+      min-height:92vh;
       background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
-      border:1px solid rgba(255,255,255,.06);
-      box-shadow:0 20px 70px rgba(0,0,0,.45), var(--shadow);
+      border:1px solid rgba(255,255,255,.07);
       border-radius:32px;
       overflow:hidden;
+      box-shadow:var(--shadow);
       position:relative;
-      backdrop-filter:blur(18px);
+      backdrop-filter:blur(12px);
     }
 
     .topbar{
-      padding:18px 18px 10px;
-      border-bottom:1px solid rgba(255,255,255,.05);
-      background:rgba(3,8,16,.7);
+      padding:18px 18px 14px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      background:rgba(5,10,20,.6);
       position:sticky;
       top:0;
-      z-index:20;
+      z-index:5;
+    }
+
+    .top-flex{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
     }
 
     .brand{
       display:flex;
-      align-items:center;
-      justify-content:space-between;
       gap:12px;
-    }
-
-    .brand-left{
-      display:flex;
       align-items:center;
-      gap:12px;
     }
 
     .logo{
-      width:42px;
-      height:42px;
-      border-radius:14px;
+      width:58px;
+      height:58px;
+      border-radius:18px;
       display:grid;
       place-items:center;
-      background:linear-gradient(135deg, rgba(0,245,195,.18), rgba(0,194,255,.14));
-      border:1px solid rgba(0,245,195,.22);
-      box-shadow:0 0 20px rgba(0,245,195,.12);
-      font-weight:800;
+      font-weight:900;
+      font-size:1.15rem;
       color:var(--accent);
+      border:1px solid rgba(20,241,201,.28);
+      background:linear-gradient(135deg, rgba(20,241,201,.14), rgba(20,241,201,.05));
+      box-shadow:0 0 24px rgba(20,241,201,.08);
+      flex-shrink:0;
     }
 
     .brand h1{
-      font-size:1rem;
-      line-height:1.1;
-      font-weight:800;
+      font-size:1.1rem;
+      line-height:1.05;
+      font-weight:900;
+      letter-spacing:-0.02em;
     }
 
     .brand p{
       color:var(--muted);
-      font-size:.78rem;
-      margin-top:3px;
+      margin-top:6px;
+      font-size:.84rem;
+      line-height:1.35;
+      max-width:180px;
     }
 
-    .admin-pill{
-      padding:8px 12px;
+    .top-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      position:relative;
+    }
+
+    .role-pill{
+      padding:10px 14px;
       border-radius:999px;
-      background:rgba(129, 79, 255, .12);
-      border:1px solid rgba(129,79,255,.22);
-      color:#bb9aff;
-      font-size:.78rem;
-      font-weight:700;
+      font-weight:800;
+      color:#c5a6ff;
+      background:rgba(139,92,246,.14);
+      border:1px solid rgba(139,92,246,.28);
+      font-size:.88rem;
+    }
+
+    .menu-btn{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:var(--text);
+      font-size:1.2rem;
+      cursor:pointer;
+    }
+
+    .menu{
+      position:absolute;
+      top:54px;
+      right:0;
+      width:190px;
+      background:#0a1626;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      box-shadow:0 18px 40px rgba(0,0,0,.35);
+      display:none;
+      overflow:hidden;
+    }
+
+    .menu.show{ display:block; }
+
+    .menu-item{
+      width:100%;
+      padding:14px 15px;
+      border:none;
+      background:transparent;
+      color:var(--text);
+      text-align:left;
+      cursor:pointer;
+      font-size:.95rem;
+    }
+
+    .menu-item + .menu-item{
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+
+    .menu-item:hover{
+      background:rgba(255,255,255,.04);
     }
 
     .content{
       padding:18px;
     }
 
-    .screen{
-      display:none;
-      animation:fadeIn .35s ease;
-    }
-
-    .screen.active{
-      display:block;
-    }
-
-    @keyframes fadeIn{
-      from{opacity:0; transform:translateY(10px);}
-      to{opacity:1; transform:translateY(0);}
-    }
+    .screen{ display:none; }
+    .screen.active{ display:block; }
 
     .card{
       background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
-      border:1px solid rgba(255,255,255,.06);
-      border-radius:var(--radius);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:28px;
       padding:18px;
       margin-bottom:16px;
-      box-shadow:var(--shadow);
     }
 
     .title{
       font-size:1.05rem;
-      font-weight:800;
+      font-weight:900;
       margin-bottom:8px;
+      letter-spacing:-0.02em;
     }
 
     .sub{
       color:var(--muted);
-      font-size:.9rem;
-      line-height:1.5;
+      font-size:.94rem;
+      line-height:1.6;
+    }
+
+    .row{
+      display:flex;
+      gap:12px;
+    }
+
+    .row > *{
+      flex:1;
     }
 
     .field{
       margin-top:14px;
     }
 
-    .field label{
+    .label{
       display:block;
-      margin-bottom:8px;
-      font-size:.85rem;
-      color:#b9c7df;
-      font-weight:600;
+      font-size:.84rem;
+      color:#bcc9df;
+      margin-bottom:7px;
+      font-weight:700;
     }
 
     .input{
       width:100%;
-      background:#08111d;
-      color:var(--text);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:16px;
       padding:14px 15px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.08);
+      background:#081321;
+      color:var(--text);
       outline:none;
-      font-size:.95rem;
+      font-size:.96rem;
     }
 
     .input:focus{
-      border-color:rgba(0,245,195,.35);
-      box-shadow:0 0 0 3px rgba(0,245,195,.08);
+      border-color:rgba(20,241,201,.35);
+      box-shadow:0 0 0 3px rgba(20,241,201,.08);
     }
 
     .btn{
       width:100%;
+      padding:14px 16px;
       border:none;
-      border-radius:16px;
-      padding:14px 18px;
-      font-size:.98rem;
-      font-weight:800;
+      border-radius:18px;
       cursor:pointer;
-      transition:.2s ease;
+      font-weight:900;
+      font-size:1rem;
+      transition:.18s ease;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
     }
 
     .btn-primary{
-      color:#03110f;
-      background:linear-gradient(135deg, var(--accent), #7dffd8);
-      margin-top:16px;
-    }
-
-    .btn-primary:hover{
-      transform:translateY(-1px);
-      filter:brightness(1.03);
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:#03100d;
     }
 
     .btn-secondary{
       background:rgba(255,255,255,.04);
       color:var(--text);
       border:1px solid rgba(255,255,255,.08);
+    }
+
+    .btn-danger{
+      background:linear-gradient(135deg,#ff8598,#ff657d);
+      color:#22050a;
+    }
+
+    .small{
+      font-size:.82rem;
+      color:var(--muted);
+      line-height:1.5;
       margin-top:10px;
     }
 
-    .small-note{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:.8rem;
-      line-height:1.45;
+    .auth-switch{
+      display:flex;
+      gap:10px;
+      margin-bottom:16px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:18px;
+      padding:6px;
     }
+
+    .auth-tab{
+      flex:1;
+      border:none;
+      background:transparent;
+      color:var(--muted);
+      padding:12px 10px;
+      border-radius:14px;
+      cursor:pointer;
+      font-weight:800;
+      font-size:.94rem;
+    }
+
+    .auth-tab.active{
+      background:rgba(20,241,201,.12);
+      color:var(--accent);
+    }
+
+    .auth-box{ display:none; }
+    .auth-box.active{ display:block; }
 
     .tabs{
       display:flex;
       justify-content:space-between;
       gap:8px;
-      margin-bottom:18px;
-      border-bottom:1px solid rgba(255,255,255,.06);
       padding-bottom:8px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      margin-bottom:16px;
     }
 
     .tab{
       flex:1;
       text-align:center;
       color:var(--muted);
-      font-size:.83rem;
-      padding:8px 4px;
+      font-size:.86rem;
+      padding:10px 4px;
+      cursor:pointer;
+      font-weight:800;
       position:relative;
-      font-weight:700;
     }
 
     .tab.active{
@@ -244,21 +337,21 @@
       right:18%;
       bottom:-9px;
       height:3px;
-      border-radius:8px;
+      border-radius:999px;
       background:var(--accent);
-      box-shadow:0 0 16px rgba(0,245,195,.6);
+      box-shadow:0 0 18px rgba(20,241,201,.55);
     }
+
+    .tab-screen{ display:none; }
+    .tab-screen.active{ display:block; }
 
     .upload-box{
-      border:1.5px dashed rgba(0,245,195,.25);
-      background:linear-gradient(180deg, rgba(0,245,195,.04), rgba(255,255,255,.015));
-      border-radius:24px;
-      padding:18px;
+      margin-top:14px;
+      border:1.5px dashed rgba(20,241,201,.24);
+      background:linear-gradient(180deg, rgba(20,241,201,.04), rgba(255,255,255,.015));
+      border-radius:26px;
+      padding:20px;
       text-align:center;
-    }
-
-    .upload-box input{
-      display:none;
     }
 
     .upload-label{
@@ -267,25 +360,29 @@
     }
 
     .upload-icon{
-      width:58px;
-      height:58px;
-      margin:0 auto 12px;
-      border-radius:18px;
+      width:72px;
+      height:72px;
+      border-radius:24px;
+      margin:0 auto 14px;
       display:grid;
       place-items:center;
-      background:rgba(0,245,195,.08);
-      border:1px solid rgba(0,245,195,.18);
-      font-size:1.4rem;
+      font-size:1.8rem;
       color:var(--accent);
+      background:rgba(20,241,201,.08);
+      border:1px solid rgba(20,241,201,.2);
+    }
+
+    input[type="file"]{
+      display:none;
     }
 
     .preview{
-      margin-top:16px;
+      display:none;
+      margin-top:14px;
       border-radius:20px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.08);
-      background:#040812;
-      display:none;
+      background:#050d16;
     }
 
     .preview img{
@@ -295,63 +392,87 @@
       object-fit:cover;
     }
 
-    .analyze-wrap{
-      text-align:center;
-      padding:18px 8px 6px;
+    .meta{
+      display:grid;
+      gap:10px;
+      margin-top:12px;
     }
 
-    .eye-loader{
-      width:92px;
-      height:92px;
+    .meta-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px;
+      padding:12px 14px;
+      color:#cad5e8;
+      font-size:.9rem;
+    }
+
+    .meta-line span:last-child{
+      color:var(--text);
+      font-weight:800;
+      text-align:right;
+    }
+
+    .loading-card{
+      text-align:center;
+      padding:22px 16px 8px;
+    }
+
+    .loader{
+      width:94px;
+      height:94px;
       margin:0 auto 16px;
+      border-radius:50%;
       position:relative;
       display:grid;
       place-items:center;
-      border-radius:50%;
-      background:
-        radial-gradient(circle at center, rgba(0,245,195,.08), transparent 55%);
+      background:radial-gradient(circle at center, rgba(20,241,201,.08), transparent 58%);
     }
 
-    .eye-loader::before{
+    .loader::before{
       content:"";
-      width:68px;
-      height:68px;
+      width:72px;
+      height:72px;
       border-radius:50%;
-      border:3px solid rgba(0,245,195,.18);
+      border:3px solid rgba(20,241,201,.18);
       border-top-color:var(--accent);
-      animation:spin 1.2s linear infinite;
+      animation:spin 1.1s linear infinite;
       position:absolute;
     }
 
-    .eye-loader::after{
+    .loader::after{
       content:"👁";
-      font-size:1.3rem;
+      font-size:1.35rem;
       color:var(--accent);
-      filter:drop-shadow(0 0 10px rgba(0,245,195,.55));
+      filter:drop-shadow(0 0 10px rgba(20,241,201,.35));
     }
 
     @keyframes spin{
-      to{transform:rotate(360deg);}
+      to{ transform:rotate(360deg); }
     }
 
-    .analyze-title{
-      font-size:1.8rem;
-      font-weight:800;
-      margin-bottom:8px;
+    .loading-title{
+      font-size:1.55rem;
+      font-weight:900;
+      margin-bottom:6px;
     }
 
-    .analyze-sub{
+    .loading-sub{
       color:var(--muted);
-      font-size:.95rem;
-      margin-bottom:18px;
+      font-size:.94rem;
+      margin-bottom:16px;
     }
 
     .progress{
       width:100%;
-      height:6px;
-      background:rgba(255,255,255,.06);
+      height:7px;
       border-radius:999px;
       overflow:hidden;
+      background:rgba(255,255,255,.06);
       margin-bottom:18px;
     }
 
@@ -359,49 +480,45 @@
       width:0%;
       height:100%;
       border-radius:999px;
-      background:linear-gradient(90deg, var(--accent), var(--accent-2));
-      box-shadow:0 0 18px rgba(0,245,195,.55);
-      transition:width .35s ease;
+      background:linear-gradient(90deg,var(--accent),#35f3d1);
+      transition:width .25s ease;
+      box-shadow:0 0 18px rgba(20,241,201,.5);
     }
 
-    .checklist{
-      text-align:left;
-      margin-top:6px;
+    .steps{
       display:grid;
       gap:10px;
+      text-align:left;
     }
 
-    .check-item{
+    .step{
       display:flex;
-      align-items:center;
       gap:10px;
-      color:#c4d0e6;
+      align-items:center;
       font-size:.92rem;
-      opacity:.45;
-      transition:.25s ease;
+      color:#cad5e8;
+      opacity:.4;
+      transition:.22s ease;
     }
 
-    .check-item.done{
-      opacity:1;
-    }
+    .step.done{ opacity:1; }
 
-    .check-icon{
+    .step-badge{
       width:22px;
       height:22px;
       border-radius:50%;
       display:grid;
       place-items:center;
-      font-size:.8rem;
+      font-size:.78rem;
       border:1px solid rgba(255,255,255,.1);
       background:rgba(255,255,255,.02);
       flex-shrink:0;
     }
 
-    .check-item.done .check-icon{
-      border-color:rgba(0,245,195,.28);
-      background:rgba(0,245,195,.09);
+    .step.done .step-badge{
       color:var(--accent);
-      box-shadow:0 0 14px rgba(0,245,195,.18);
+      border-color:rgba(20,241,201,.25);
+      background:rgba(20,241,201,.08);
     }
 
     .result-grid{
@@ -418,78 +535,114 @@
       border:1px solid rgba(255,255,255,.06);
     }
 
-    .metric .label{
+    .metric-label{
       font-size:.78rem;
       color:var(--muted);
       margin-bottom:6px;
     }
 
-    .metric .value{
+    .metric-value{
+      font-weight:900;
       font-size:1rem;
-      font-weight:800;
       word-break:break-word;
     }
 
-    .direction-buy{
-      color:var(--success);
-      text-shadow:0 0 18px rgba(0,245,195,.25);
-    }
-
-    .direction-sell{
-      color:var(--danger);
-      text-shadow:0 0 18px rgba(255,93,115,.2);
-    }
+    .buy{ color:var(--success); }
+    .sell{ color:var(--danger); }
 
     .badge{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding:10px 14px;
       border-radius:999px;
-      margin-top:10px;
-      font-size:.9rem;
-      font-weight:800;
-      border:1px solid rgba(255,255,255,.08);
+      padding:10px 14px;
       background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      margin-top:10px;
+      font-weight:900;
+      font-size:.92rem;
     }
 
     .notes{
-      margin-top:16px;
       display:grid;
       gap:10px;
+      margin-top:16px;
     }
 
-    .note-row{
+    .note{
       padding:14px;
       border-radius:18px;
       background:rgba(255,255,255,.025);
       border:1px solid rgba(255,255,255,.06);
-      color:#c7d5ee;
+      color:#c7d3e8;
       font-size:.92rem;
-      line-height:1.45;
+      line-height:1.55;
+      white-space:pre-wrap;
     }
 
-    .footer-note{
-      margin-top:16px;
-      color:#93a3bf;
-      font-size:.77rem;
+    .status{
+      margin-top:10px;
+      font-size:.88rem;
       line-height:1.5;
-    }
-
-    .error{
-      color:#ff8b9a;
-      margin-top:12px;
-      font-size:.86rem;
       display:none;
     }
 
-    .hidden{
-      display:none !important;
+    .status.show{ display:block; }
+    .status.error{ color:#ff92a1; }
+    .status.success{ color:#8ef4dd; }
+
+    .history-list{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
     }
 
-    @media (max-width:420px){
-      .app-shell{
-        min-height:95vh;
+    .history-item{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.025);
+    }
+
+    .history-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:8px;
+      font-size:.9rem;
+      color:#c9d6eb;
+    }
+
+    .history-dir{
+      font-weight:900;
+    }
+
+    .history-small{
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.45;
+    }
+
+    .account-grid{
+      display:grid;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .account-line{
+      padding:14px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.025);
+      color:#cbd6e9;
+      font-size:.92rem;
+    }
+
+    .hidden{ display:none !important; }
+
+    @media (max-width:430px){
+      .shell{
+        min-height:96vh;
         border-radius:26px;
       }
 
@@ -497,432 +650,797 @@
         grid-template-columns:1fr;
       }
 
-      .analyze-title{
-        font-size:1.5rem;
+      .brand p{
+        max-width:145px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <div class="topbar">
-      <div class="brand">
-        <div class="brand-left">
-          <div class="logo">GT</div>
-          <div>
-            <h1>GT FX GOAT<br>AI Scanner</h1>
-            <p>Deterministic SMC-style scanner</p>
+  <div class="page">
+    <div class="shell">
+      <div class="topbar">
+        <div class="top-flex">
+          <div class="brand">
+            <div class="logo">GT</div>
+            <div>
+              <h1>GT FX GOAT<br>AI Scanner</h1>
+              <p>AI-assisted chart reader & SMC-style scanner</p>
+            </div>
+          </div>
+
+          <div class="top-actions" id="topActions">
+            <div class="role-pill" id="rolePill">Guest</div>
+            <button class="menu-btn hidden" id="menuBtn" type="button">⋮</button>
+            <div class="menu" id="menu">
+              <button class="menu-item" type="button" id="menuAccountBtn">Account</button>
+              <button class="menu-item" type="button" id="menuHistoryBtn">History</button>
+              <button class="menu-item" type="button" id="logoutBtn">Logout</button>
+            </div>
           </div>
         </div>
-        <div class="admin-pill">Admin</div>
       </div>
-    </div>
 
-    <div class="content">
-      <!-- LOGIN SCREEN -->
-      <section id="loginScreen" class="screen active">
-        <div class="card">
-          <div class="title">Secure Login</div>
-          <div class="sub">This panel is locked for the admin account only.</div>
-
-          <div class="field">
-            <label>Email</label>
-            <input class="input" id="email" type="email" value="tlhakudibokang616@gmail.com" readonly />
-          </div>
-
-          <div class="field">
-            <label>Password</label>
-            <input class="input" id="password" type="password" value="Tlhakudi122@" readonly />
-          </div>
-
-          <button class="btn btn-primary" id="loginBtn">Enter Scanner</button>
-          <div class="small-note">
-            Locked single-user demo access. For real paid clients, move auth to Firebase or a backend later.
-          </div>
-          <div class="error" id="loginError">Access denied.</div>
-        </div>
-      </section>
-
-      <!-- APP SCREEN -->
-      <section id="appScreen" class="screen">
-        <div class="tabs">
-          <div class="tab">Charts</div>
-          <div class="tab active">Scanner</div>
-          <div class="tab">Multi-TF</div>
-          <div class="tab">Learn</div>
-        </div>
-
-        <!-- UPLOAD CARD -->
-        <div class="card" id="uploadCard">
-          <div class="title">Upload Chart Screenshot</div>
-          <div class="sub">Upload one chart image to generate a consistent result for that same image.</div>
-
-          <div class="upload-box">
-            <label class="upload-label" for="chartInput">
-              <div class="upload-icon">📈</div>
-              <div class="title" style="font-size:1rem; margin-bottom:4px;">Choose chart image</div>
-              <div class="sub">PNG, JPG or WEBP</div>
-            </label>
-            <input type="file" id="chartInput" accept="image/*" />
-          </div>
-
-          <div class="preview" id="previewBox">
-            <img id="previewImg" alt="Chart Preview" />
-          </div>
-
-          <button class="btn btn-primary" id="analyzeBtn" disabled>Analyze Chart</button>
-          <button class="btn btn-secondary hidden" id="changeImageBtn">Change Image</button>
-
-          <div class="small-note">
-            Same image hash = same output. This fixes the BUY/SELL switching problem you saw yesterday.
-          </div>
-        </div>
-
-        <!-- ANALYZING CARD -->
-        <div class="card hidden" id="analyzingCard">
-          <div class="analyze-wrap">
-            <div class="eye-loader"></div>
-            <div class="analyze-title">Analyzing</div>
-            <div class="analyze-sub">Reading structure, order flow & liquidity...</div>
-            <div class="progress">
-              <div class="progress-bar" id="progressBar"></div>
+      <div class="content">
+        <!-- AUTH SCREEN -->
+        <section class="screen active" id="authScreen">
+          <div class="card">
+            <div class="auth-switch">
+              <button class="auth-tab active" id="showLoginBtn" type="button">Login</button>
+              <button class="auth-tab" id="showSignupBtn" type="button">Sign Up</button>
             </div>
 
-            <div class="checklist" id="checklist">
-              <div class="check-item"><div class="check-icon">✓</div><span>Reading price axis</span></div>
-              <div class="check-item"><div class="check-icon">✓</div><span>Mapping market structure</span></div>
-              <div class="check-item"><div class="check-icon">✓</div><span>Detecting S/R & order blocks</span></div>
-              <div class="check-item"><div class="check-icon">✓</div><span>Scanning liquidity & FVGs</span></div>
-              <div class="check-item"><div class="check-icon">✓</div><span>Annotating chart bias</span></div>
-              <div class="check-item"><div class="check-icon">✓</div><span>Generating trade setup</span></div>
+            <div class="auth-box active" id="loginBox">
+              <div class="title">Welcome back</div>
+              <div class="sub">Login to access the scanner. Your password is hidden and not shown on the page.</div>
+
+              <div class="field">
+                <label class="label" for="loginEmail">Email</label>
+                <input class="input" id="loginEmail" type="email" placeholder="Enter your email" />
+              </div>
+
+              <div class="field">
+                <label class="label" for="loginPassword">Password</label>
+                <input class="input" id="loginPassword" type="password" placeholder="Enter your password" />
+              </div>
+
+              <button class="btn btn-primary" id="loginSubmitBtn" type="button">Login</button>
+              <div class="status error" id="loginStatus"></div>
+            </div>
+
+            <div class="auth-box" id="signupBox">
+              <div class="title">Create account</div>
+              <div class="sub">New users can register here. Your account will be saved in this browser for now.</div>
+
+              <div class="field">
+                <label class="label" for="signupName">Full name</label>
+                <input class="input" id="signupName" type="text" placeholder="Enter your full name" />
+              </div>
+
+              <div class="field">
+                <label class="label" for="signupEmail">Email</label>
+                <input class="input" id="signupEmail" type="email" placeholder="Enter your email" />
+              </div>
+
+              <div class="field">
+                <label class="label" for="signupPassword">Password</label>
+                <input class="input" id="signupPassword" type="password" placeholder="Create a password" />
+              </div>
+
+              <button class="btn btn-primary" id="signupSubmitBtn" type="button">Sign Up</button>
+              <div class="status" id="signupStatus"></div>
+            </div>
+
+            <div class="small">
+              This frontend keeps user accounts in the browser for now. For real public clients, move auth to Firebase or Supabase later.
             </div>
           </div>
-        </div>
+        </section>
 
-        <!-- RESULT CARD -->
-        <div class="card hidden" id="resultCard">
-          <div class="title">Trade Setup Result</div>
-          <div class="sub">Generated from the uploaded chart signature.</div>
+        <!-- APP SCREEN -->
+        <section class="screen" id="appScreen">
+          <div class="tabs">
+            <button class="tab active" data-tab="scannerTab" type="button">Scanner</button>
+            <button class="tab" data-tab="chartsTab" type="button">Charts</button>
+            <button class="tab" data-tab="learnTab" type="button">Learn</button>
+            <button class="tab" data-tab="accountTab" type="button">Account</button>
+          </div>
 
-          <div class="badge" id="directionBadge">✅ Direction Confirmed</div>
+          <!-- SCANNER -->
+          <div class="tab-screen active" id="scannerTab">
+            <div class="card" id="uploadCard">
+              <div class="title">Upload Chart Screenshot</div>
+              <div class="sub">Upload one clear screenshot. The app will send it to your AI backend at <strong>/analyze</strong>.</div>
 
-          <div class="result-grid">
-            <div class="metric">
-              <div class="label">Direction</div>
-              <div class="value" id="directionValue">BUY</div>
+              <div class="upload-box">
+                <label class="upload-label" for="chartInput">
+                  <div class="upload-icon">📈</div>
+                  <div class="title" style="font-size:1rem; margin-bottom:4px;">Choose chart image</div>
+                  <div class="sub">PNG, JPG or WEBP</div>
+                </label>
+                <input id="chartInput" type="file" accept="image/*" />
+              </div>
+
+              <div class="preview" id="previewBox">
+                <img id="previewImg" alt="Chart preview" />
+              </div>
+
+              <div class="meta hidden" id="fileMeta">
+                <div class="meta-line">
+                  <span>File name</span>
+                  <span id="fileNameText">-</span>
+                </div>
+                <div class="meta-line">
+                  <span>File size</span>
+                  <span id="fileSizeText">-</span>
+                </div>
+              </div>
+
+              <button class="btn btn-primary" id="analyzeBtn" type="button" style="margin-top:14px;" disabled>Analyze Chart</button>
+              <button class="btn btn-secondary hidden" id="changeImageBtn" type="button" style="margin-top:10px;">Change Image</button>
+
+              <div class="status error" id="scannerStatus"></div>
+              <div class="small">
+                Best results happen when the screenshot clearly shows the pair, price scale, and candles.
+              </div>
             </div>
-            <div class="metric">
-              <div class="label">Confidence</div>
-              <div class="value" id="confidenceValue">High</div>
+
+            <div class="card loading-card hidden" id="loadingCard">
+              <div class="loader"></div>
+              <div class="loading-title">Analyzing</div>
+              <div class="loading-sub">Reading price, pair, structure and setup...</div>
+
+              <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+              </div>
+
+              <div class="steps" id="stepsWrap">
+                <div class="step"><div class="step-badge">✓</div><span>Uploading chart image</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Reading visible text & price axis</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Checking structure & liquidity</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Building trade idea</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Formatting result</span></div>
+              </div>
             </div>
-            <div class="metric">
-              <div class="label">Entry</div>
-              <div class="value" id="entryValue">1.23456</div>
-            </div>
-            <div class="metric">
-              <div class="label">Take Profit</div>
-              <div class="value" id="tpValue">1.24000</div>
-            </div>
-            <div class="metric">
-              <div class="label">Stop Loss</div>
-              <div class="value" id="slValue">1.23000</div>
-            </div>
-            <div class="metric">
-              <div class="label">Risk : Reward</div>
-              <div class="value" id="rrValue">1 : 2.3</div>
+
+            <div class="card hidden" id="resultCard">
+              <div class="title">Trade Setup Result</div>
+              <div class="sub">Generated from your backend AI response.</div>
+
+              <div class="badge" id="directionBadge">✅ Direction Confirmed</div>
+
+              <div class="result-grid">
+                <div class="metric">
+                  <div class="metric-label">Direction</div>
+                  <div class="metric-value" id="directionValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Confidence</div>
+                  <div class="metric-value" id="confidenceValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Pair / Instrument</div>
+                  <div class="metric-value" id="pairValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Current Price</div>
+                  <div class="metric-value" id="currentPriceValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Entry</div>
+                  <div class="metric-value" id="entryValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Take Profit</div>
+                  <div class="metric-value" id="tpValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Stop Loss</div>
+                  <div class="metric-value" id="slValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Risk : Reward</div>
+                  <div class="metric-value" id="rrValue">-</div>
+                </div>
+              </div>
+
+              <div class="notes">
+                <div class="note" id="summaryNote">Summary will appear here.</div>
+                <div class="note" id="reasonNote">Reasoning will appear here.</div>
+                <div class="note" id="rawNote">Raw AI response will appear here.</div>
+              </div>
+
+              <div class="row" style="margin-top:14px;">
+                <button class="btn btn-primary" id="reanalyzeBtn" type="button">Analyze Again</button>
+                <button class="btn btn-secondary" id="newChartBtn" type="button">Upload New Chart</button>
+              </div>
             </div>
           </div>
 
-          <div class="notes">
-            <div class="note-row" id="structureNote">Market structure note appears here.</div>
-            <div class="note-row" id="fvgNote">FVG note appears here.</div>
-            <div class="note-row" id="obNote">Order block note appears here.</div>
+          <!-- CHARTS -->
+          <div class="tab-screen" id="chartsTab">
+            <div class="card">
+              <div class="title">Saved Analysis History</div>
+              <div class="sub">Recent analyses saved on this device for the logged-in user.</div>
+              <div class="history-list" id="historyList"></div>
+            </div>
           </div>
 
-          <button class="btn btn-primary" id="reanalyzeBtn">Analyze Again</button>
-          <button class="btn btn-secondary" id="newChartBtn">Upload New Chart</button>
-
-          <div class="footer-note">
-            Demo scanner for consistent chart-style output. Not financial advice and not guaranteed live-market accuracy.
+          <!-- LEARN -->
+          <div class="tab-screen" id="learnTab">
+            <div class="card">
+              <div class="title">SMC Learn</div>
+              <div class="sub">This section can later hold your lessons, examples, and rules.</div>
+              <div class="notes" style="margin-top:14px;">
+                <div class="note">Order Blocks: Look for strong displacement candles leaving a zone that price can later revisit.</div>
+                <div class="note">FVGs: Fair Value Gaps often act as imbalance zones where price may retrace before continuing.</div>
+                <div class="note">Liquidity: Equal highs/lows and obvious swing points often attract sweeps before the real move.</div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+
+          <!-- ACCOUNT -->
+          <div class="tab-screen" id="accountTab">
+            <div class="card">
+              <div class="title">Account</div>
+              <div class="sub">Your current user details stored in this browser.</div>
+              <div class="account-grid" id="accountGrid"></div>
+              <button class="btn btn-danger" id="logoutBtn2" type="button" style="margin-top:14px;">Logout</button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 
   <script>
-    const ADMIN_EMAIL = "tlhakudibokang616@gmail.com";
-    const ADMIN_PASSWORD = "Tlhakudi122@";
+    const APP_USERS_KEY = "gtfx_users_v3";
+    const APP_SESSION_KEY = "gtfx_session_v3";
 
-    const loginScreen = document.getElementById("loginScreen");
+    const authScreen = document.getElementById("authScreen");
     const appScreen = document.getElementById("appScreen");
-    const loginBtn = document.getElementById("loginBtn");
-    const loginError = document.getElementById("loginError");
+    const rolePill = document.getElementById("rolePill");
+    const menuBtn = document.getElementById("menuBtn");
+    const menu = document.getElementById("menu");
+
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+    const showLoginBtn = document.getElementById("showLoginBtn");
+    const showSignupBtn = document.getElementById("showSignupBtn");
+
+    const loginEmail = document.getElementById("loginEmail");
+    const loginPassword = document.getElementById("loginPassword");
+    const signupName = document.getElementById("signupName");
+    const signupEmail = document.getElementById("signupEmail");
+    const signupPassword = document.getElementById("signupPassword");
+
+    const loginStatus = document.getElementById("loginStatus");
+    const signupStatus = document.getElementById("signupStatus");
 
     const chartInput = document.getElementById("chartInput");
     const previewBox = document.getElementById("previewBox");
     const previewImg = document.getElementById("previewImg");
+    const fileMeta = document.getElementById("fileMeta");
+    const fileNameText = document.getElementById("fileNameText");
+    const fileSizeText = document.getElementById("fileSizeText");
+
     const analyzeBtn = document.getElementById("analyzeBtn");
     const changeImageBtn = document.getElementById("changeImageBtn");
+    const scannerStatus = document.getElementById("scannerStatus");
 
     const uploadCard = document.getElementById("uploadCard");
-    const analyzingCard = document.getElementById("analyzingCard");
+    const loadingCard = document.getElementById("loadingCard");
     const resultCard = document.getElementById("resultCard");
 
     const progressBar = document.getElementById("progressBar");
-    const checklist = [...document.querySelectorAll(".check-item")];
+    const stepEls = [...document.querySelectorAll(".step")];
 
     const directionBadge = document.getElementById("directionBadge");
     const directionValue = document.getElementById("directionValue");
     const confidenceValue = document.getElementById("confidenceValue");
+    const pairValue = document.getElementById("pairValue");
+    const currentPriceValue = document.getElementById("currentPriceValue");
     const entryValue = document.getElementById("entryValue");
     const tpValue = document.getElementById("tpValue");
     const slValue = document.getElementById("slValue");
     const rrValue = document.getElementById("rrValue");
-    const structureNote = document.getElementById("structureNote");
-    const fvgNote = document.getElementById("fvgNote");
-    const obNote = document.getElementById("obNote");
+    const summaryNote = document.getElementById("summaryNote");
+    const reasonNote = document.getElementById("reasonNote");
+    const rawNote = document.getElementById("rawNote");
 
-    const reanalyzeBtn = document.getElementById("reanalyzeBtn");
-    const newChartBtn = document.getElementById("newChartBtn");
+    const historyList = document.getElementById("historyList");
+    const accountGrid = document.getElementById("accountGrid");
 
     let currentFile = null;
-    let currentHash = null;
-    let cachedResults = {};
+    let currentUser = null;
+    let lastAnalysis = null;
 
-    loginBtn.addEventListener("click", () => {
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-
-      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-        loginError.style.display = "none";
-        loginScreen.classList.remove("active");
-        appScreen.classList.add("active");
-      } else {
-        loginError.style.display = "block";
+    function getUsers() {
+      try {
+        return JSON.parse(localStorage.getItem(APP_USERS_KEY)) || [];
+      } catch {
+        return [];
       }
-    });
-
-    chartInput.addEventListener("change", async (e) => {
-      const file = e.target.files[0];
-      if (!file) return;
-
-      currentFile = file;
-      currentHash = null;
-
-      const reader = new FileReader();
-      reader.onload = async function(ev) {
-        previewImg.src = ev.target.result;
-        previewBox.style.display = "block";
-        analyzeBtn.disabled = false;
-        changeImageBtn.classList.remove("hidden");
-
-        const arrayBuffer = await file.arrayBuffer();
-        currentHash = await hashFile(arrayBuffer);
-      };
-      reader.readAsDataURL(file);
-    });
-
-    changeImageBtn.addEventListener("click", () => {
-      chartInput.value = "";
-      currentFile = null;
-      currentHash = null;
-      previewImg.src = "";
-      previewBox.style.display = "none";
-      analyzeBtn.disabled = true;
-      changeImageBtn.classList.add("hidden");
-      resetResultScreen();
-    });
-
-    analyzeBtn.addEventListener("click", async () => {
-      if (!currentFile || !currentHash) return;
-
-      uploadCard.classList.add("hidden");
-      resultCard.classList.add("hidden");
-      analyzingCard.classList.remove("hidden");
-
-      checklist.forEach(item => item.classList.remove("done"));
-      progressBar.style.width = "0%";
-
-      await playAnalysisAnimation();
-
-      let result;
-      if (cachedResults[currentHash]) {
-        result = cachedResults[currentHash];
-      } else {
-        result = generateDeterministicAnalysis(currentHash, currentFile.name);
-        cachedResults[currentHash] = result;
-      }
-
-      renderResult(result);
-
-      analyzingCard.classList.add("hidden");
-      resultCard.classList.remove("hidden");
-    });
-
-    reanalyzeBtn.addEventListener("click", async () => {
-      if (!currentHash || !currentFile) return;
-
-      resultCard.classList.add("hidden");
-      analyzingCard.classList.remove("hidden");
-
-      checklist.forEach(item => item.classList.remove("done"));
-      progressBar.style.width = "0%";
-
-      await playAnalysisAnimation();
-
-      const result = cachedResults[currentHash] || generateDeterministicAnalysis(currentHash, currentFile.name);
-      cachedResults[currentHash] = result;
-
-      renderResult(result);
-
-      analyzingCard.classList.add("hidden");
-      resultCard.classList.remove("hidden");
-    });
-
-    newChartBtn.addEventListener("click", () => {
-      chartInput.value = "";
-      currentFile = null;
-      currentHash = null;
-      previewImg.src = "";
-      previewBox.style.display = "none";
-      analyzeBtn.disabled = true;
-      changeImageBtn.classList.add("hidden");
-
-      resultCard.classList.add("hidden");
-      analyzingCard.classList.add("hidden");
-      uploadCard.classList.remove("hidden");
-    });
-
-    function resetResultScreen() {
-      resultCard.classList.add("hidden");
-      analyzingCard.classList.add("hidden");
-      uploadCard.classList.remove("hidden");
     }
 
-    async function playAnalysisAnimation() {
-      const steps = [
-        14, 29, 46, 63, 81, 100
-      ];
+    function saveUsers(users) {
+      localStorage.setItem(APP_USERS_KEY, JSON.stringify(users));
+    }
 
-      for (let i = 0; i < checklist.length; i++) {
-        await wait(650);
-        checklist[i].classList.add("done");
-        progressBar.style.width = steps[i] + "%";
+    function setSession(userEmail) {
+      localStorage.setItem(APP_SESSION_KEY, userEmail);
+    }
+
+    function getSession() {
+      return localStorage.getItem(APP_SESSION_KEY);
+    }
+
+    function clearSession() {
+      localStorage.removeItem(APP_SESSION_KEY);
+    }
+
+    function hashPassword(value) {
+      return btoa(unescape(encodeURIComponent(value))).split("").reverse().join("");
+    }
+
+    function getUserByEmail(email) {
+      return getUsers().find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
+    }
+
+    function updateRolePill() {
+      rolePill.textContent = currentUser ? "User" : "Guest";
+    }
+
+    function switchAuth(mode) {
+      if (mode === "login") {
+        showLoginBtn.classList.add("active");
+        showSignupBtn.classList.remove("active");
+        loginBox.classList.add("active");
+        signupBox.classList.remove("active");
+      } else {
+        showSignupBtn.classList.add("active");
+        showLoginBtn.classList.remove("active");
+        signupBox.classList.add("active");
+        loginBox.classList.remove("active");
       }
+    }
 
-      await wait(500);
+    function showStatus(el, message, type = "error") {
+      el.textContent = message;
+      el.className = "status show " + type;
+    }
+
+    function clearStatus(el) {
+      el.textContent = "";
+      el.className = "status";
+    }
+
+    function showApp() {
+      authScreen.classList.remove("active");
+      appScreen.classList.add("active");
+      menuBtn.classList.remove("hidden");
+      updateRolePill();
+      renderAccount();
+      renderHistory();
+    }
+
+    function showAuth() {
+      appScreen.classList.remove("active");
+      authScreen.classList.add("active");
+      menuBtn.classList.add("hidden");
+      menu.classList.remove("show");
+      currentUser = null;
+      updateRolePill();
+    }
+
+    function loginUser(user) {
+      currentUser = user;
+      setSession(user.email);
+      showApp();
+    }
+
+    function logoutUser() {
+      clearSession();
+      currentUser = null;
+      currentFile = null;
+      resetUpload();
+      showAuth();
+    }
+
+    function formatBytes(bytes) {
+      if (!bytes && bytes !== 0) return "-";
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+      return (bytes / (1024 * 1024)).toFixed(2) + " MB";
+    }
+
+    function resetUpload() {
+      chartInput.value = "";
+      currentFile = null;
+      previewImg.src = "";
+      previewBox.style.display = "none";
+      fileMeta.classList.add("hidden");
+      analyzeBtn.disabled = true;
+      changeImageBtn.classList.add("hidden");
+      scannerStatus.className = "status error";
+      scannerStatus.textContent = "";
+      scannerStatus.classList.remove("show");
+
+      uploadCard.classList.remove("hidden");
+      loadingCard.classList.add("hidden");
+      resultCard.classList.add("hidden");
+      progressBar.style.width = "0%";
+      stepEls.forEach(el => el.classList.remove("done"));
+    }
+
+    function openTab(tabId) {
+      document.querySelectorAll(".tab").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.tab === tabId);
+      });
+
+      document.querySelectorAll(".tab-screen").forEach(screen => {
+        screen.classList.toggle("active", screen.id === tabId);
+      });
+
+      if (tabId === "chartsTab") renderHistory();
+      if (tabId === "accountTab") renderAccount();
+      menu.classList.remove("show");
+    }
+
+    async function animateLoading() {
+      const widths = [18, 38, 62, 82, 100];
+      for (let i = 0; i < stepEls.length; i++) {
+        await wait(450);
+        stepEls[i].classList.add("done");
+        progressBar.style.width = widths[i] + "%";
+      }
+      await wait(250);
     }
 
     function wait(ms) {
       return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    async function hashFile(buffer) {
-      const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    function saveAnalysisToHistory(result) {
+      if (!currentUser) return;
+      const users = getUsers();
+      const index = users.findIndex(u => u.email === currentUser.email);
+      if (index === -1) return;
+
+      const item = {
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+        direction: result.direction || "-",
+        pair: result.pair || "-",
+        confidence: result.confidence || "-",
+        currentPrice: result.currentPrice || "-",
+        entry: result.entry || "-",
+        tp: result.tp || "-",
+        sl: result.sl || "-",
+        rr: result.rr || "-",
+        summary: result.summary || "",
+        raw: result.raw || ""
+      };
+
+      users[index].history = users[index].history || [];
+      users[index].history.unshift(item);
+      users[index].history = users[index].history.slice(0, 20);
+      saveUsers(users);
+      currentUser = users[index];
     }
 
-    function seededNumber(seedStr, offset = 0) {
-      let hash = 2166136261 ^ offset;
-      for (let i = 0; i < seedStr.length; i++) {
-        hash ^= seedStr.charCodeAt(i);
-        hash = Math.imul(hash, 16777619);
-      }
-      return (hash >>> 0) / 4294967295;
-    }
-
-    function pick(seed, items, offset = 0) {
-      const n = seededNumber(seed, offset);
-      return items[Math.floor(n * items.length) % items.length];
-    }
-
-    function generateDeterministicAnalysis(seed, fileName) {
-      const marketType = pick(seed, ["forex", "indices", "gold", "crypto"], 1);
-      const direction = seededNumber(seed, 2) > 0.5 ? "BUY" : "SELL";
-      const confidence = pick(seed, ["Moderate", "High", "Very High"], 3);
-
-      let basePrice;
-      let decimals;
-
-      if (marketType === "indices") {
-        basePrice = Math.floor(33000 + seededNumber(seed, 4) * 12000);
-        decimals = 1;
-      } else if (marketType === "gold") {
-        basePrice = 1800 + seededNumber(seed, 4) * 1200;
-        decimals = 2;
-      } else if (marketType === "crypto") {
-        basePrice = 20000 + seededNumber(seed, 4) * 90000;
-        decimals = 2;
-      } else {
-        basePrice = 0.8 + seededNumber(seed, 4) * 1.8;
-        decimals = 5;
+    function renderHistory() {
+      if (!currentUser) {
+        historyList.innerHTML = `<div class="note">No user loaded.</div>`;
+        return;
       }
 
-      const riskUnit = marketType === "forex"
-        ? 0.003 + seededNumber(seed, 5) * 0.006
-        : marketType === "gold"
-        ? 5 + seededNumber(seed, 5) * 12
-        : marketType === "crypto"
-        ? 150 + seededNumber(seed, 5) * 800
-        : 80 + seededNumber(seed, 5) * 220;
+      const history = currentUser.history || [];
+      if (!history.length) {
+        historyList.innerHTML = `<div class="note">No saved analysis yet. Run a chart analysis first.</div>`;
+        return;
+      }
 
-      const rrNum = 1.8 + seededNumber(seed, 6) * 1.7;
-      const rewardUnit = riskUnit * rrNum;
+      historyList.innerHTML = history.map(item => {
+        const dirClass = (item.direction || "").toUpperCase() === "BUY" ? "buy" : ((item.direction || "").toUpperCase() === "SELL" ? "sell" : "");
+        return `
+          <div class="history-item">
+            <div class="history-top">
+              <div class="history-dir ${dirClass}">${escapeHtml(item.direction || "-")}</div>
+              <div>${new Date(item.createdAt).toLocaleString()}</div>
+            </div>
+            <div class="history-small">
+              Pair: ${escapeHtml(item.pair || "-")}<br>
+              Current Price: ${escapeHtml(item.currentPrice || "-")}<br>
+              Entry: ${escapeHtml(item.entry || "-")} | TP: ${escapeHtml(item.tp || "-")} | SL: ${escapeHtml(item.sl || "-")}<br>
+              Confidence: ${escapeHtml(item.confidence || "-")} | RR: ${escapeHtml(item.rr || "-")}
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
 
-      let entry = basePrice;
-      let sl = direction === "BUY" ? basePrice - riskUnit : basePrice + riskUnit;
-      let tp = direction === "BUY" ? basePrice + rewardUnit : basePrice - rewardUnit;
+    function renderAccount() {
+      if (!currentUser) {
+        accountGrid.innerHTML = `<div class="account-line">No user loaded.</div>`;
+        return;
+      }
 
-      const structureBias = direction === "BUY"
-        ? "Bullish structure maintained with higher-low continuation bias."
-        : "Bearish structure maintained with lower-high continuation bias.";
+      accountGrid.innerHTML = `
+        <div class="account-line"><strong>Name:</strong> ${escapeHtml(currentUser.name || "-")}</div>
+        <div class="account-line"><strong>Email:</strong> ${escapeHtml(currentUser.email || "-")}</div>
+        <div class="account-line"><strong>Saved analyses:</strong> ${(currentUser.history || []).length}</div>
+      `;
+    }
 
-      const fvgText = direction === "BUY"
-        ? "Unmitigated bullish FVG identified below price, suggesting discount re-entry interest."
-        : "Unmitigated bearish FVG identified above price, suggesting premium re-entry interest.";
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
-      const obText = direction === "BUY"
-        ? "Nearest bullish order block aligns with reaction zone and supports upside continuation."
-        : "Nearest bearish order block aligns with rejection zone and supports downside continuation.";
+    function tryExtractField(raw, labels) {
+      const lines = raw.split(/\r?\n/);
+      for (const line of lines) {
+        for (const label of labels) {
+          const regex = new RegExp("^\\s*" + label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*[:\\-]\\s*(.+)$", "i");
+          const match = line.match(regex);
+          if (match) return match[1].trim();
+        }
+      }
+      return "";
+    }
+
+    function parseAIResponse(raw) {
+      const direction = tryExtractField(raw, ["Direction", "Bias", "Trade Direction"]) || inferDirection(raw);
+      const entry = tryExtractField(raw, ["Entry", "Entry Price"]);
+      const tp = tryExtractField(raw, ["Take Profit", "TP", "Target"]);
+      const sl = tryExtractField(raw, ["Stop Loss", "SL"]);
+      const confidence = tryExtractField(raw, ["Confidence", "AI Confidence"]);
+      const pair = tryExtractField(raw, ["Pair", "Instrument", "Symbol"]);
+      const currentPrice = tryExtractField(raw, ["Current Price", "Price", "Last Price"]);
+      const rr = tryExtractField(raw, ["Risk Reward", "RR", "Risk:Reward", "Risk / Reward"]);
+      const summary = tryExtractField(raw, ["Summary", "Short Explanation", "Explanation"]) || "";
+      const reasoning = tryExtractField(raw, ["Reasoning", "Why", "Analysis"]) || "";
 
       return {
-        fileName,
-        marketType,
-        direction,
+        direction: normalizeDirection(direction),
+        entry,
+        tp,
+        sl,
         confidence,
-        entry: formatPrice(entry, decimals),
-        tp: formatPrice(tp, decimals),
-        sl: formatPrice(sl, decimals),
-        rr: `1 : ${rrNum.toFixed(1)}`,
-        structureNote: structureBias,
-        fvgNote: fvgText,
-        obNote: obText
+        pair,
+        currentPrice,
+        rr,
+        summary,
+        reasoning,
+        raw
       };
     }
 
-    function formatPrice(n, decimals) {
-      return Number(n).toFixed(decimals);
+    function inferDirection(raw) {
+      const upper = raw.toUpperCase();
+      if (upper.includes("BUY")) return "BUY";
+      if (upper.includes("SELL")) return "SELL";
+      return "";
     }
 
-    function renderResult(result) {
-      directionValue.textContent = result.direction;
-      directionValue.className = "value " + (result.direction === "BUY" ? "direction-buy" : "direction-sell");
-
-      directionBadge.textContent = `✅ Direction Confirmed: ${result.direction}`;
-      directionBadge.style.color = result.direction === "BUY" ? "var(--success)" : "var(--danger)";
-
-      confidenceValue.textContent = result.confidence;
-      entryValue.textContent = result.entry;
-      tpValue.textContent = result.tp;
-      slValue.textContent = result.sl;
-      rrValue.textContent = result.rr;
-
-      structureNote.textContent = result.structureNote;
-      fvgNote.textContent = result.fvgNote;
-      obNote.textContent = result.obNote;
+    function normalizeDirection(value) {
+      const upper = String(value || "").trim().toUpperCase();
+      if (upper.includes("BUY")) return "BUY";
+      if (upper.includes("SELL")) return "SELL";
+      return value || "-";
     }
+
+    function renderResult(data) {
+      const dir = (data.direction || "-").toUpperCase();
+      directionValue.textContent = data.direction || "-";
+      directionValue.className = "metric-value " + (dir === "BUY" ? "buy" : dir === "SELL" ? "sell" : "");
+      directionBadge.textContent = `✅ Direction Confirmed: ${data.direction || "-"}`;
+      directionBadge.style.color = dir === "BUY" ? "var(--success)" : dir === "SELL" ? "var(--danger)" : "var(--text)";
+
+      confidenceValue.textContent = data.confidence || "-";
+      pairValue.textContent = data.pair || "-";
+      currentPriceValue.textContent = data.currentPrice || "-";
+      entryValue.textContent = data.entry || "-";
+      tpValue.textContent = data.tp || "-";
+      slValue.textContent = data.sl || "-";
+      rrValue.textContent = data.rr || "-";
+
+      summaryNote.textContent = data.summary ? "Summary: " + data.summary : "Summary: No short summary returned.";
+      reasonNote.textContent = data.reasoning ? "Reasoning: " + data.reasoning : "Reasoning: No detailed reasoning returned.";
+      rawNote.textContent = "Raw AI response:\n" + (data.raw || "No response text returned.");
+    }
+
+    async function analyzeChart() {
+      if (!currentFile) {
+        showStatus(scannerStatus, "Please upload a chart image first.", "error");
+        return;
+      }
+
+      clearStatus(scannerStatus);
+      uploadCard.classList.add("hidden");
+      resultCard.classList.add("hidden");
+      loadingCard.classList.remove("hidden");
+      progressBar.style.width = "0%";
+      stepEls.forEach(el => el.classList.remove("done"));
+
+      const animationPromise = animateLoading();
+
+      try {
+        const formData = new FormData();
+        formData.append("image", currentFile);
+
+        const response = await fetch("/analyze", {
+          method: "POST",
+          body: formData
+        });
+
+        let responseData;
+        try {
+          responseData = await response.json();
+        } catch {
+          responseData = {};
+        }
+
+        await animationPromise;
+
+        if (!response.ok) {
+          const msg = responseData.error || "AI backend request failed.";
+          throw new Error(msg);
+        }
+
+        const rawText =
+          responseData.result ||
+          responseData.text ||
+          responseData.output ||
+          JSON.stringify(responseData, null, 2);
+
+        const parsed = parseAIResponse(String(rawText || ""));
+        lastAnalysis = parsed;
+        renderResult(parsed);
+        saveAnalysisToHistory(parsed);
+
+        loadingCard.classList.add("hidden");
+        resultCard.classList.remove("hidden");
+      } catch (error) {
+        loadingCard.classList.add("hidden");
+        uploadCard.classList.remove("hidden");
+        showStatus(
+          scannerStatus,
+          "Analysis failed. Make sure your backend endpoint /analyze is running. Error: " + error.message,
+          "error"
+        );
+      }
+    }
+
+    // AUTH EVENTS
+    showLoginBtn.addEventListener("click", () => switchAuth("login"));
+    showSignupBtn.addEventListener("click", () => switchAuth("signup"));
+
+    document.getElementById("signupSubmitBtn").addEventListener("click", () => {
+      clearStatus(signupStatus);
+
+      const name = signupName.value.trim();
+      const email = signupEmail.value.trim();
+      const password = signupPassword.value.trim();
+
+      if (!name || !email || !password) {
+        showStatus(signupStatus, "Fill in all sign up fields.", "error");
+        return;
+      }
+
+      if (password.length < 4) {
+        showStatus(signupStatus, "Password must be at least 4 characters.", "error");
+        return;
+      }
+
+      const users = getUsers();
+      if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+        showStatus(signupStatus, "That email is already registered.", "error");
+        return;
+      }
+
+      const newUser = {
+        name,
+        email,
+        passwordHash: hashPassword(password),
+        history: []
+      };
+
+      users.push(newUser);
+      saveUsers(users);
+      showStatus(signupStatus, "Account created. You can log in now.", "success");
+
+      signupName.value = "";
+      signupEmail.value = "";
+      signupPassword.value = "";
+      switchAuth("login");
+      loginEmail.value = email;
+    });
+
+    document.getElementById("loginSubmitBtn").addEventListener("click", () => {
+      clearStatus(loginStatus);
+
+      const email = loginEmail.value.trim();
+      const password = loginPassword.value.trim();
+
+      if (!email || !password) {
+        showStatus(loginStatus, "Enter your email and password.", "error");
+        return;
+      }
+
+      const user = getUserByEmail(email);
+      if (!user || user.passwordHash !== hashPassword(password)) {
+        showStatus(loginStatus, "Wrong email or password.", "error");
+        return;
+      }
+
+      loginUser(user);
+    });
+
+    // MENU
+    menuBtn.addEventListener("click", () => {
+      menu.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && e.target !== menuBtn) {
+        menu.classList.remove("show");
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+    document.getElementById("logoutBtn2").addEventListener("click", logoutUser);
+    document.getElementById("menuAccountBtn").addEventListener("click", () => openTab("accountTab"));
+    document.getElementById("menuHistoryBtn").addEventListener("click", () => openTab("chartsTab"));
+
+    // TABS
+    document.querySelectorAll(".tab").forEach(btn => {
+      btn.addEventListener("click", () => openTab(btn.dataset.tab));
+    });
+
+    // UPLOAD
+    chartInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      currentFile = file;
+      const reader = new FileReader();
+      reader.onload = function(ev) {
+        previewImg.src = ev.target.result;
+        previewBox.style.display = "block";
+      };
+      reader.readAsDataURL(file);
+
+      fileNameText.textContent = file.name;
+      fileSizeText.textContent = formatBytes(file.size);
+      fileMeta.classList.remove("hidden");
+      analyzeBtn.disabled = false;
+      changeImageBtn.classList.remove("hidden");
+      clearStatus(scannerStatus);
+    });
+
+    analyzeBtn.addEventListener("click", analyzeChart);
+    document.getElementById("reanalyzeBtn").addEventListener("click", analyzeChart);
+    changeImageBtn.addEventListener("click", resetUpload);
+    document.getElementById("newChartBtn").addEventListener("click", resetUpload);
+
+    // SESSION RESTORE
+    (function init() {
+      updateRolePill();
+      const sessionEmail = getSession();
+      if (sessionEmail) {
+        const user = getUserByEmail(sessionEmail);
+        if (user) {
+          currentUser = user;
+          showApp();
+        }
+      }
+    })();
   </script>
 </body>
 </html>
