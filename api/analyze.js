@@ -1,47 +1,48 @@
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
 export default async function handler(req, res) {
-  // Allow CORS (so your frontend can call it)
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-
-  if (req.method === "OPTIONS") {
-    return res.status(200).end();
-  }
-
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
-    const { image } = req.body;
+    const sampleResults = [
+      {
+        direction: "BUY",
+        confidence: "92%",
+        entry: "42215.50",
+        sl: "42120.00",
+        tp: "42410.00",
+        pair: "US30"
+      },
+      {
+        direction: "SELL",
+        confidence: "89%",
+        entry: "2685.20",
+        sl: "2692.80",
+        tp: "2671.40",
+        pair: "XAUUSD"
+      },
+      {
+        direction: "BUY",
+        confidence: "87%",
+        entry: "1.08420",
+        sl: "1.08290",
+        tp: "1.08740",
+        pair: "EURUSD"
+      }
+    ];
 
-    if (!image) {
-      return res.status(400).json({ error: "No image provided" });
-    }
+    const random = sampleResults[Math.floor(Math.random() * sampleResults.length)];
 
-    // 🔥 Fake AI SMC Logic (for now – looks real to user)
-    const result = {
-      pair: "US30",
-      trend: "Bullish",
-      confirmation: "Liquidity sweep + BOS confirmed",
-      fvg: "Valid FVG detected",
-      orderBlock: "Bullish OB respected",
-      direction: "BUY",
-      entry: "47210",
-      tp: "47450",
-      sl: "47080",
-      message: "Sniper entry confirmed ✅"
-    };
-
-    // Simulate AI loading delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    return res.status(200).json(result);
-
+    return res.status(200).json(random);
   } catch (error) {
     return res.status(500).json({
-      error: "Analysis failed",
-      details: error.message
+      message: "Server analysis failed."
     });
   }
 }
