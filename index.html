@@ -426,6 +426,7 @@
       color:var(--text);
       font-weight:800;
       text-align:right;
+      word-break:break-word;
     }
 
     .loading-card{
@@ -690,7 +691,6 @@
       </div>
 
       <div class="content">
-        <!-- AUTH -->
         <section class="screen active" id="authScreen">
           <div class="card">
             <div class="auth-switch">
@@ -704,12 +704,12 @@
 
               <div class="field">
                 <label class="label" for="loginEmail">Email</label>
-                <input class="input" id="loginEmail" type="email" placeholder="Enter your email" />
+                <input class="input" id="loginEmail" type="email" placeholder="Enter your email" autocomplete="email" />
               </div>
 
               <div class="field">
                 <label class="label" for="loginPassword">Password</label>
-                <input class="input" id="loginPassword" type="password" placeholder="Enter your password" />
+                <input class="input" id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" />
               </div>
 
               <button class="btn btn-primary" id="loginSubmitBtn" type="button">Login</button>
@@ -722,17 +722,17 @@
 
               <div class="field">
                 <label class="label" for="signupName">Full name</label>
-                <input class="input" id="signupName" type="text" placeholder="Enter full name" />
+                <input class="input" id="signupName" type="text" placeholder="Enter full name" autocomplete="name" />
               </div>
 
               <div class="field">
                 <label class="label" for="signupEmail">Email</label>
-                <input class="input" id="signupEmail" type="email" placeholder="Enter email" />
+                <input class="input" id="signupEmail" type="email" placeholder="Enter email" autocomplete="email" />
               </div>
 
               <div class="field">
                 <label class="label" for="signupPassword">Password</label>
-                <input class="input" id="signupPassword" type="password" placeholder="Create password" />
+                <input class="input" id="signupPassword" type="password" placeholder="Create password" autocomplete="new-password" />
               </div>
 
               <button class="btn btn-primary" id="signupSubmitBtn" type="button">Sign Up</button>
@@ -740,12 +740,11 @@
             </div>
 
             <div class="small">
-              Your admin account is auto-created in the background and not shown on screen.
+              Accounts in this version are saved on the device browser using localStorage.
             </div>
           </div>
         </section>
 
-        <!-- APP -->
         <section class="screen" id="appScreen">
           <div class="tabs">
             <button class="tab active" data-tab="scannerTab" type="button">Scanner</button>
@@ -754,7 +753,6 @@
             <button class="tab" data-tab="accountTab" type="button">Account</button>
           </div>
 
-          <!-- SCANNER -->
           <div class="tab-screen active" id="scannerTab">
             <div class="card" id="uploadCard">
               <div class="title">Upload Chart Screenshot</div>
@@ -766,7 +764,7 @@
                   <div class="title" style="font-size:1rem; margin-bottom:4px;">Choose chart image</div>
                   <div class="sub">PNG, JPG or WEBP</div>
                 </label>
-                <input id="chartInput" type="file" accept="image/*" />
+                <input id="chartInput" type="file" accept="image/png,image/jpeg,image/webp,image/jpg" />
               </div>
 
               <div class="preview" id="previewBox">
@@ -870,7 +868,6 @@
             </div>
           </div>
 
-          <!-- HISTORY -->
           <div class="tab-screen" id="historyTab">
             <div class="card">
               <div class="title">Saved Analysis History</div>
@@ -879,7 +876,6 @@
             </div>
           </div>
 
-          <!-- LEARN -->
           <div class="tab-screen" id="learnTab">
             <div class="card">
               <div class="title">SMC Learn</div>
@@ -894,7 +890,6 @@
             </div>
           </div>
 
-          <!-- ACCOUNT -->
           <div class="tab-screen" id="accountTab">
             <div class="card">
               <div class="title">Account</div>
@@ -912,14 +907,10 @@
   </div>
 
   <script>
-    const APP_USERS_KEY = "gtfx_users_final_v1";
-    const APP_SESSION_KEY = "gtfx_session_final_v1";
+    const APP_USERS_KEY = "gtfx_users_final_v2";
+    const APP_SESSION_KEY = "gtfx_session_final_v2";
     const PAYSTACK_URL = "https://paystack.shop/pay/7a1-oxg9e0";
-
-    // Hidden admin account
-    const ADMIN_NAME = "GT FX GOAT Admin";
-    const ADMIN_EMAIL = "tlhakudibokang616@gmail.com";
-    const ADMIN_PASSWORD = "Tlhakudi122@";
+    const ANALYZE_ENDPOINT = "/api/analyze";
 
     const authScreen = document.getElementById("authScreen");
     const appScreen = document.getElementById("appScreen");
@@ -977,6 +968,7 @@
     const accountGrid = document.getElementById("accountGrid");
 
     let currentFile = null;
+    let currentImageBase64 = "";
     let currentUser = null;
 
     function hashPassword(value) {
@@ -1011,22 +1003,6 @@
       localStorage.removeItem(APP_SESSION_KEY);
     }
 
-    function ensureAdminAccount() {
-      const users = getUsers();
-      const exists = users.some(u => u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
-
-      if (!exists) {
-        users.push({
-          name: ADMIN_NAME,
-          email: ADMIN_EMAIL,
-          passwordHash: hashPassword(ADMIN_PASSWORD),
-          history: [],
-          isAdmin: true
-        });
-        saveUsers(users);
-      }
-    }
-
     function switchAuth(mode) {
       if (mode === "login") {
         showLoginBtn.classList.add("active");
@@ -1052,11 +1028,7 @@
     }
 
     function updateRolePill() {
-      if (!currentUser) {
-        rolePill.textContent = "Guest";
-        return;
-      }
-      rolePill.textContent = currentUser.isAdmin ? "Admin" : "User";
+      rolePill.textContent = currentUser ? "User" : "Guest";
     }
 
     function showApp() {
@@ -1120,7 +1092,7 @@
       accountGrid.innerHTML = `
         <div class="account-line"><strong>Name:</strong> ${escapeHtml(currentUser.name || "-")}</div>
         <div class="account-line"><strong>Email:</strong> ${escapeHtml(currentUser.email || "-")}</div>
-        <div class="account-line"><strong>Role:</strong> ${currentUser.isAdmin ? "Admin" : "Client"}</div>
+        <div class="account-line"><strong>Role:</strong> Client</div>
         <div class="account-line"><strong>Saved analyses:</strong> ${(currentUser.history || []).length}</div>
       `;
     }
@@ -1138,7 +1110,8 @@
       }
 
       historyList.innerHTML = history.map(item => {
-        const dirClass = (item.direction || "").toUpperCase() === "BUY" ? "buy" : ((item.direction || "").toUpperCase() === "SELL" ? "sell" : "");
+        const dir = String(item.direction || "").toUpperCase();
+        const dirClass = dir === "BUY" ? "buy" : dir === "SELL" ? "sell" : "";
         return `
           <div class="history-item">
             <div class="history-top">
@@ -1169,10 +1142,12 @@
     function resetUpload() {
       chartInput.value = "";
       currentFile = null;
+      currentImageBase64 = "";
       previewImg.src = "";
       previewBox.style.display = "none";
       fileMeta.classList.add("hidden");
       analyzeBtn.disabled = true;
+      analyzeBtn.textContent = "Analyze Chart";
       changeImageBtn.classList.add("hidden");
       clearStatus(scannerStatus);
 
@@ -1190,18 +1165,19 @@
     async function animateLoading() {
       const widths = [18, 38, 62, 82, 100];
       for (let i = 0; i < stepEls.length; i++) {
-        await wait(450);
+        await wait(420);
         stepEls[i].classList.add("done");
         progressBar.style.width = widths[i] + "%";
       }
-      await wait(250);
+      await wait(200);
     }
 
     function tryExtractField(raw, labels) {
       const lines = raw.split(/\r?\n/);
       for (const line of lines) {
         for (const label of labels) {
-          const regex = new RegExp("^\\s*" + label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\s*[:\\-]\\s*(.+)$", "i");
+          const escapedLabel = label.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+          const regex = new RegExp("^\\s*" + escapedLabel + "\\s*[:\\-]\\s*(.+)$", "i");
           const match = line.match(regex);
           if (match) return match[1].trim();
         }
@@ -1223,7 +1199,41 @@
       return "-";
     }
 
-    function parseAIResponse(raw) {
+    function parseAIResponse(responseData) {
+      if (responseData && typeof responseData === "object" && !Array.isArray(responseData)) {
+        if (
+          responseData.direction ||
+          responseData.entry ||
+          responseData.tp ||
+          responseData.sl ||
+          responseData.pair ||
+          responseData.confidence ||
+          responseData.summary ||
+          responseData.reasoning
+        ) {
+          return {
+            direction: normalizeDirection(responseData.direction || responseData.bias || responseData.tradeDirection || "-"),
+            entry: responseData.entry || responseData.entryPrice || "-",
+            tp: responseData.tp || responseData.takeProfit || responseData.target || "-",
+            sl: responseData.sl || responseData.stopLoss || "-",
+            confidence: responseData.confidence || responseData.aiConfidence || "-",
+            pair: responseData.pair || responseData.instrument || responseData.symbol || "-",
+            timeframe: responseData.timeframe || responseData.tf || "-",
+            currentPrice: responseData.currentPrice || responseData.price || responseData.lastPrice || "-",
+            rr: responseData.rr || responseData.riskReward || responseData["risk:reward"] || "-",
+            summary: responseData.summary || responseData.explanation || responseData.shortExplanation || "No short summary returned.",
+            reasoning: responseData.reasoning || responseData.analysis || responseData.why || "No detailed reasoning returned.",
+            raw: typeof responseData.raw === "string" ? responseData.raw : JSON.stringify(responseData, null, 2)
+          };
+        }
+
+        if (typeof responseData.result === "string" || typeof responseData.text === "string" || typeof responseData.output === "string") {
+          const rawText = responseData.result || responseData.text || responseData.output || "";
+          return parseAIResponse(rawText);
+        }
+      }
+
+      const raw = String(responseData || "");
       const direction = tryExtractField(raw, ["Direction", "Bias", "Trade Direction"]) || inferDirection(raw);
       const entry = tryExtractField(raw, ["Entry", "Entry Price"]);
       const tp = tryExtractField(raw, ["Take Profit", "TP", "Target"]);
@@ -1253,7 +1263,7 @@
     }
 
     function renderResult(data) {
-      const dir = (data.direction || "-").toUpperCase();
+      const dir = String(data.direction || "-").toUpperCase();
 
       directionValue.textContent = data.direction || "-";
       directionValue.className = "metric-value " + (dir === "BUY" ? "buy" : dir === "SELL" ? "sell" : "");
@@ -1296,14 +1306,23 @@
         sl: result.sl,
         rr: result.rr
       });
-      users[index].history = users[index].history.slice(0, 20);
 
+      users[index].history = users[index].history.slice(0, 20);
       saveUsers(users);
       currentUser = users[index];
     }
 
+    function fileToDataURL(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => resolve(e.target.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
     async function analyzeChart() {
-      if (!currentFile) {
+      if (!currentFile || !currentImageBase64) {
         showStatus(scannerStatus, "Please upload a chart image first.", "error");
         return;
       }
@@ -1314,36 +1333,40 @@
       loadingCard.classList.remove("hidden");
       progressBar.style.width = "0%";
       stepEls.forEach(el => el.classList.remove("done"));
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = "Analyzing...";
 
       const animationPromise = animateLoading();
 
       try {
-        const formData = new FormData();
-        formData.append("image", currentFile);
-
-        const response = await fetch("http://localhost:3000/analyze", {
+        const response = await fetch(ANALYZE_ENDPOINT, {
           method: "POST",
-          body: formData
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            image: currentImageBase64,
+            fileName: currentFile.name,
+            mimeType: currentFile.type
+          })
         });
 
-        let responseData = {};
+        let responseData = null;
+        const rawResponseText = await response.text();
+
         try {
-          responseData = await response.json();
-        } catch (e) {}
+          responseData = rawResponseText ? JSON.parse(rawResponseText) : {};
+        } catch {
+          responseData = { result: rawResponseText };
+        }
 
         await animationPromise;
 
         if (!response.ok) {
-          throw new Error(responseData.error || "Backend request failed");
+          throw new Error(responseData.error || responseData.details || rawResponseText || "Backend request failed");
         }
 
-        const rawText =
-          responseData.result ||
-          responseData.text ||
-          responseData.output ||
-          JSON.stringify(responseData, null, 2);
-
-        const parsed = parseAIResponse(String(rawText || ""));
+        const parsed = parseAIResponse(responseData);
         renderResult(parsed);
         saveAnalysisToHistory(parsed);
 
@@ -1354,11 +1377,17 @@
       } catch (error) {
         loadingCard.classList.add("hidden");
         uploadCard.classList.remove("hidden");
-        showStatus(scannerStatus, "Analysis failed. Make sure server.js is running. Error: " + error.message, "error");
+        showStatus(
+          scannerStatus,
+          "Analysis failed. Make sure /api/analyze is deployed on Vercel. Error: " + error.message,
+          "error"
+        );
+      } finally {
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = "Analyze Chart";
       }
     }
 
-    // auth
     showLoginBtn.addEventListener("click", () => switchAuth("login"));
     showSignupBtn.addEventListener("click", () => switchAuth("signup"));
 
@@ -1371,6 +1400,11 @@
 
       if (!name || !email || !password) {
         showStatus(signupStatus, "Fill in all sign up fields.", "error");
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showStatus(signupStatus, "Enter a valid email address.", "error");
         return;
       }
 
@@ -1389,8 +1423,7 @@
         name,
         email,
         passwordHash: hashPassword(password),
-        history: [],
-        isAdmin: false
+        history: []
       });
 
       saveUsers(users);
@@ -1429,13 +1462,13 @@
       loginUser(user);
     });
 
-    // menu
-    menuBtn.addEventListener("click", () => {
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       menu.classList.toggle("show");
     });
 
     document.addEventListener("click", (e) => {
-      if (!menu.contains(e.target) && e.target !== menuBtn) {
+      if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
         menu.classList.remove("show");
       }
     });
@@ -1450,31 +1483,40 @@
     document.getElementById("logoutBtn").addEventListener("click", logoutUser);
     document.getElementById("logoutBtn2").addEventListener("click", logoutUser);
 
-    // tabs
     document.querySelectorAll(".tab").forEach(btn => {
       btn.addEventListener("click", () => openTab(btn.dataset.tab));
     });
 
-    // upload
-    chartInput.addEventListener("change", (e) => {
+    chartInput.addEventListener("change", async (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
+      const allowed = ["image/png", "image/jpeg", "image/webp", "image/jpg"];
+      if (!allowed.includes(file.type)) {
+        showStatus(scannerStatus, "Only PNG, JPG and WEBP images are allowed.", "error");
+        chartInput.value = "";
+        return;
+      }
+
       currentFile = file;
-
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        previewImg.src = ev.target.result;
-        previewBox.style.display = "block";
-      };
-      reader.readAsDataURL(file);
-
-      fileNameText.textContent = file.name;
-      fileSizeText.textContent = formatBytes(file.size);
-      fileMeta.classList.remove("hidden");
-      analyzeBtn.disabled = false;
-      changeImageBtn.classList.remove("hidden");
       clearStatus(scannerStatus);
+
+      try {
+        const dataUrl = await fileToDataURL(file);
+        currentImageBase64 = dataUrl;
+        previewImg.src = dataUrl;
+        previewBox.style.display = "block";
+
+        fileNameText.textContent = file.name;
+        fileSizeText.textContent = formatBytes(file.size);
+        fileMeta.classList.remove("hidden");
+        analyzeBtn.disabled = false;
+        changeImageBtn.classList.remove("hidden");
+      } catch (err) {
+        currentFile = null;
+        currentImageBase64 = "";
+        showStatus(scannerStatus, "Failed to read image file.", "error");
+      }
     });
 
     analyzeBtn.addEventListener("click", analyzeChart);
@@ -1482,9 +1524,15 @@
     changeImageBtn.addEventListener("click", resetUpload);
     document.getElementById("newChartBtn").addEventListener("click", resetUpload);
 
-    // init
+    loginPassword.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") document.getElementById("loginSubmitBtn").click();
+    });
+
+    signupPassword.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") document.getElementById("signupSubmitBtn").click();
+    });
+
     (function init() {
-      ensureAdminAccount();
       updateRolePill();
 
       const sessionEmail = getSession();
