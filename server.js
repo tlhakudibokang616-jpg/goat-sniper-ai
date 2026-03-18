@@ -1,270 +1,89 @@
-import express from "express";
-import multer from "multer";
-import dotenv from "dotenv";
-import cors from "cors";
+const express = require("express");
+const cors = require("cors");
+const multer = require("multer");
+const dotenv = require("dotenv");
+const path = require("path");
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname));
 
-const upload = multer({
-  storage: multer.memoryStorage(),
-  limits: {
-    fileSize: 8 * 1024 * 1024, // 8MB
-  },
+const upload = multer({ storage: multer.memoryStorage() });
+
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.get("/", (_req, res) => {
-  res.json({
-    ok: true,
-    message: "GT FX GOAT AI backend is running",
+app.post("/login", (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email and password are required." });
+  }
+
+  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+    return res.json({
+      success: true,
+      email
+    });
+  }
+
+  return res.status(401).json({
+    success: false,
+    message: "Wrong email or password."
   });
 });
 
-app.get("/health", (_req, res) => {
-  res.json({
-    ok: true,
-    env: {
-      hasOpenAIKey: !!process.env.OPENAI_API_KEY,
-      model: process.env.OPENAI_MODEL || "gpt-4.1",
-    },
-  });
-});
-
-app.post("/analyze", upload.single("image"), async (req, res) => {
+app.post("/analyze", upload.single("chart"), async (req, res) => {
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      return res.status(500).json({
-        error: "Missing OPENAI_API_KEY in .env",
-      });
-    }
-
     if (!req.file) {
-      return res.status(400).json({
-        error: "No image uploaded. Use form-data with field name: image",
-      });
+      return res.status(400).json({ message: "No chart uploaded." });
     }
 
-    const allowedMimeTypes = [
-      "image/png",
-      "image/jpeg",
-      "image/jpg",
-      "image/webp",
+    const sampleResults = [
+      {
+        direction: "BUY",
+        confidence: "92%",
+        entry: "42215.50",
+        sl: "42120.00",
+        tp: "42410.00",
+        pair: "US30"
+      },
+      {
+        direction: "SELL",
+        confidence: "89%",
+        entry: "2685.20",
+        sl: "2692.80",
+        tp: "2671.40",
+        pair: "XAUUSD"
+      },
+      {
+        direction: "BUY",
+        confidence: "87%",
+        entry: "1.08420",
+        sl: "1.08290",
+        tp: "1.08740",
+        pair: "EURUSD"
+      }
     ];
 
-    if (!allowedMimeTypes.includes(req.file.mimetype)) {
-      return res.status(400).json({
-        error: "Unsupported image type. Use PNG, JPG, JPEG, or WEBP.",
-      });
-    }
+    const random = sampleResults[Math.floor(Math.random() * sampleResults.length)];
 
-    const model = process.env.OPENAI_MODEL || "gpt-4.1";
-    const base64Image = req.file.buffer.toString("base64");
-    const dataUrl = `data:${req.file.mimetype};base64,${base64Image}`;
-
-    const prompt = `
-You are an AI trading assistant that analyzes a screenshot of a price chart.
-
-Your job:
-1. Read ONLY what is visibly present on the chart screenshot.
-2. Try to detect:
-   - pair or instrument
-   - current visible price
-   - timeframe if visible
-   - bullish or bearish structure
-   - possible entry, stop loss, take profit
-3. If something is not clearly visible, return null for that field.
-4. Do NOT invent exact chart values you cannot see.
-5. Keep reasoning short and realistic.
-6. Return STRICT JSON only. No markdown. No code block. No extra text.
-
-Return this exact JSON shape:
-{
-  "direction": "BUY or SELL or null",
-  "pair": "string or null",
-  "timeframe": "string or null",
-  "currentPrice": "string or null",
-  "entry": "string or null",
-  "takeProfit": "string or null",
-  "stopLoss": "string or null",
-  "confidence": "Low or Medium or High",
-  "riskReward": "string or null",
-  "summary": "short summary",
-  "reasoning": "short explanation based only on visible chart features"
-}
-`.trim();
-
-    const openaiResponse = await fetch("https://api.openai.com/v1/responses", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model,
-        input: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "input_text",
-                text: prompt,
-              },
-              {
-                type: "input_image",
-                image_url: dataUrl,
-                detail: "high",
-              },
-            ],
-          },
-        ],
-      }),
-    });
-
-    const raw = await openaiResponse.json();
-
-    if (!openaiResponse.ok) {
-      return res.status(openaiResponse.status).json({
-        error: raw?.error?.message || "OpenAI request failed",
-        raw,
-      });
-    }
-
-    const textOutput = extractTextOutput(raw);
-
-    if (!textOutput) {
-      return res.status(500).json({
-        error: "No text output returned from OpenAI",
-        raw,
-      });
-    }
-
-    const parsed = safeParseJson(textOutput);
-
-    if (!parsed) {
-      return res.json({
-        result: textOutput,
-        structured: null,
-        raw,
-      });
-    }
-
-    const normalized = normalizeAnalysis(parsed);
-
-    return res.json({
-      result: JSON.stringify(normalized, null, 2),
-      structured: normalized,
-    });
+    return res.json(random);
   } catch (error) {
-    console.error("Analyze error:", error);
-    return res.status(500).json({
-      error: error.message || "Server error during analysis",
-    });
+    return res.status(500).json({ message: "Server analysis failed." });
   }
 });
 
-function extractTextOutput(apiResponse) {
-  if (!apiResponse) return "";
-
-  if (typeof apiResponse.output_text === "string" && apiResponse.output_text.trim()) {
-    return apiResponse.output_text.trim();
-  }
-
-  if (Array.isArray(apiResponse.output)) {
-    const texts = [];
-
-    for (const item of apiResponse.output) {
-      if (!item || !Array.isArray(item.content)) continue;
-
-      for (const part of item.content) {
-        if (part?.type === "output_text" && typeof part.text === "string") {
-          texts.push(part.text);
-        }
-      }
-    }
-
-    if (texts.length) {
-      return texts.join("\n").trim();
-    }
-  }
-
-  return "";
-}
-
-function safeParseJson(text) {
-  if (!text || typeof text !== "string") return null;
-
-  try {
-    return JSON.parse(text);
-  } catch {
-    // try to recover if model wrapped JSON with extra text
-  }
-
-  const firstBrace = text.indexOf("{");
-  const lastBrace = text.lastIndexOf("}");
-
-  if (firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace) {
-    const maybeJson = text.slice(firstBrace, lastBrace + 1);
-    try {
-      return JSON.parse(maybeJson);
-    } catch {
-      return null;
-    }
-  }
-
-  return null;
-}
-
-function normalizeAnalysis(data) {
-  const direction = normalizeDirection(data.direction);
-
-  return {
-    direction,
-    pair: cleanValue(data.pair),
-    timeframe: cleanValue(data.timeframe),
-    currentPrice: cleanValue(data.currentPrice),
-    entry: cleanValue(data.entry),
-    takeProfit: cleanValue(data.takeProfit),
-    stopLoss: cleanValue(data.stopLoss),
-    confidence: normalizeConfidence(data.confidence),
-    riskReward: cleanValue(data.riskReward),
-    summary: cleanText(data.summary),
-    reasoning: cleanText(data.reasoning),
-  };
-}
-
-function cleanValue(value) {
-  if (value === null || value === undefined) return null;
-  const str = String(value).trim();
-  return str ? str : null;
-}
-
-function cleanText(value) {
-  if (value === null || value === undefined) return "";
-  return String(value).trim();
-}
-
-function normalizeDirection(value) {
-  const str = String(value || "").trim().toUpperCase();
-  if (str.includes("BUY")) return "BUY";
-  if (str.includes("SELL")) return "SELL";
-  return null;
-}
-
-function normalizeConfidence(value) {
-  const str = String(value || "").trim().toLowerCase();
-
-  if (str === "low") return "Low";
-  if (str === "medium") return "Medium";
-  if (str === "high") return "High";
-
-  return "Medium";
-}
-
-app.listen(port, () => {
-  console.log(`GT FX GOAT AI backend running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
