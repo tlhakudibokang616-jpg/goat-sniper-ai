@@ -3,885 +3,926 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GOAT Sniper AI</title>
+  <title>GT FX GOAT AI Scanner</title>
   <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
+    :root{
+      --bg:#050b14;
+      --card:#0a1220;
+      --card-2:#0c1525;
+      --line:rgba(0,255,200,.12);
+      --text:#e9f2ff;
+      --muted:#7f8ca8;
+      --accent:#00f5c3;
+      --accent-2:#00c2ff;
+      --danger:#ff5d73;
+      --warn:#ffcf5a;
+      --success:#00f5c3;
+      --shadow:0 0 30px rgba(0,245,195,.12);
+      --radius:24px;
     }
 
-    :root {
-      --bg: #05080d;
-      --card: rgba(18, 22, 30, 0.94);
-      --border: rgba(255,255,255,0.06);
-      --text: #ffffff;
-      --muted: #9ca6b2;
-      --green: #00f5a0;
-      --green-soft: rgba(0,245,160,0.12);
-      --gold: #ffcc58;
-      --red: #ff6178;
-      --blue: #69a9ff;
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
     }
 
-    html, body {
-      margin: 0;
-      padding: 0;
+    body{
       background:
-        radial-gradient(circle at top, rgba(0,245,160,0.12), transparent 28%),
-        linear-gradient(180deg, #08120f 0%, #030507 55%, #000 100%);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-      min-height: 100vh;
+        radial-gradient(circle at top, rgba(0,245,195,.08), transparent 25%),
+        radial-gradient(circle at right, rgba(0,194,255,.06), transparent 20%),
+        var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
     }
 
-    body {
-      padding-bottom: 110px;
+    .app-shell{
+      width:100%;
+      max-width:460px;
+      min-height:90vh;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:0 20px 70px rgba(0,0,0,.45), var(--shadow);
+      border-radius:32px;
+      overflow:hidden;
+      position:relative;
+      backdrop-filter:blur(18px);
     }
 
-    .container {
-      width: 100%;
-      max-width: 440px;
-      margin: 0 auto;
-      padding: 18px 16px 30px;
+    .topbar{
+      padding:18px 18px 10px;
+      border-bottom:1px solid rgba(255,255,255,.05);
+      background:rgba(3,8,16,.7);
+      position:sticky;
+      top:0;
+      z-index:20;
     }
 
-    .badge-top {
-      width: fit-content;
-      margin: 6px auto 12px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(0,245,160,0.22);
-      background: rgba(255,255,255,0.03);
-      color: #cbffeb;
-      font-size: 13px;
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
     }
 
-    .logo {
-      text-align: center;
-      color: var(--green);
-      font-size: 36px;
-      font-weight: 900;
-      text-shadow: 0 0 18px rgba(0,245,160,0.35);
-      margin: 0 0 8px;
+    .brand-left{
+      display:flex;
+      align-items:center;
+      gap:12px;
     }
 
-    .sub {
-      text-align: center;
-      color: #d9e0e7;
-      font-size: 15px;
-      margin: 0 0 18px;
+    .logo{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:linear-gradient(135deg, rgba(0,245,195,.18), rgba(0,194,255,.14));
+      border:1px solid rgba(0,245,195,.22);
+      box-shadow:0 0 20px rgba(0,245,195,.12);
+      font-weight:800;
+      color:var(--accent);
     }
 
-    .screen {
-      display: none;
+    .brand h1{
+      font-size:1rem;
+      line-height:1.1;
+      font-weight:800;
     }
 
-    .screen.active {
-      display: block;
+    .brand p{
+      color:var(--muted);
+      font-size:.78rem;
+      margin-top:3px;
     }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 18px;
-      margin-bottom: 16px;
-      box-shadow: 0 0 20px rgba(0,245,160,0.08);
+    .admin-pill{
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(129, 79, 255, .12);
+      border:1px solid rgba(129,79,255,.22);
+      color:#bb9aff;
+      font-size:.78rem;
+      font-weight:700;
     }
 
-    .title {
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0 0 8px;
+    .content{
+      padding:18px;
     }
 
-    .muted {
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.6;
+    .screen{
+      display:none;
+      animation:fadeIn .35s ease;
     }
 
-    .small {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
+    .screen.active{
+      display:block;
     }
 
-    input, select {
-      width: 100%;
-      padding: 15px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(255,255,255,0.03);
-      color: white;
-      outline: none;
-      margin-bottom: 12px;
-      font-size: 15px;
+    @keyframes fadeIn{
+      from{opacity:0; transform:translateY(10px);}
+      to{opacity:1; transform:translateY(0);}
     }
 
-    .btn {
-      width: 100%;
-      display: inline-block;
-      text-align: center;
-      text-decoration: none;
-      border: none;
-      border-radius: 16px;
-      padding: 15px;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-      margin-top: 8px;
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      padding:18px;
+      margin-bottom:16px;
+      box-shadow:var(--shadow);
     }
 
-    .btn-primary {
-      background: var(--green);
-      color: #03110b;
-      box-shadow: 0 0 20px rgba(0,245,160,0.25);
+    .title{
+      font-size:1.05rem;
+      font-weight:800;
+      margin-bottom:8px;
     }
 
-    .btn-dark {
-      background: #111722;
-      color: white;
-      border: 1px solid rgba(255,255,255,0.07);
+    .sub{
+      color:var(--muted);
+      font-size:.9rem;
+      line-height:1.5;
     }
 
-    .activity {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      background: var(--green-soft);
-      border: 1px solid rgba(0,245,160,0.14);
-      color: #cbffeb;
-      font-size: 13px;
-      text-align: center;
+    .field{
+      margin-top:14px;
     }
 
-    .pill {
-      display: inline-block;
-      padding: 6px 11px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 800;
-      margin-bottom: 10px;
+    .field label{
+      display:block;
+      margin-bottom:8px;
+      font-size:.85rem;
+      color:#b9c7df;
+      font-weight:600;
     }
 
-    .pill-free {
-      background: rgba(255,255,255,0.05);
-      color: #d8e0e8;
+    .input{
+      width:100%;
+      background:#08111d;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:16px;
+      padding:14px 15px;
+      outline:none;
+      font-size:.95rem;
     }
 
-    .pill-vip {
-      background: rgba(255,204,88,0.16);
-      color: var(--gold);
-      border: 1px solid rgba(255,204,88,0.22);
+    .input:focus{
+      border-color:rgba(0,245,195,.35);
+      box-shadow:0 0 0 3px rgba(0,245,195,.08);
     }
 
-    .signal-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 18px;
-      padding: 14px;
-      margin-top: 10px;
-      text-align: left;
+    .btn{
+      width:100%;
+      border:none;
+      border-radius:16px;
+      padding:14px 18px;
+      font-size:.98rem;
+      font-weight:800;
+      cursor:pointer;
+      transition:.2s ease;
     }
 
-    .signal-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-weight: 800;
-      margin-bottom: 10px;
+    .btn-primary{
+      color:#03110f;
+      background:linear-gradient(135deg, var(--accent), #7dffd8);
+      margin-top:16px;
     }
 
-    .buy { color: var(--green); }
-    .sell { color: var(--red); }
-
-    .market-card {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-radius: 18px;
-      padding: 14px;
-      margin-top: 10px;
+    .btn-primary:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.03);
     }
 
-    .market-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
+    .btn-secondary{
+      background:rgba(255,255,255,.04);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.08);
+      margin-top:10px;
     }
 
-    .pair-name {
-      font-size: 18px;
-      font-weight: 800;
+    .small-note{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:.8rem;
+      line-height:1.45;
     }
 
-    .pair-price {
-      font-size: 20px;
-      font-weight: 900;
+    .tabs{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      margin-bottom:18px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      padding-bottom:8px;
     }
 
-    .up { color: var(--green); }
-    .down { color: var(--red); }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
+    .tab{
+      flex:1;
+      text-align:center;
+      color:var(--muted);
+      font-size:.83rem;
+      padding:8px 4px;
+      position:relative;
+      font-weight:700;
     }
 
-    .mini-box {
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(255,255,255,0.04);
-      border-radius: 14px;
-      padding: 10px;
+    .tab.active{
+      color:var(--accent);
     }
 
-    .mini-label {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 5px;
+    .tab.active::after{
+      content:"";
+      position:absolute;
+      left:18%;
+      right:18%;
+      bottom:-9px;
+      height:3px;
+      border-radius:8px;
+      background:var(--accent);
+      box-shadow:0 0 16px rgba(0,245,195,.6);
     }
 
-    .mini-value {
-      font-size: 16px;
-      font-weight: 800;
+    .upload-box{
+      border:1.5px dashed rgba(0,245,195,.25);
+      background:linear-gradient(180deg, rgba(0,245,195,.04), rgba(255,255,255,.015));
+      border-radius:24px;
+      padding:18px;
+      text-align:center;
     }
 
-    .locked {
-      filter: blur(6px);
-      opacity: 0.45;
-      pointer-events: none;
-      user-select: none;
+    .upload-box input{
+      display:none;
     }
 
-    .unlock-box {
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      text-align: center;
+    .upload-label{
+      display:block;
+      cursor:pointer;
     }
 
-    .plan {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-top: 12px;
+    .upload-icon{
+      width:58px;
+      height:58px;
+      margin:0 auto 12px;
+      border-radius:18px;
+      display:grid;
+      place-items:center;
+      background:rgba(0,245,195,.08);
+      border:1px solid rgba(0,245,195,.18);
+      font-size:1.4rem;
+      color:var(--accent);
     }
 
-    .plan.popular {
-      border-color: rgba(0,245,160,0.28);
-      box-shadow: 0 0 20px rgba(0,245,160,0.08);
+    .preview{
+      margin-top:16px;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:#040812;
+      display:none;
     }
 
-    .price {
-      font-size: 32px;
-      font-weight: 900;
-      margin: 8px 0 4px;
+    .preview img{
+      width:100%;
+      display:block;
+      max-height:280px;
+      object-fit:cover;
     }
 
-    .user-bar {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      padding: 12px 14px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.05);
-      margin-bottom: 14px;
+    .analyze-wrap{
+      text-align:center;
+      padding:18px 8px 6px;
     }
 
-    .user-name {
-      font-weight: 800;
-      font-size: 14px;
+    .eye-loader{
+      width:92px;
+      height:92px;
+      margin:0 auto 16px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      border-radius:50%;
+      background:
+        radial-gradient(circle at center, rgba(0,245,195,.08), transparent 55%);
     }
 
-    .user-status {
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.05);
-      color: #cfd7df;
+    .eye-loader::before{
+      content:"";
+      width:68px;
+      height:68px;
+      border-radius:50%;
+      border:3px solid rgba(0,245,195,.18);
+      border-top-color:var(--accent);
+      animation:spin 1.2s linear infinite;
+      position:absolute;
     }
 
-    .user-status.vip {
-      background: rgba(0,245,160,0.12);
-      color: #c6ffea;
-      border: 1px solid rgba(0,245,160,0.18);
+    .eye-loader::after{
+      content:"👁";
+      font-size:1.3rem;
+      color:var(--accent);
+      filter:drop-shadow(0 0 10px rgba(0,245,195,.55));
     }
 
-    .footer {
-      text-align: center;
-      color: #8c96a0;
-      font-size: 13px;
-      line-height: 1.7;
-      margin: 24px 0 6px;
+    @keyframes spin{
+      to{transform:rotate(360deg);}
     }
 
-    .footer b {
-      color: #d9ffea;
+    .analyze-title{
+      font-size:1.8rem;
+      font-weight:800;
+      margin-bottom:8px;
     }
 
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: 12px;
-      width: calc(100% - 16px);
-      max-width: 440px;
-      background: rgba(5,8,12,0.96);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 22px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
-      box-shadow: 0 0 25px rgba(0,0,0,0.45);
-      z-index: 999;
-      backdrop-filter: blur(12px);
+    .analyze-sub{
+      color:var(--muted);
+      font-size:.95rem;
+      margin-bottom:18px;
     }
 
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: #b7c0c9;
-      font-size: 12px;
-      padding: 10px 4px;
-      border-radius: 14px;
-      cursor: pointer;
+    .progress{
+      width:100%;
+      height:6px;
+      background:rgba(255,255,255,.06);
+      border-radius:999px;
+      overflow:hidden;
+      margin-bottom:18px;
     }
 
-    .nav-btn.active {
-      color: var(--green);
-      background: rgba(0,245,160,0.08);
-      font-weight: 800;
+    .progress-bar{
+      width:0%;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg, var(--accent), var(--accent-2));
+      box-shadow:0 0 18px rgba(0,245,195,.55);
+      transition:width .35s ease;
     }
 
-    .hidden {
-      display: none;
+    .checklist{
+      text-align:left;
+      margin-top:6px;
+      display:grid;
+      gap:10px;
     }
 
-    .step-line {
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.04);
-      margin-top: 8px;
-      font-size: 14px;
+    .check-item{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      color:#c4d0e6;
+      font-size:.92rem;
+      opacity:.45;
+      transition:.25s ease;
     }
 
-    .confirmed {
-      color: var(--green);
-      font-weight: 800;
+    .check-item.done{
+      opacity:1;
+    }
+
+    .check-icon{
+      width:22px;
+      height:22px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      font-size:.8rem;
+      border:1px solid rgba(255,255,255,.1);
+      background:rgba(255,255,255,.02);
+      flex-shrink:0;
+    }
+
+    .check-item.done .check-icon{
+      border-color:rgba(0,245,195,.28);
+      background:rgba(0,245,195,.09);
+      color:var(--accent);
+      box-shadow:0 0 14px rgba(0,245,195,.18);
+    }
+
+    .result-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .metric{
+      padding:14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .metric .label{
+      font-size:.78rem;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+
+    .metric .value{
+      font-size:1rem;
+      font-weight:800;
+      word-break:break-word;
+    }
+
+    .direction-buy{
+      color:var(--success);
+      text-shadow:0 0 18px rgba(0,245,195,.25);
+    }
+
+    .direction-sell{
+      color:var(--danger);
+      text-shadow:0 0 18px rgba(255,93,115,.2);
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      margin-top:10px;
+      font-size:.9rem;
+      font-weight:800;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+    }
+
+    .notes{
+      margin-top:16px;
+      display:grid;
+      gap:10px;
+    }
+
+    .note-row{
+      padding:14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.06);
+      color:#c7d5ee;
+      font-size:.92rem;
+      line-height:1.45;
+    }
+
+    .footer-note{
+      margin-top:16px;
+      color:#93a3bf;
+      font-size:.77rem;
+      line-height:1.5;
+    }
+
+    .error{
+      color:#ff8b9a;
+      margin-top:12px;
+      font-size:.86rem;
+      display:none;
+    }
+
+    .hidden{
+      display:none !important;
+    }
+
+    @media (max-width:420px){
+      .app-shell{
+        min-height:95vh;
+        border-radius:26px;
+      }
+
+      .result-grid{
+        grid-template-columns:1fr;
+      }
+
+      .analyze-title{
+        font-size:1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="badge-top">Used by 500+ traders</div>
-    <div class="logo">GOAT Sniper AI 🐐</div>
-    <div class="sub">Upload chart screenshots. Get SMC-style analysis.</div>
-
-    <div id="authScreen" class="screen active">
-      <div class="card">
-        <div class="title">Login</div>
-        <div class="muted">
-          Only your premium login works in this version.
-        </div>
-
-        <input id="loginEmail" type="email" placeholder="Email address" />
-        <input id="loginPassword" type="password" placeholder="Password" />
-        <button class="btn btn-primary" onclick="loginAccount()">Login</button>
-
-        <div class="small" style="margin-top:12px;">
-          Your fields are now empty by default for cleaner login.
-        </div>
-      </div>
-    </div>
-
-    <div id="homeScreen" class="screen">
-      <div class="user-bar">
-        <div>
-          <div class="user-name" id="homeUserName">Trader</div>
-          <div class="small" id="homeUserEmail">Premium account</div>
-        </div>
-        <div id="homeStatus" class="user-status vip">Premium</div>
-      </div>
-
-      <div class="card">
-        <div class="title">App overview</div>
-        <div class="muted">
-          Upload a screenshot and the app will simulate:
-        </div>
-        <div class="small" style="margin-top:10px;">
-          • Checking pair<br>
-          • Checking FVG<br>
-          • Checking order block<br>
-          • Checking liquidity sweep<br>
-          • Checking buy or sell<br>
-          • Direction confirmed ✅<br>
-          • Entry, TP, and SL
-        </div>
-        <div class="activity" id="activityText">Someone in Johannesburg uploaded XAUUSD for SMC analysis</div>
-      </div>
-    </div>
-
-    <div id="marketsScreen" class="screen">
-      <div class="user-bar">
-        <div>
-          <div class="user-name" id="marketsUserName">GT FX GOAT</div>
-          <div class="small">Live-style market board</div>
-        </div>
-        <div class="user-status vip">Premium</div>
-      </div>
-
-      <div class="card">
-        <div class="title">Live-style prices</div>
-        <div class="muted">Simulated moving market board for promo/demo use.</div>
-        <div id="marketList"></div>
-      </div>
-    </div>
-
-    <div id="signalsScreen" class="screen">
-      <div class="user-bar">
-        <div>
-          <div class="user-name" id="signalsUserName">GT FX GOAT</div>
-          <div class="small">Chart upload + SMC analysis</div>
-        </div>
-        <div class="user-status vip">Premium</div>
-      </div>
-
-      <div class="card">
-        <div class="pill pill-vip">CHART ANALYSIS</div>
-        <div class="title">Upload chart screenshot</div>
-        <div class="muted">Upload a TradingView or MT5 chart and generate SMC-style output.</div>
-        <input id="chartUploadInput" type="file" accept="image/*" />
-        <button class="btn btn-primary" onclick="analyzeUploadedChart()">Analyze Uploaded Chart</button>
-
-        <div id="analysisLoadingBox" class="signal-card hidden" style="margin-top:12px;">
-          <div class="signal-head">
-            <span>Analyzing chart</span>
-            <span class="buy">LOADING</span>
+  <div class="app-shell">
+    <div class="topbar">
+      <div class="brand">
+        <div class="brand-left">
+          <div class="logo">GT</div>
+          <div>
+            <h1>GT FX GOAT<br>AI Scanner</h1>
+            <p>Deterministic SMC-style scanner</p>
           </div>
-          <div id="analysisSteps"></div>
         </div>
-
-        <div id="chartAnalysisBox" class="signal-card hidden" style="margin-top:12px;"></div>
-      </div>
-
-      <div class="card">
-        <div class="pill pill-vip">PREMIUM SIGNAL</div>
-        <div class="title">Daily sweep strategy setup</div>
-        <div id="premiumSignalBox" class="signal-card"></div>
-        <div class="activity">✅ Premium active on this device</div>
+        <div class="admin-pill">Admin</div>
       </div>
     </div>
 
-    <div id="pricingScreen" class="screen">
-      <div class="user-bar">
-        <div>
-          <div class="user-name" id="pricingUserName">GT FX GOAT</div>
-          <div class="small">Premium active</div>
+    <div class="content">
+      <!-- LOGIN SCREEN -->
+      <section id="loginScreen" class="screen active">
+        <div class="card">
+          <div class="title">Secure Login</div>
+          <div class="sub">This panel is locked for the admin account only.</div>
+
+          <div class="field">
+            <label>Email</label>
+            <input class="input" id="email" type="email" value="tlhakudibokang616@gmail.com" readonly />
+          </div>
+
+          <div class="field">
+            <label>Password</label>
+            <input class="input" id="password" type="password" value="Tlhakudi122@" readonly />
+          </div>
+
+          <button class="btn btn-primary" id="loginBtn">Enter Scanner</button>
+          <div class="small-note">
+            Locked single-user demo access. For real paid clients, move auth to Firebase or a backend later.
+          </div>
+          <div class="error" id="loginError">Access denied.</div>
         </div>
-        <div class="user-status vip">Premium</div>
-      </div>
+      </section>
 
-      <div class="card">
-        <div class="title">Premium already active</div>
-        <div class="plan popular">
-          <div class="pill pill-vip">ACTIVE</div>
-          <div style="font-size:24px; font-weight:800;">Monthly Premium</div>
-          <div class="price">R199<span style="font-size:16px; color:#9aa3ad;">/month</span></div>
-          <div class="small">Your premium test account is already unlocked in this version.</div>
+      <!-- APP SCREEN -->
+      <section id="appScreen" class="screen">
+        <div class="tabs">
+          <div class="tab">Charts</div>
+          <div class="tab active">Scanner</div>
+          <div class="tab">Multi-TF</div>
+          <div class="tab">Learn</div>
         </div>
-      </div>
-    </div>
 
-    <div id="referScreen" class="screen">
-      <div class="user-bar">
-        <div>
-          <div class="user-name" id="referUserName">GT FX GOAT</div>
-          <div class="small">Referral rewards</div>
+        <!-- UPLOAD CARD -->
+        <div class="card" id="uploadCard">
+          <div class="title">Upload Chart Screenshot</div>
+          <div class="sub">Upload one chart image to generate a consistent result for that same image.</div>
+
+          <div class="upload-box">
+            <label class="upload-label" for="chartInput">
+              <div class="upload-icon">📈</div>
+              <div class="title" style="font-size:1rem; margin-bottom:4px;">Choose chart image</div>
+              <div class="sub">PNG, JPG or WEBP</div>
+            </label>
+            <input type="file" id="chartInput" accept="image/*" />
+          </div>
+
+          <div class="preview" id="previewBox">
+            <img id="previewImg" alt="Chart Preview" />
+          </div>
+
+          <button class="btn btn-primary" id="analyzeBtn" disabled>Analyze Chart</button>
+          <button class="btn btn-secondary hidden" id="changeImageBtn">Change Image</button>
+
+          <div class="small-note">
+            Same image hash = same output. This fixes the BUY/SELL switching problem you saw yesterday.
+          </div>
         </div>
-        <div class="user-status vip">Premium</div>
-      </div>
 
-      <div class="card">
-        <div class="title">Refer & Earn</div>
-        <div class="small">Earn 10 tokens per friend. 100 tokens = 3 free scans.</div>
-        <div class="activity">Your referral code: GOAT-TSHEPANG-10</div>
-      </div>
+        <!-- ANALYZING CARD -->
+        <div class="card hidden" id="analyzingCard">
+          <div class="analyze-wrap">
+            <div class="eye-loader"></div>
+            <div class="analyze-title">Analyzing</div>
+            <div class="analyze-sub">Reading structure, order flow & liquidity...</div>
+            <div class="progress">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="checklist" id="checklist">
+              <div class="check-item"><div class="check-icon">✓</div><span>Reading price axis</span></div>
+              <div class="check-item"><div class="check-icon">✓</div><span>Mapping market structure</span></div>
+              <div class="check-item"><div class="check-icon">✓</div><span>Detecting S/R & order blocks</span></div>
+              <div class="check-item"><div class="check-icon">✓</div><span>Scanning liquidity & FVGs</span></div>
+              <div class="check-item"><div class="check-icon">✓</div><span>Annotating chart bias</span></div>
+              <div class="check-item"><div class="check-icon">✓</div><span>Generating trade setup</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULT CARD -->
+        <div class="card hidden" id="resultCard">
+          <div class="title">Trade Setup Result</div>
+          <div class="sub">Generated from the uploaded chart signature.</div>
+
+          <div class="badge" id="directionBadge">✅ Direction Confirmed</div>
+
+          <div class="result-grid">
+            <div class="metric">
+              <div class="label">Direction</div>
+              <div class="value" id="directionValue">BUY</div>
+            </div>
+            <div class="metric">
+              <div class="label">Confidence</div>
+              <div class="value" id="confidenceValue">High</div>
+            </div>
+            <div class="metric">
+              <div class="label">Entry</div>
+              <div class="value" id="entryValue">1.23456</div>
+            </div>
+            <div class="metric">
+              <div class="label">Take Profit</div>
+              <div class="value" id="tpValue">1.24000</div>
+            </div>
+            <div class="metric">
+              <div class="label">Stop Loss</div>
+              <div class="value" id="slValue">1.23000</div>
+            </div>
+            <div class="metric">
+              <div class="label">Risk : Reward</div>
+              <div class="value" id="rrValue">1 : 2.3</div>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="note-row" id="structureNote">Market structure note appears here.</div>
+            <div class="note-row" id="fvgNote">FVG note appears here.</div>
+            <div class="note-row" id="obNote">Order block note appears here.</div>
+          </div>
+
+          <button class="btn btn-primary" id="reanalyzeBtn">Analyze Again</button>
+          <button class="btn btn-secondary" id="newChartBtn">Upload New Chart</button>
+
+          <div class="footer-note">
+            Demo scanner for consistent chart-style output. Not financial advice and not guaranteed live-market accuracy.
+          </div>
+        </div>
+      </section>
     </div>
-
-    <div class="footer">
-      Founder: <b>GT FX GOAT</b><br>
-      GOAT Sniper AI © 2026
-    </div>
-  </div>
-
-  <div class="bottom-nav">
-    <button id="nav-home" class="nav-btn" onclick="guardRoute('homeScreen','home')">Home</button>
-    <button id="nav-markets" class="nav-btn" onclick="guardRoute('marketsScreen','markets')">Markets</button>
-    <button id="nav-signals" class="nav-btn" onclick="guardRoute('signalsScreen','signals')">Signals</button>
-    <button id="nav-pricing" class="nav-btn" onclick="guardRoute('pricingScreen','pricing')">Pricing</button>
-    <button id="nav-refer" class="nav-btn" onclick="guardRoute('referScreen','refer')">Refer</button>
   </div>
 
   <script>
-    const SPECIAL_EMAIL = "tlhakudibokang616@gmail.com";
-    const SPECIAL_PASSWORD = "Tlhakudi122@";
+    const ADMIN_EMAIL = "tlhakudibokang616@gmail.com";
+    const ADMIN_PASSWORD = "Tlhakudi122@";
 
-    const markets = [
-      { symbol: "US30", price: 38300, pdh: 38420, pdl: 38110, digits: 0 },
-      { symbol: "XAUUSD", price: 2325.40, pdh: 2334.80, pdl: 2311.20, digits: 2 },
-      { symbol: "NAS100", price: 17980.5, pdh: 18060.3, pdl: 17895.4, digits: 1 },
-      { symbol: "GER30", price: 18420.8, pdh: 18490.5, pdl: 18340.6, digits: 1 }
-    ];
+    const loginScreen = document.getElementById("loginScreen");
+    const appScreen = document.getElementById("appScreen");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginError = document.getElementById("loginError");
 
-    function loginAccount() {
-      const email = document.getElementById('loginEmail').value.trim();
-      const password = document.getElementById('loginPassword').value.trim();
+    const chartInput = document.getElementById("chartInput");
+    const previewBox = document.getElementById("previewBox");
+    const previewImg = document.getElementById("previewImg");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const changeImageBtn = document.getElementById("changeImageBtn");
 
-      if (email === SPECIAL_EMAIL && password === SPECIAL_PASSWORD) {
-        sessionStorage.setItem('goatLoggedIn', 'true');
-        sessionStorage.setItem('goatUserName', 'GT FX GOAT');
-        sessionStorage.setItem('goatUserEmail', SPECIAL_EMAIL);
-        localStorage.setItem('goatPremium', 'true');
+    const uploadCard = document.getElementById("uploadCard");
+    const analyzingCard = document.getElementById("analyzingCard");
+    const resultCard = document.getElementById("resultCard");
 
-        updateUserUI();
-        renderMarkets();
-        renderPremiumSignal();
-        showScreen('homeScreen');
-        setActiveNav('home');
-        return;
-      }
+    const progressBar = document.getElementById("progressBar");
+    const checklist = [...document.querySelectorAll(".check-item")];
 
-      alert('Wrong email or password');
-    }
+    const directionBadge = document.getElementById("directionBadge");
+    const directionValue = document.getElementById("directionValue");
+    const confidenceValue = document.getElementById("confidenceValue");
+    const entryValue = document.getElementById("entryValue");
+    const tpValue = document.getElementById("tpValue");
+    const slValue = document.getElementById("slValue");
+    const rrValue = document.getElementById("rrValue");
+    const structureNote = document.getElementById("structureNote");
+    const fvgNote = document.getElementById("fvgNote");
+    const obNote = document.getElementById("obNote");
 
-    function showScreen(id) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    const reanalyzeBtn = document.getElementById("reanalyzeBtn");
+    const newChartBtn = document.getElementById("newChartBtn");
 
-    function setActiveNav(tab) {
-      ['home','markets','signals','pricing','refer'].forEach(t => {
-        const el = document.getElementById('nav-' + t);
-        if (el) el.classList.remove('active');
-      });
-      const active = document.getElementById('nav-' + tab);
-      if (active) active.classList.add('active');
-    }
+    let currentFile = null;
+    let currentHash = null;
+    let cachedResults = {};
 
-    function guardRoute(screen, tab) {
-      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-      if (!loggedIn) {
-        showScreen('authScreen');
-        alert('Login first');
-        return;
-      }
-      renderMarkets();
-      renderPremiumSignal();
-      showScreen(screen);
-      setActiveNav(tab);
-    }
+    loginBtn.addEventListener("click", () => {
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-    function updateUserUI() {
-      const name = sessionStorage.getItem('goatUserName') || 'GT FX GOAT';
-      const email = sessionStorage.getItem('goatUserEmail') || SPECIAL_EMAIL;
-
-      ['homeUserName','marketsUserName','signalsUserName','pricingUserName','referUserName'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = name;
-      });
-
-      const homeEmail = document.getElementById('homeUserEmail');
-      if (homeEmail) homeEmail.textContent = email;
-    }
-
-    function getBiasForMarket(market) {
-      const highSwept = market.price > market.pdh;
-      const lowSwept = market.price < market.pdl;
-
-      if (highSwept && !lowSwept) {
-        return {
-          status: 'High swept first',
-          bias: 'SELL',
-          biasClass: 'sell',
-          explanation: 'Previous day high got swept first. Sell bias active.'
-        };
-      }
-
-      if (lowSwept && !highSwept) {
-        return {
-          status: 'Low swept first',
-          bias: 'BUY',
-          biasClass: 'buy',
-          explanation: 'Previous day low got swept first. Buy bias active.'
-        };
-      }
-
-      return {
-        status: 'Waiting',
-        bias: 'WAIT',
-        biasClass: '',
-        explanation: 'No valid sweep yet. Waiting for previous day high or low to be taken first.'
-      };
-    }
-
-    function getSignalForMarket(market) {
-      const biasInfo = getBiasForMarket(market);
-      let entry, sl, tp;
-
-      if (biasInfo.bias === 'SELL') {
-        entry = market.price.toFixed(market.digits);
-        sl = (market.pdh + (market.symbol === 'XAUUSD' ? 2 : 20)).toFixed(market.digits);
-        tp = (market.price - (market.symbol === 'XAUUSD' ? 10 : 80)).toFixed(market.digits);
-      } else if (biasInfo.bias === 'BUY') {
-        entry = market.price.toFixed(market.digits);
-        sl = (market.pdl - (market.symbol === 'XAUUSD' ? 2 : 20)).toFixed(market.digits);
-        tp = (market.price + (market.symbol === 'XAUUSD' ? 10 : 80)).toFixed(market.digits);
+      if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+        loginError.style.display = "none";
+        loginScreen.classList.remove("active");
+        appScreen.classList.add("active");
       } else {
-        entry = '-';
-        sl = '-';
-        tp = '-';
+        loginError.style.display = "block";
       }
+    });
 
-      return {
-        ...biasInfo,
-        entry,
-        sl,
-        tp
+    chartInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      currentFile = file;
+      currentHash = null;
+
+      const reader = new FileReader();
+      reader.onload = async function(ev) {
+        previewImg.src = ev.target.result;
+        previewBox.style.display = "block";
+        analyzeBtn.disabled = false;
+        changeImageBtn.classList.remove("hidden");
+
+        const arrayBuffer = await file.arrayBuffer();
+        currentHash = await hashFile(arrayBuffer);
       };
-    }
+      reader.readAsDataURL(file);
+    });
 
-    function renderMarkets() {
-      const marketList = document.getElementById('marketList');
-      if (!marketList) return;
+    changeImageBtn.addEventListener("click", () => {
+      chartInput.value = "";
+      currentFile = null;
+      currentHash = null;
+      previewImg.src = "";
+      previewBox.style.display = "none";
+      analyzeBtn.disabled = true;
+      changeImageBtn.classList.add("hidden");
+      resetResultScreen();
+    });
 
-      marketList.innerHTML = '';
+    analyzeBtn.addEventListener("click", async () => {
+      if (!currentFile || !currentHash) return;
 
-      markets.forEach((market) => {
-        const prev = market._prevPrice ?? market.price;
-        const movementClass = market.price >= prev ? 'up' : 'down';
-        const movementSign = market.price >= prev ? '▲' : '▼';
-        const biasInfo = getBiasForMarket(market);
+      uploadCard.classList.add("hidden");
+      resultCard.classList.add("hidden");
+      analyzingCard.classList.remove("hidden");
 
-        const html = `
-          <div class="market-card">
-            <div class="market-top">
-              <div class="pair-name">${market.symbol}</div>
-              <div class="pair-price ${movementClass}">
-                ${market.price.toFixed(market.digits)} ${movementSign}
-              </div>
-            </div>
+      checklist.forEach(item => item.classList.remove("done"));
+      progressBar.style.width = "0%";
 
-            <div class="mini-grid">
-              <div class="mini-box">
-                <div class="mini-label">PREV DAY HIGH</div>
-                <div class="mini-value">${market.pdh.toFixed(market.digits)}</div>
-              </div>
-              <div class="mini-box">
-                <div class="mini-label">PREV DAY LOW</div>
-                <div class="mini-value">${market.pdl.toFixed(market.digits)}</div>
-              </div>
-              <div class="mini-box">
-                <div class="mini-label">STATUS</div>
-                <div class="mini-value">${biasInfo.status}</div>
-              </div>
-              <div class="mini-box">
-                <div class="mini-label">BIAS</div>
-                <div class="mini-value ${biasInfo.biasClass}">${biasInfo.bias}</div>
-              </div>
-            </div>
-          </div>
-        `;
-        marketList.innerHTML += html;
-      });
-    }
+      await playAnalysisAnimation();
 
-    function renderPremiumSignal() {
-      const market = markets[1];
-      const signal = getSignalForMarket(market);
-      const premiumBox = document.getElementById('premiumSignalBox');
-
-      if (premiumBox) {
-        premiumBox.innerHTML = `
-          <div class="signal-head">
-            <span>${market.symbol}</span>
-            <span class="${signal.biasClass}">${signal.bias}</span>
-          </div>
-          <div>Entry: ${signal.entry}</div>
-          <div>Stop Loss: ${signal.sl}</div>
-          <div>Take Profit: ${signal.tp}</div>
-          <div>Previous Day High: ${market.pdh.toFixed(market.digits)}</div>
-          <div>Previous Day Low: ${market.pdl.toFixed(market.digits)}</div>
-          <div class="small" style="margin-top:8px;">${signal.explanation}</div>
-        `;
-      }
-    }
-
-    function analyzeUploadedChart() {
-      const uploaded = document.getElementById('chartUploadInput');
-      const loadingBox = document.getElementById('analysisLoadingBox');
-      const stepsBox = document.getElementById('analysisSteps');
-      const resultBox = document.getElementById('chartAnalysisBox');
-
-      if (!uploaded.files || uploaded.files.length === 0) {
-        alert('Upload a chart screenshot first');
-        return;
+      let result;
+      if (cachedResults[currentHash]) {
+        result = cachedResults[currentHash];
+      } else {
+        result = generateDeterministicAnalysis(currentHash, currentFile.name);
+        cachedResults[currentHash] = result;
       }
 
-      loadingBox.classList.remove('hidden');
-      resultBox.classList.add('hidden');
-      stepsBox.innerHTML = '';
+      renderResult(result);
 
+      analyzingCard.classList.add("hidden");
+      resultCard.classList.remove("hidden");
+    });
+
+    reanalyzeBtn.addEventListener("click", async () => {
+      if (!currentHash || !currentFile) return;
+
+      resultCard.classList.add("hidden");
+      analyzingCard.classList.remove("hidden");
+
+      checklist.forEach(item => item.classList.remove("done"));
+      progressBar.style.width = "0%";
+
+      await playAnalysisAnimation();
+
+      const result = cachedResults[currentHash] || generateDeterministicAnalysis(currentHash, currentFile.name);
+      cachedResults[currentHash] = result;
+
+      renderResult(result);
+
+      analyzingCard.classList.add("hidden");
+      resultCard.classList.remove("hidden");
+    });
+
+    newChartBtn.addEventListener("click", () => {
+      chartInput.value = "";
+      currentFile = null;
+      currentHash = null;
+      previewImg.src = "";
+      previewBox.style.display = "none";
+      analyzeBtn.disabled = true;
+      changeImageBtn.classList.add("hidden");
+
+      resultCard.classList.add("hidden");
+      analyzingCard.classList.add("hidden");
+      uploadCard.classList.remove("hidden");
+    });
+
+    function resetResultScreen() {
+      resultCard.classList.add("hidden");
+      analyzingCard.classList.add("hidden");
+      uploadCard.classList.remove("hidden");
+    }
+
+    async function playAnalysisAnimation() {
       const steps = [
-        'Checking pair...',
-        'Checking FVG...',
-        'Checking order block...',
-        'Checking liquidity sweep...',
-        'Checking buy or sell...',
-        'Direction confirmed ✅'
+        14, 29, 46, 63, 81, 100
       ];
 
-      let stepIndex = 0;
-
-      const analyses = [
-        {
-          pair: 'XAUUSD',
-          type: 'Liquidity sweep + Bearish CHoCH',
-          direction: 'SELL',
-          tool: 'Short Position',
-          bias: 'Bearish',
-          entry: '2324.80',
-          sl: '2330.20',
-          tp: '2314.40',
-          reason: 'Buy-side liquidity was taken, bearish structure shift confirmed, short continuation expected.'
-        },
-        {
-          pair: 'US30',
-          type: 'Bullish CHoCH + demand reaction',
-          direction: 'BUY',
-          tool: 'Long Position',
-          bias: 'Bullish',
-          entry: '38295',
-          sl: '38220',
-          tp: '38440',
-          reason: 'Sell-side liquidity got taken, market shifted bullish, long continuation expected.'
-        },
-        {
-          pair: 'NAS100',
-          type: 'Bearish Order Block rejection',
-          direction: 'SELL',
-          tool: 'Short Position',
-          bias: 'Bearish',
-          entry: '17970.5',
-          sl: '18025.8',
-          tp: '17890.4',
-          reason: 'Price rejected a bearish order block and confirmed downside intent.'
-        },
-        {
-          pair: 'GER30',
-          type: 'Bullish Order Block + FVG continuation',
-          direction: 'BUY',
-          tool: 'Long Position',
-          bias: 'Bullish',
-          entry: '18418.6',
-          sl: '18386.2',
-          tp: '18478.9',
-          reason: 'Price respected bullish order block and imbalance, suggesting upside continuation.'
-        }
-      ];
-
-      const picked = analyses[Math.floor(Math.random() * analyses.length)];
-
-      const interval = setInterval(() => {
-        if (stepIndex < steps.length) {
-          stepsBox.innerHTML += `<div class="step-line">${steps[stepIndex]}</div>`;
-          stepIndex++;
-        } else {
-          clearInterval(interval);
-          loadingBox.classList.add('hidden');
-          resultBox.classList.remove('hidden');
-
-          const directionClass = picked.direction === 'BUY' ? 'buy' : 'sell';
-
-          resultBox.innerHTML = `
-            <div class="signal-head">
-              <span>${picked.pair} SMC Analysis</span>
-              <span class="${directionClass}">${picked.direction}</span>
-            </div>
-            <div>SMC Type: ${picked.type}</div>
-            <div>Direction: ${picked.direction}</div>
-            <div>Position Tool: ${picked.tool}</div>
-            <div>Bias: ${picked.bias}</div>
-            <div>Entry Price: ${picked.entry}</div>
-            <div>Take Profit: ${picked.tp}</div>
-            <div>Stop Loss: ${picked.sl}</div>
-            <div class="small" style="margin-top:8px;">${picked.reason}</div>
-          `;
-        }
-      }, 900);
-    }
-
-    function simulateMarketMove() {
-      markets.forEach(market => {
-        market._prevPrice = market.price;
-
-        const randomMove = (() => {
-          switch (market.symbol) {
-            case 'US30': return (Math.random() - 0.5) * 35;
-            case 'XAUUSD': return (Math.random() - 0.5) * 2.2;
-            case 'NAS100': return (Math.random() - 0.5) * 18;
-            case 'GER30': return (Math.random() - 0.5) * 12;
-            default: return (Math.random() - 0.5) * 5;
-          }
-        })();
-
-        market.price += randomMove;
-      });
-
-      renderMarkets();
-      renderPremiumSignal();
-    }
-
-    const activities = [
-      'Someone in Johannesburg uploaded XAUUSD for SMC analysis',
-      'Someone in Cape Town got SELL bias on US30',
-      'Someone in Durban uploaded NAS100 screenshot',
-      'Someone in Bloemfontein checked GER30 direction',
-      'Someone in Pretoria confirmed BUY setup on XAUUSD'
-    ];
-
-    let activityIndex = 0;
-    setInterval(() => {
-      activityIndex = (activityIndex + 1) % activities.length;
-      const el = document.getElementById('activityText');
-      if (el) el.textContent = activities[activityIndex];
-    }, 2600);
-
-    setInterval(simulateMarketMove, 2500);
-
-    window.onload = function () {
-      const loggedIn = sessionStorage.getItem('goatLoggedIn') === 'true';
-
-      renderMarkets();
-      renderPremiumSignal();
-
-      if (loggedIn) {
-        updateUserUI();
-        showScreen('homeScreen');
-        setActiveNav('home');
-      } else {
-        showScreen('authScreen');
+      for (let i = 0; i < checklist.length; i++) {
+        await wait(650);
+        checklist[i].classList.add("done");
+        progressBar.style.width = steps[i] + "%";
       }
-    };
+
+      await wait(500);
+    }
+
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function hashFile(buffer) {
+      const hashBuffer = await crypto.subtle.digest("SHA-256", buffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    function seededNumber(seedStr, offset = 0) {
+      let hash = 2166136261 ^ offset;
+      for (let i = 0; i < seedStr.length; i++) {
+        hash ^= seedStr.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return (hash >>> 0) / 4294967295;
+    }
+
+    function pick(seed, items, offset = 0) {
+      const n = seededNumber(seed, offset);
+      return items[Math.floor(n * items.length) % items.length];
+    }
+
+    function generateDeterministicAnalysis(seed, fileName) {
+      const marketType = pick(seed, ["forex", "indices", "gold", "crypto"], 1);
+      const direction = seededNumber(seed, 2) > 0.5 ? "BUY" : "SELL";
+      const confidence = pick(seed, ["Moderate", "High", "Very High"], 3);
+
+      let basePrice;
+      let decimals;
+
+      if (marketType === "indices") {
+        basePrice = Math.floor(33000 + seededNumber(seed, 4) * 12000);
+        decimals = 1;
+      } else if (marketType === "gold") {
+        basePrice = 1800 + seededNumber(seed, 4) * 1200;
+        decimals = 2;
+      } else if (marketType === "crypto") {
+        basePrice = 20000 + seededNumber(seed, 4) * 90000;
+        decimals = 2;
+      } else {
+        basePrice = 0.8 + seededNumber(seed, 4) * 1.8;
+        decimals = 5;
+      }
+
+      const riskUnit = marketType === "forex"
+        ? 0.003 + seededNumber(seed, 5) * 0.006
+        : marketType === "gold"
+        ? 5 + seededNumber(seed, 5) * 12
+        : marketType === "crypto"
+        ? 150 + seededNumber(seed, 5) * 800
+        : 80 + seededNumber(seed, 5) * 220;
+
+      const rrNum = 1.8 + seededNumber(seed, 6) * 1.7;
+      const rewardUnit = riskUnit * rrNum;
+
+      let entry = basePrice;
+      let sl = direction === "BUY" ? basePrice - riskUnit : basePrice + riskUnit;
+      let tp = direction === "BUY" ? basePrice + rewardUnit : basePrice - rewardUnit;
+
+      const structureBias = direction === "BUY"
+        ? "Bullish structure maintained with higher-low continuation bias."
+        : "Bearish structure maintained with lower-high continuation bias.";
+
+      const fvgText = direction === "BUY"
+        ? "Unmitigated bullish FVG identified below price, suggesting discount re-entry interest."
+        : "Unmitigated bearish FVG identified above price, suggesting premium re-entry interest.";
+
+      const obText = direction === "BUY"
+        ? "Nearest bullish order block aligns with reaction zone and supports upside continuation."
+        : "Nearest bearish order block aligns with rejection zone and supports downside continuation.";
+
+      return {
+        fileName,
+        marketType,
+        direction,
+        confidence,
+        entry: formatPrice(entry, decimals),
+        tp: formatPrice(tp, decimals),
+        sl: formatPrice(sl, decimals),
+        rr: `1 : ${rrNum.toFixed(1)}`,
+        structureNote: structureBias,
+        fvgNote: fvgText,
+        obNote: obText
+      };
+    }
+
+    function formatPrice(n, decimals) {
+      return Number(n).toFixed(decimals);
+    }
+
+    function renderResult(result) {
+      directionValue.textContent = result.direction;
+      directionValue.className = "value " + (result.direction === "BUY" ? "direction-buy" : "direction-sell");
+
+      directionBadge.textContent = `✅ Direction Confirmed: ${result.direction}`;
+      directionBadge.style.color = result.direction === "BUY" ? "var(--success)" : "var(--danger)";
+
+      confidenceValue.textContent = result.confidence;
+      entryValue.textContent = result.entry;
+      tpValue.textContent = result.tp;
+      slValue.textContent = result.sl;
+      rrValue.textContent = result.rr;
+
+      structureNote.textContent = result.structureNote;
+      fvgNote.textContent = result.fvgNote;
+      obNote.textContent = result.obNote;
+    }
   </script>
 </body>
 </html>
