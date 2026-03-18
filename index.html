@@ -7,17 +7,17 @@
   <style>
     :root{
       --bg:#050b14;
-      --panel:#07111d;
-      --panel-2:#0a1626;
+      --panel:#081321;
+      --panel-2:#0b1727;
       --line:rgba(255,255,255,.08);
       --text:#eaf2ff;
-      --muted:#8c9ab4;
+      --muted:#8fa0bc;
       --accent:#14f1c9;
-      --accent-2:#58e6d3;
+      --accent-2:#62ead7;
       --purple:#8b5cf6;
       --danger:#ff6b81;
-      --warning:#ffcf5a;
       --success:#14f1c9;
+      --warning:#ffcf5a;
       --radius:24px;
       --shadow:0 20px 60px rgba(0,0,0,.45);
     }
@@ -30,12 +30,12 @@
     }
 
     body{
-      background:
-        radial-gradient(circle at top left, rgba(20,241,201,.09), transparent 25%),
-        radial-gradient(circle at top right, rgba(139,92,246,.08), transparent 18%),
-        linear-gradient(180deg,#04101b,#050b14 45%,#030812);
-      color:var(--text);
       min-height:100vh;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(20,241,201,.08), transparent 24%),
+        radial-gradient(circle at top right, rgba(139,92,246,.08), transparent 20%),
+        linear-gradient(180deg,#04101b,#050b14 42%,#030812);
     }
 
     .page{
@@ -43,13 +43,13 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      padding:20px;
+      padding:18px;
     }
 
     .shell{
       width:100%;
-      max-width:470px;
-      min-height:92vh;
+      max-width:480px;
+      min-height:94vh;
       background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
       border:1px solid rgba(255,255,255,.07);
       border-radius:32px;
@@ -62,42 +62,42 @@
     .topbar{
       padding:18px 18px 14px;
       border-bottom:1px solid rgba(255,255,255,.06);
-      background:rgba(5,10,20,.6);
+      background:rgba(5,10,20,.66);
       position:sticky;
       top:0;
-      z-index:5;
+      z-index:20;
     }
 
     .top-flex{
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:14px;
+      gap:12px;
     }
 
     .brand{
       display:flex;
-      gap:12px;
       align-items:center;
+      gap:12px;
     }
 
     .logo{
-      width:58px;
-      height:58px;
+      width:56px;
+      height:56px;
       border-radius:18px;
       display:grid;
       place-items:center;
       font-weight:900;
-      font-size:1.15rem;
+      font-size:1.1rem;
       color:var(--accent);
       border:1px solid rgba(20,241,201,.28);
       background:linear-gradient(135deg, rgba(20,241,201,.14), rgba(20,241,201,.05));
-      box-shadow:0 0 24px rgba(20,241,201,.08);
+      box-shadow:0 0 24px rgba(20,241,201,.1);
       flex-shrink:0;
     }
 
     .brand h1{
-      font-size:1.1rem;
+      font-size:1.08rem;
       line-height:1.05;
       font-weight:900;
       letter-spacing:-0.02em;
@@ -108,7 +108,7 @@
       margin-top:6px;
       font-size:.84rem;
       line-height:1.35;
-      max-width:180px;
+      max-width:190px;
     }
 
     .top-actions{
@@ -119,13 +119,13 @@
     }
 
     .role-pill{
-      padding:10px 14px;
+      padding:9px 13px;
       border-radius:999px;
       font-weight:800;
-      color:#c5a6ff;
+      font-size:.84rem;
+      color:#cab1ff;
       background:rgba(139,92,246,.14);
       border:1px solid rgba(139,92,246,.28);
-      font-size:.88rem;
     }
 
     .menu-btn{
@@ -141,15 +141,16 @@
 
     .menu{
       position:absolute;
-      top:54px;
+      top:52px;
       right:0;
-      width:190px;
-      background:#0a1626;
+      width:220px;
+      background:#0b1727;
       border:1px solid rgba(255,255,255,.08);
       border-radius:18px;
       box-shadow:0 18px 40px rgba(0,0,0,.35);
       display:none;
       overflow:hidden;
+      z-index:40;
     }
 
     .menu.show{ display:block; }
@@ -201,13 +202,11 @@
       line-height:1.6;
     }
 
-    .row{
-      display:flex;
-      gap:12px;
-    }
-
-    .row > *{
-      flex:1;
+    .small{
+      color:var(--muted);
+      font-size:.82rem;
+      line-height:1.5;
+      margin-top:10px;
     }
 
     .field{
@@ -217,7 +216,7 @@
     .label{
       display:block;
       font-size:.84rem;
-      color:#bcc9df;
+      color:#bfd0e8;
       margin-bottom:7px;
       font-weight:700;
     }
@@ -247,6 +246,9 @@
       font-weight:900;
       font-size:1rem;
       transition:.18s ease;
+      text-decoration:none;
+      display:inline-block;
+      text-align:center;
     }
 
     .btn:hover{
@@ -265,15 +267,13 @@
     }
 
     .btn-danger{
-      background:linear-gradient(135deg,#ff8598,#ff657d);
-      color:#22050a;
+      background:linear-gradient(135deg,#ff8a9c,#ff627c);
+      color:#24060b;
     }
 
-    .small{
-      font-size:.82rem;
-      color:var(--muted);
-      line-height:1.5;
-      margin-top:10px;
+    .btn-purple{
+      background:linear-gradient(135deg,#9f74ff,#7a4dff);
+      color:white;
     }
 
     .auth-switch{
@@ -306,6 +306,17 @@
     .auth-box{ display:none; }
     .auth-box.active{ display:block; }
 
+    .status{
+      margin-top:10px;
+      font-size:.88rem;
+      line-height:1.5;
+      display:none;
+    }
+
+    .status.show{ display:block; }
+    .status.error{ color:#ff95a3; }
+    .status.success{ color:#96f6df; }
+
     .tabs{
       display:flex;
       justify-content:space-between;
@@ -319,11 +330,13 @@
       flex:1;
       text-align:center;
       color:var(--muted);
-      font-size:.86rem;
+      font-size:.84rem;
       padding:10px 4px;
       cursor:pointer;
       font-weight:800;
       position:relative;
+      border:none;
+      background:transparent;
     }
 
     .tab.active{
@@ -372,9 +385,7 @@
       border:1px solid rgba(20,241,201,.2);
     }
 
-    input[type="file"]{
-      display:none;
-    }
+    input[type="file"]{ display:none; }
 
     .preview{
       display:none;
@@ -388,7 +399,7 @@
     .preview img{
       width:100%;
       display:block;
-      max-height:280px;
+      max-height:300px;
       object-fit:cover;
     }
 
@@ -423,8 +434,8 @@
     }
 
     .loader{
-      width:94px;
-      height:94px;
+      width:96px;
+      height:96px;
       margin:0 auto 16px;
       border-radius:50%;
       position:relative;
@@ -435,8 +446,8 @@
 
     .loader::before{
       content:"";
-      width:72px;
-      height:72px;
+      width:74px;
+      height:74px;
       border-radius:50%;
       border:3px solid rgba(20,241,201,.18);
       border-top-color:var(--accent);
@@ -521,6 +532,19 @@
       background:rgba(20,241,201,.08);
     }
 
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border-radius:999px;
+      padding:10px 14px;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.08);
+      margin-top:10px;
+      font-weight:900;
+      font-size:.92rem;
+    }
+
     .result-grid{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -550,19 +574,6 @@
     .buy{ color:var(--success); }
     .sell{ color:var(--danger); }
 
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      border-radius:999px;
-      padding:10px 14px;
-      background:rgba(255,255,255,.03);
-      border:1px solid rgba(255,255,255,.08);
-      margin-top:10px;
-      font-weight:900;
-      font-size:.92rem;
-    }
-
     .notes{
       display:grid;
       gap:10px;
@@ -578,30 +589,31 @@
       font-size:.92rem;
       line-height:1.55;
       white-space:pre-wrap;
+      word-break:break-word;
     }
 
-    .status{
-      margin-top:10px;
-      font-size:.88rem;
-      line-height:1.5;
-      display:none;
+    .row{
+      display:flex;
+      gap:12px;
+      margin-top:14px;
     }
 
-    .status.show{ display:block; }
-    .status.error{ color:#ff92a1; }
-    .status.success{ color:#8ef4dd; }
+    .row > *{ flex:1; }
 
-    .history-list{
+    .history-list,
+    .account-grid{
       display:grid;
       gap:10px;
       margin-top:14px;
     }
 
-    .history-item{
+    .history-item,
+    .account-line{
       padding:14px;
       border-radius:18px;
       border:1px solid rgba(255,255,255,.06);
       background:rgba(255,255,255,.025);
+      color:#cad6ea;
     }
 
     .history-top{
@@ -610,7 +622,6 @@
       gap:10px;
       margin-bottom:8px;
       font-size:.9rem;
-      color:#c9d6eb;
     }
 
     .history-dir{
@@ -620,22 +631,13 @@
     .history-small{
       color:var(--muted);
       font-size:.82rem;
-      line-height:1.45;
+      line-height:1.5;
     }
 
-    .account-grid{
+    .learn-grid{
       display:grid;
       gap:10px;
       margin-top:14px;
-    }
-
-    .account-line{
-      padding:14px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.06);
-      background:rgba(255,255,255,.025);
-      color:#cbd6e9;
-      font-size:.92rem;
     }
 
     .hidden{ display:none !important; }
@@ -651,7 +653,11 @@
       }
 
       .brand p{
-        max-width:145px;
+        max-width:150px;
+      }
+
+      .row{
+        flex-direction:column;
       }
     }
   </style>
@@ -669,12 +675,14 @@
             </div>
           </div>
 
-          <div class="top-actions" id="topActions">
+          <div class="top-actions">
             <div class="role-pill" id="rolePill">Guest</div>
             <button class="menu-btn hidden" id="menuBtn" type="button">⋮</button>
             <div class="menu" id="menu">
-              <button class="menu-item" type="button" id="menuAccountBtn">Account</button>
+              <button class="menu-item" type="button" id="menuScannerBtn">Scanner</button>
               <button class="menu-item" type="button" id="menuHistoryBtn">History</button>
+              <button class="menu-item" type="button" id="menuAccountBtn">Account</button>
+              <button class="menu-item" type="button" id="menuSubscriptionBtn">Subscription</button>
               <button class="menu-item" type="button" id="logoutBtn">Logout</button>
             </div>
           </div>
@@ -682,7 +690,7 @@
       </div>
 
       <div class="content">
-        <!-- AUTH SCREEN -->
+        <!-- AUTH -->
         <section class="screen active" id="authScreen">
           <div class="card">
             <div class="auth-switch">
@@ -692,7 +700,7 @@
 
             <div class="auth-box active" id="loginBox">
               <div class="title">Welcome back</div>
-              <div class="sub">Login to access the scanner. Your password is hidden and not shown on the page.</div>
+              <div class="sub">Login with your registered email and password.</div>
 
               <div class="field">
                 <label class="label" for="loginEmail">Email</label>
@@ -710,21 +718,21 @@
 
             <div class="auth-box" id="signupBox">
               <div class="title">Create account</div>
-              <div class="sub">New users can register here. Your account will be saved in this browser for now.</div>
+              <div class="sub">Your clients can create their own account here.</div>
 
               <div class="field">
                 <label class="label" for="signupName">Full name</label>
-                <input class="input" id="signupName" type="text" placeholder="Enter your full name" />
+                <input class="input" id="signupName" type="text" placeholder="Enter full name" />
               </div>
 
               <div class="field">
                 <label class="label" for="signupEmail">Email</label>
-                <input class="input" id="signupEmail" type="email" placeholder="Enter your email" />
+                <input class="input" id="signupEmail" type="email" placeholder="Enter email" />
               </div>
 
               <div class="field">
                 <label class="label" for="signupPassword">Password</label>
-                <input class="input" id="signupPassword" type="password" placeholder="Create a password" />
+                <input class="input" id="signupPassword" type="password" placeholder="Create password" />
               </div>
 
               <button class="btn btn-primary" id="signupSubmitBtn" type="button">Sign Up</button>
@@ -732,16 +740,16 @@
             </div>
 
             <div class="small">
-              This frontend keeps user accounts in the browser for now. For real public clients, move auth to Firebase or Supabase later.
+              Your admin account is auto-created in the background and not shown on screen.
             </div>
           </div>
         </section>
 
-        <!-- APP SCREEN -->
+        <!-- APP -->
         <section class="screen" id="appScreen">
           <div class="tabs">
             <button class="tab active" data-tab="scannerTab" type="button">Scanner</button>
-            <button class="tab" data-tab="chartsTab" type="button">Charts</button>
+            <button class="tab" data-tab="historyTab" type="button">History</button>
             <button class="tab" data-tab="learnTab" type="button">Learn</button>
             <button class="tab" data-tab="accountTab" type="button">Account</button>
           </div>
@@ -750,7 +758,7 @@
           <div class="tab-screen active" id="scannerTab">
             <div class="card" id="uploadCard">
               <div class="title">Upload Chart Screenshot</div>
-              <div class="sub">Upload one clear screenshot. The app will send it to your AI backend at <strong>/analyze</strong>.</div>
+              <div class="sub">Upload a clear screenshot. The app sends it to your AI backend for analysis.</div>
 
               <div class="upload-box">
                 <label class="upload-label" for="chartInput">
@@ -780,32 +788,33 @@
               <button class="btn btn-secondary hidden" id="changeImageBtn" type="button" style="margin-top:10px;">Change Image</button>
 
               <div class="status error" id="scannerStatus"></div>
+
               <div class="small">
-                Best results happen when the screenshot clearly shows the pair, price scale, and candles.
+                Best results happen when the pair name, candles and right-side price scale are visible.
               </div>
             </div>
 
             <div class="card loading-card hidden" id="loadingCard">
               <div class="loader"></div>
               <div class="loading-title">Analyzing</div>
-              <div class="loading-sub">Reading price, pair, structure and setup...</div>
+              <div class="loading-sub">Reading visible chart text and structure...</div>
 
               <div class="progress">
                 <div class="progress-bar" id="progressBar"></div>
               </div>
 
-              <div class="steps" id="stepsWrap">
+              <div class="steps">
                 <div class="step"><div class="step-badge">✓</div><span>Uploading chart image</span></div>
-                <div class="step"><div class="step-badge">✓</div><span>Reading visible text & price axis</span></div>
-                <div class="step"><div class="step-badge">✓</div><span>Checking structure & liquidity</span></div>
-                <div class="step"><div class="step-badge">✓</div><span>Building trade idea</span></div>
-                <div class="step"><div class="step-badge">✓</div><span>Formatting result</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Reading pair and price scale</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Checking bias and liquidity</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Building setup and levels</span></div>
+                <div class="step"><div class="step-badge">✓</div><span>Formatting final result</span></div>
               </div>
             </div>
 
             <div class="card hidden" id="resultCard">
               <div class="title">Trade Setup Result</div>
-              <div class="sub">Generated from your backend AI response.</div>
+              <div class="sub">Generated from your AI backend response.</div>
 
               <div class="badge" id="directionBadge">✅ Direction Confirmed</div>
 
@@ -821,6 +830,10 @@
                 <div class="metric">
                   <div class="metric-label">Pair / Instrument</div>
                   <div class="metric-value" id="pairValue">-</div>
+                </div>
+                <div class="metric">
+                  <div class="metric-label">Timeframe</div>
+                  <div class="metric-value" id="timeframeValue">-</div>
                 </div>
                 <div class="metric">
                   <div class="metric-label">Current Price</div>
@@ -850,15 +863,15 @@
                 <div class="note" id="rawNote">Raw AI response will appear here.</div>
               </div>
 
-              <div class="row" style="margin-top:14px;">
+              <div class="row">
                 <button class="btn btn-primary" id="reanalyzeBtn" type="button">Analyze Again</button>
                 <button class="btn btn-secondary" id="newChartBtn" type="button">Upload New Chart</button>
               </div>
             </div>
           </div>
 
-          <!-- CHARTS -->
-          <div class="tab-screen" id="chartsTab">
+          <!-- HISTORY -->
+          <div class="tab-screen" id="historyTab">
             <div class="card">
               <div class="title">Saved Analysis History</div>
               <div class="sub">Recent analyses saved on this device for the logged-in user.</div>
@@ -870,11 +883,13 @@
           <div class="tab-screen" id="learnTab">
             <div class="card">
               <div class="title">SMC Learn</div>
-              <div class="sub">This section can later hold your lessons, examples, and rules.</div>
-              <div class="notes" style="margin-top:14px;">
-                <div class="note">Order Blocks: Look for strong displacement candles leaving a zone that price can later revisit.</div>
-                <div class="note">FVGs: Fair Value Gaps often act as imbalance zones where price may retrace before continuing.</div>
-                <div class="note">Liquidity: Equal highs/lows and obvious swing points often attract sweeps before the real move.</div>
+              <div class="sub">You can expand this later with your own trading rules and examples.</div>
+
+              <div class="learn-grid">
+                <div class="note">Order Blocks: Look for strong displacement away from a zone before price revisits it.</div>
+                <div class="note">FVGs: Fair Value Gaps often act as imbalance zones for retracement entries.</div>
+                <div class="note">Liquidity: Equal highs, equal lows and obvious swing points often get swept first.</div>
+                <div class="note">Bias: Always align with structure first, then look for entry confirmation.</div>
               </div>
             </div>
           </div>
@@ -883,8 +898,11 @@
           <div class="tab-screen" id="accountTab">
             <div class="card">
               <div class="title">Account</div>
-              <div class="sub">Your current user details stored in this browser.</div>
+              <div class="sub">Current logged-in user details for this browser.</div>
+
               <div class="account-grid" id="accountGrid"></div>
+
+              <a class="btn btn-purple" id="subscriptionBtn" href="https://paystack.shop/pay/7a1-oxg9e0" target="_blank" rel="noopener" style="margin-top:14px;">Pay Subscription</a>
               <button class="btn btn-danger" id="logoutBtn2" type="button" style="margin-top:14px;">Logout</button>
             </div>
           </div>
@@ -894,8 +912,14 @@
   </div>
 
   <script>
-    const APP_USERS_KEY = "gtfx_users_v3";
-    const APP_SESSION_KEY = "gtfx_session_v3";
+    const APP_USERS_KEY = "gtfx_users_final_v1";
+    const APP_SESSION_KEY = "gtfx_session_final_v1";
+    const PAYSTACK_URL = "https://paystack.shop/pay/7a1-oxg9e0";
+
+    // Hidden admin account
+    const ADMIN_NAME = "GT FX GOAT Admin";
+    const ADMIN_EMAIL = "tlhakudibokang616@gmail.com";
+    const ADMIN_PASSWORD = "Tlhakudi122@";
 
     const authScreen = document.getElementById("authScreen");
     const appScreen = document.getElementById("appScreen");
@@ -939,6 +963,7 @@
     const directionValue = document.getElementById("directionValue");
     const confidenceValue = document.getElementById("confidenceValue");
     const pairValue = document.getElementById("pairValue");
+    const timeframeValue = document.getElementById("timeframeValue");
     const currentPriceValue = document.getElementById("currentPriceValue");
     const entryValue = document.getElementById("entryValue");
     const tpValue = document.getElementById("tpValue");
@@ -953,7 +978,10 @@
 
     let currentFile = null;
     let currentUser = null;
-    let lastAnalysis = null;
+
+    function hashPassword(value) {
+      return btoa(unescape(encodeURIComponent(value))).split("").reverse().join("");
+    }
 
     function getUsers() {
       try {
@@ -967,8 +995,12 @@
       localStorage.setItem(APP_USERS_KEY, JSON.stringify(users));
     }
 
-    function setSession(userEmail) {
-      localStorage.setItem(APP_SESSION_KEY, userEmail);
+    function getUserByEmail(email) {
+      return getUsers().find(u => u.email.toLowerCase() === String(email).toLowerCase()) || null;
+    }
+
+    function setSession(email) {
+      localStorage.setItem(APP_SESSION_KEY, email);
     }
 
     function getSession() {
@@ -979,16 +1011,20 @@
       localStorage.removeItem(APP_SESSION_KEY);
     }
 
-    function hashPassword(value) {
-      return btoa(unescape(encodeURIComponent(value))).split("").reverse().join("");
-    }
+    function ensureAdminAccount() {
+      const users = getUsers();
+      const exists = users.some(u => u.email.toLowerCase() === ADMIN_EMAIL.toLowerCase());
 
-    function getUserByEmail(email) {
-      return getUsers().find(u => u.email.toLowerCase() === email.toLowerCase()) || null;
-    }
-
-    function updateRolePill() {
-      rolePill.textContent = currentUser ? "User" : "Guest";
+      if (!exists) {
+        users.push({
+          name: ADMIN_NAME,
+          email: ADMIN_EMAIL,
+          passwordHash: hashPassword(ADMIN_PASSWORD),
+          history: [],
+          isAdmin: true
+        });
+        saveUsers(users);
+      }
     }
 
     function switchAuth(mode) {
@@ -1005,14 +1041,22 @@
       }
     }
 
-    function showStatus(el, message, type = "error") {
-      el.textContent = message;
+    function showStatus(el, text, type) {
+      el.textContent = text;
       el.className = "status show " + type;
     }
 
     function clearStatus(el) {
       el.textContent = "";
       el.className = "status";
+    }
+
+    function updateRolePill() {
+      if (!currentUser) {
+        rolePill.textContent = "Guest";
+        return;
+      }
+      rolePill.textContent = currentUser.isAdmin ? "Admin" : "User";
     }
 
     function showApp() {
@@ -1042,7 +1086,6 @@
     function logoutUser() {
       clearSession();
       currentUser = null;
-      currentFile = null;
       resetUpload();
       showAuth();
     }
@@ -1054,25 +1097,6 @@
       return (bytes / (1024 * 1024)).toFixed(2) + " MB";
     }
 
-    function resetUpload() {
-      chartInput.value = "";
-      currentFile = null;
-      previewImg.src = "";
-      previewBox.style.display = "none";
-      fileMeta.classList.add("hidden");
-      analyzeBtn.disabled = true;
-      changeImageBtn.classList.add("hidden");
-      scannerStatus.className = "status error";
-      scannerStatus.textContent = "";
-      scannerStatus.classList.remove("show");
-
-      uploadCard.classList.remove("hidden");
-      loadingCard.classList.add("hidden");
-      resultCard.classList.add("hidden");
-      progressBar.style.width = "0%";
-      stepEls.forEach(el => el.classList.remove("done"));
-    }
-
     function openTab(tabId) {
       document.querySelectorAll(".tab").forEach(btn => {
         btn.classList.toggle("active", btn.dataset.tab === tabId);
@@ -1082,51 +1106,23 @@
         screen.classList.toggle("active", screen.id === tabId);
       });
 
-      if (tabId === "chartsTab") renderHistory();
+      if (tabId === "historyTab") renderHistory();
       if (tabId === "accountTab") renderAccount();
       menu.classList.remove("show");
     }
 
-    async function animateLoading() {
-      const widths = [18, 38, 62, 82, 100];
-      for (let i = 0; i < stepEls.length; i++) {
-        await wait(450);
-        stepEls[i].classList.add("done");
-        progressBar.style.width = widths[i] + "%";
+    function renderAccount() {
+      if (!currentUser) {
+        accountGrid.innerHTML = `<div class="account-line">No user loaded.</div>`;
+        return;
       }
-      await wait(250);
-    }
 
-    function wait(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-    }
-
-    function saveAnalysisToHistory(result) {
-      if (!currentUser) return;
-      const users = getUsers();
-      const index = users.findIndex(u => u.email === currentUser.email);
-      if (index === -1) return;
-
-      const item = {
-        id: Date.now(),
-        createdAt: new Date().toISOString(),
-        direction: result.direction || "-",
-        pair: result.pair || "-",
-        confidence: result.confidence || "-",
-        currentPrice: result.currentPrice || "-",
-        entry: result.entry || "-",
-        tp: result.tp || "-",
-        sl: result.sl || "-",
-        rr: result.rr || "-",
-        summary: result.summary || "",
-        raw: result.raw || ""
-      };
-
-      users[index].history = users[index].history || [];
-      users[index].history.unshift(item);
-      users[index].history = users[index].history.slice(0, 20);
-      saveUsers(users);
-      currentUser = users[index];
+      accountGrid.innerHTML = `
+        <div class="account-line"><strong>Name:</strong> ${escapeHtml(currentUser.name || "-")}</div>
+        <div class="account-line"><strong>Email:</strong> ${escapeHtml(currentUser.email || "-")}</div>
+        <div class="account-line"><strong>Role:</strong> ${currentUser.isAdmin ? "Admin" : "Client"}</div>
+        <div class="account-line"><strong>Saved analyses:</strong> ${(currentUser.history || []).length}</div>
+      `;
     }
 
     function renderHistory() {
@@ -1137,7 +1133,7 @@
 
       const history = currentUser.history || [];
       if (!history.length) {
-        historyList.innerHTML = `<div class="note">No saved analysis yet. Run a chart analysis first.</div>`;
+        historyList.innerHTML = `<div class="note">No saved analysis yet.</div>`;
         return;
       }
 
@@ -1151,6 +1147,7 @@
             </div>
             <div class="history-small">
               Pair: ${escapeHtml(item.pair || "-")}<br>
+              Timeframe: ${escapeHtml(item.timeframe || "-")}<br>
               Current Price: ${escapeHtml(item.currentPrice || "-")}<br>
               Entry: ${escapeHtml(item.entry || "-")} | TP: ${escapeHtml(item.tp || "-")} | SL: ${escapeHtml(item.sl || "-")}<br>
               Confidence: ${escapeHtml(item.confidence || "-")} | RR: ${escapeHtml(item.rr || "-")}
@@ -1160,19 +1157,6 @@
       }).join("");
     }
 
-    function renderAccount() {
-      if (!currentUser) {
-        accountGrid.innerHTML = `<div class="account-line">No user loaded.</div>`;
-        return;
-      }
-
-      accountGrid.innerHTML = `
-        <div class="account-line"><strong>Name:</strong> ${escapeHtml(currentUser.name || "-")}</div>
-        <div class="account-line"><strong>Email:</strong> ${escapeHtml(currentUser.email || "-")}</div>
-        <div class="account-line"><strong>Saved analyses:</strong> ${(currentUser.history || []).length}</div>
-      `;
-    }
-
     function escapeHtml(str) {
       return String(str)
         .replaceAll("&", "&amp;")
@@ -1180,6 +1164,37 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function resetUpload() {
+      chartInput.value = "";
+      currentFile = null;
+      previewImg.src = "";
+      previewBox.style.display = "none";
+      fileMeta.classList.add("hidden");
+      analyzeBtn.disabled = true;
+      changeImageBtn.classList.add("hidden");
+      clearStatus(scannerStatus);
+
+      uploadCard.classList.remove("hidden");
+      loadingCard.classList.add("hidden");
+      resultCard.classList.add("hidden");
+      progressBar.style.width = "0%";
+      stepEls.forEach(el => el.classList.remove("done"));
+    }
+
+    async function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function animateLoading() {
+      const widths = [18, 38, 62, 82, 100];
+      for (let i = 0; i < stepEls.length; i++) {
+        await wait(450);
+        stepEls[i].classList.add("done");
+        progressBar.style.width = widths[i] + "%";
+      }
+      await wait(250);
     }
 
     function tryExtractField(raw, labels) {
@@ -1194,33 +1209,6 @@
       return "";
     }
 
-    function parseAIResponse(raw) {
-      const direction = tryExtractField(raw, ["Direction", "Bias", "Trade Direction"]) || inferDirection(raw);
-      const entry = tryExtractField(raw, ["Entry", "Entry Price"]);
-      const tp = tryExtractField(raw, ["Take Profit", "TP", "Target"]);
-      const sl = tryExtractField(raw, ["Stop Loss", "SL"]);
-      const confidence = tryExtractField(raw, ["Confidence", "AI Confidence"]);
-      const pair = tryExtractField(raw, ["Pair", "Instrument", "Symbol"]);
-      const currentPrice = tryExtractField(raw, ["Current Price", "Price", "Last Price"]);
-      const rr = tryExtractField(raw, ["Risk Reward", "RR", "Risk:Reward", "Risk / Reward"]);
-      const summary = tryExtractField(raw, ["Summary", "Short Explanation", "Explanation"]) || "";
-      const reasoning = tryExtractField(raw, ["Reasoning", "Why", "Analysis"]) || "";
-
-      return {
-        direction: normalizeDirection(direction),
-        entry,
-        tp,
-        sl,
-        confidence,
-        pair,
-        currentPrice,
-        rr,
-        summary,
-        reasoning,
-        raw
-      };
-    }
-
     function inferDirection(raw) {
       const upper = raw.toUpperCase();
       if (upper.includes("BUY")) return "BUY";
@@ -1232,27 +1220,86 @@
       const upper = String(value || "").trim().toUpperCase();
       if (upper.includes("BUY")) return "BUY";
       if (upper.includes("SELL")) return "SELL";
-      return value || "-";
+      return "-";
+    }
+
+    function parseAIResponse(raw) {
+      const direction = tryExtractField(raw, ["Direction", "Bias", "Trade Direction"]) || inferDirection(raw);
+      const entry = tryExtractField(raw, ["Entry", "Entry Price"]);
+      const tp = tryExtractField(raw, ["Take Profit", "TP", "Target"]);
+      const sl = tryExtractField(raw, ["Stop Loss", "SL"]);
+      const confidence = tryExtractField(raw, ["Confidence", "AI Confidence"]);
+      const pair = tryExtractField(raw, ["Pair", "Instrument", "Symbol"]);
+      const timeframe = tryExtractField(raw, ["Timeframe", "TF"]);
+      const currentPrice = tryExtractField(raw, ["Current Price", "Price", "Last Price"]);
+      const rr = tryExtractField(raw, ["Risk Reward", "RR", "Risk:Reward", "Risk / Reward"]);
+      const summary = tryExtractField(raw, ["Summary", "Short Explanation", "Explanation"]) || "";
+      const reasoning = tryExtractField(raw, ["Reasoning", "Why", "Analysis"]) || "";
+
+      return {
+        direction: normalizeDirection(direction),
+        entry: entry || "-",
+        tp: tp || "-",
+        sl: sl || "-",
+        confidence: confidence || "-",
+        pair: pair || "-",
+        timeframe: timeframe || "-",
+        currentPrice: currentPrice || "-",
+        rr: rr || "-",
+        summary: summary || "No short summary returned.",
+        reasoning: reasoning || "No detailed reasoning returned.",
+        raw
+      };
     }
 
     function renderResult(data) {
       const dir = (data.direction || "-").toUpperCase();
+
       directionValue.textContent = data.direction || "-";
       directionValue.className = "metric-value " + (dir === "BUY" ? "buy" : dir === "SELL" ? "sell" : "");
+
       directionBadge.textContent = `✅ Direction Confirmed: ${data.direction || "-"}`;
       directionBadge.style.color = dir === "BUY" ? "var(--success)" : dir === "SELL" ? "var(--danger)" : "var(--text)";
 
       confidenceValue.textContent = data.confidence || "-";
       pairValue.textContent = data.pair || "-";
+      timeframeValue.textContent = data.timeframe || "-";
       currentPriceValue.textContent = data.currentPrice || "-";
       entryValue.textContent = data.entry || "-";
       tpValue.textContent = data.tp || "-";
       slValue.textContent = data.sl || "-";
       rrValue.textContent = data.rr || "-";
 
-      summaryNote.textContent = data.summary ? "Summary: " + data.summary : "Summary: No short summary returned.";
-      reasonNote.textContent = data.reasoning ? "Reasoning: " + data.reasoning : "Reasoning: No detailed reasoning returned.";
+      summaryNote.textContent = "Summary: " + (data.summary || "-");
+      reasonNote.textContent = "Reasoning: " + (data.reasoning || "-");
       rawNote.textContent = "Raw AI response:\n" + (data.raw || "No response text returned.");
+    }
+
+    function saveAnalysisToHistory(result) {
+      if (!currentUser) return;
+
+      const users = getUsers();
+      const index = users.findIndex(u => u.email.toLowerCase() === currentUser.email.toLowerCase());
+      if (index === -1) return;
+
+      users[index].history = users[index].history || [];
+      users[index].history.unshift({
+        id: Date.now(),
+        createdAt: new Date().toISOString(),
+        direction: result.direction,
+        pair: result.pair,
+        timeframe: result.timeframe,
+        confidence: result.confidence,
+        currentPrice: result.currentPrice,
+        entry: result.entry,
+        tp: result.tp,
+        sl: result.sl,
+        rr: result.rr
+      });
+      users[index].history = users[index].history.slice(0, 20);
+
+      saveUsers(users);
+      currentUser = users[index];
     }
 
     async function analyzeChart() {
@@ -1274,23 +1321,20 @@
         const formData = new FormData();
         formData.append("image", currentFile);
 
-        const response = await fetch("/analyze", {
+        const response = await fetch("http://localhost:3000/analyze", {
           method: "POST",
           body: formData
         });
 
-        let responseData;
+        let responseData = {};
         try {
           responseData = await response.json();
-        } catch {
-          responseData = {};
-        }
+        } catch (e) {}
 
         await animationPromise;
 
         if (!response.ok) {
-          const msg = responseData.error || "AI backend request failed.";
-          throw new Error(msg);
+          throw new Error(responseData.error || "Backend request failed");
         }
 
         const rawText =
@@ -1300,24 +1344,21 @@
           JSON.stringify(responseData, null, 2);
 
         const parsed = parseAIResponse(String(rawText || ""));
-        lastAnalysis = parsed;
         renderResult(parsed);
         saveAnalysisToHistory(parsed);
 
         loadingCard.classList.add("hidden");
         resultCard.classList.remove("hidden");
+        renderHistory();
+        renderAccount();
       } catch (error) {
         loadingCard.classList.add("hidden");
         uploadCard.classList.remove("hidden");
-        showStatus(
-          scannerStatus,
-          "Analysis failed. Make sure your backend endpoint /analyze is running. Error: " + error.message,
-          "error"
-        );
+        showStatus(scannerStatus, "Analysis failed. Make sure server.js is running. Error: " + error.message, "error");
       }
     }
 
-    // AUTH EVENTS
+    // auth
     showLoginBtn.addEventListener("click", () => switchAuth("login"));
     showSignupBtn.addEventListener("click", () => switchAuth("signup"));
 
@@ -1344,20 +1385,21 @@
         return;
       }
 
-      const newUser = {
+      users.push({
         name,
         email,
         passwordHash: hashPassword(password),
-        history: []
-      };
+        history: [],
+        isAdmin: false
+      });
 
-      users.push(newUser);
       saveUsers(users);
       showStatus(signupStatus, "Account created. You can log in now.", "success");
 
       signupName.value = "";
       signupEmail.value = "";
       signupPassword.value = "";
+
       switchAuth("login");
       loginEmail.value = email;
     });
@@ -1374,7 +1416,12 @@
       }
 
       const user = getUserByEmail(email);
-      if (!user || user.passwordHash !== hashPassword(password)) {
+      if (!user) {
+        showStatus(loginStatus, "Account not found. Please sign up first.", "error");
+        return;
+      }
+
+      if (user.passwordHash !== hashPassword(password)) {
         showStatus(loginStatus, "Wrong email or password.", "error");
         return;
       }
@@ -1382,7 +1429,7 @@
       loginUser(user);
     });
 
-    // MENU
+    // menu
     menuBtn.addEventListener("click", () => {
       menu.classList.toggle("show");
     });
@@ -1393,22 +1440,28 @@
       }
     });
 
+    document.getElementById("menuScannerBtn").addEventListener("click", () => openTab("scannerTab"));
+    document.getElementById("menuHistoryBtn").addEventListener("click", () => openTab("historyTab"));
+    document.getElementById("menuAccountBtn").addEventListener("click", () => openTab("accountTab"));
+    document.getElementById("menuSubscriptionBtn").addEventListener("click", () => {
+      window.open(PAYSTACK_URL, "_blank");
+    });
+
     document.getElementById("logoutBtn").addEventListener("click", logoutUser);
     document.getElementById("logoutBtn2").addEventListener("click", logoutUser);
-    document.getElementById("menuAccountBtn").addEventListener("click", () => openTab("accountTab"));
-    document.getElementById("menuHistoryBtn").addEventListener("click", () => openTab("chartsTab"));
 
-    // TABS
+    // tabs
     document.querySelectorAll(".tab").forEach(btn => {
       btn.addEventListener("click", () => openTab(btn.dataset.tab));
     });
 
-    // UPLOAD
+    // upload
     chartInput.addEventListener("change", (e) => {
       const file = e.target.files[0];
       if (!file) return;
 
       currentFile = file;
+
       const reader = new FileReader();
       reader.onload = function(ev) {
         previewImg.src = ev.target.result;
@@ -1429,9 +1482,11 @@
     changeImageBtn.addEventListener("click", resetUpload);
     document.getElementById("newChartBtn").addEventListener("click", resetUpload);
 
-    // SESSION RESTORE
+    // init
     (function init() {
+      ensureAdminAccount();
       updateRolePill();
+
       const sessionEmail = getSession();
       if (sessionEmail) {
         const user = getUserByEmail(sessionEmail);
